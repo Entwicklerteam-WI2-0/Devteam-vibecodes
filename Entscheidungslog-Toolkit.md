@@ -60,11 +60,6 @@ Zahlung gezwungen werden.
   machen; Buddy/Pairing. Bleibt auf Claude Pro (generierungslastige Arbeit braucht Qualität + Hooks).
 - **Kimi-Account-Sharing:** ToS prüfen (Consumer-Abos verbieten Sharing oft); 2×-Reserve trägt nur leichte Nutzer.
 
-## Deckungsplan (Stand 2026-06-17)
-
-| Claude Pro | Codex / Claude | Shared-Kimi (Fallback) |
-|---|---|---|
-| Lucas (Opus), Dev 1 (Pro/ggf. Max), Dev 3 (kauft), **Dev 4** (Lucas finanziert) | Dev 2 (je nach ChatGPT-Tarif) | **Testerinnen** |
 
 ## Offene Punkte / Review-Trigger
 
