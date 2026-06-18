@@ -28,3 +28,11 @@ Die Tooling-Infrastruktur (zuvor nur im Code-Repo `Alarmsystem-Dev`) wurde hierh
 - Sync-Mechanismus für **`.claude/`-Config-Updates** über Member hinweg (aktuell: nur `claude-sync.md`
   via `setup` global; Commands/Hooks liegen repo-lokal).
 - `AGENTS.md`/`Agents-gpt-gemini.md` als **generische Vorlage** im Stack — optional, niedrige Prio.
+
+## Vertagt — Multi-Harness (spätere, spezialisierte Iteration)
+Der Stack wird **zunächst nur für Claude Code** gebaut — die **meisten Member nutzen Claude**.
+**Kimi-CLI / Codex** werden **später spezialisiert nachiteriert**, nicht jetzt. Grundlage dafür:
+- Die geteilte Anweisung (`claude-sync.md`) ist **harness-neutral** → portierbar (Claude→`~/.claude/CLAUDE.md`,
+  Codex→`AGENTS.md`, Kimi→Config noch zu verifizieren).
+- **ECC-Skills/Hooks/Commands bleiben Claude-Code-spezifisch** — auf Kimi/Codex nicht verfügbar; daher
+  bleibt Claude der **empfohlene** Standard (Qualitäts-/Methodentreue-Absicherung, vgl. `Entscheidungslog-Toolkit.md`).
