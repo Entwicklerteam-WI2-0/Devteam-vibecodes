@@ -75,7 +75,7 @@ Der Standardzyklus. An jedem Punkt steht, **was der unerfahrene User typischerwe
 
 | WP | Punkt | Dein Eingriff (Pflicht) |
 |---|---|---|
-| **WP0** | Session-Start | **Kontext laden** (`ck`, ggf. Resume), bevor irgendetwas passiert. Kein Blind-Start. |
+| **WP0** | Session-Start | **Kontext laden** (`/start` → `erinnerung/stand.md` + Regeln + Git-Status), bevor irgendetwas passiert. Kein Blind-Start. |
 | **WP1** | Verständnis | Task an **Anforderungs-ID/Phase** verankern; bei Unklarheit Repo/Doku **lesen statt raten**. |
 | **WP2** | Planung | Bei **kritischen/großen** Tasks (Contract, Bewertungslogik, alles Sicherheitsrelevante): **erst planen**, nicht vorpreschen. Contract-first — nie breit gegen eine nicht-eingefrorene Naht bauen. |
 | **WP3** | Implementierung | **Tests zuerst (TDD).** Coding-Standards (§5) anwenden **und** Verstöße benennen. Nichts dazuerfinden. **Fail-safe** mitdenken (§7). |

@@ -33,4 +33,4 @@ Am **Session-Ende** (Workflow-Punkt WP8 in `claude-sync.md`).
 - Lange, veraltete Protokolle anhäufen. Entscheidungen undokumentiert lassen (kostet Punkte).
 
 ---
-*Gegenstück beim Start: `/start` / `ck`. Ablauf: `claude-sync.md` §4 (WP8).*
+*Gegenstück beim Start: `/start`. Ablauf: `claude-sync.md` §4 (WP8).*

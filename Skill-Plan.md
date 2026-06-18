@@ -42,7 +42,7 @@ Aus `Tasks+Projektplan.md` (P0–P6, DoD) und `Team-Organisation+Regeln.md` (Kop
 
 | WP | Punkt im Workflow | Standard-Skills (Auszug) |
 |---|---|---|
-| **WP0** | **Session-Start** | `ck` (Kontext laden), `resume-session` |
+| **WP0** | **Session-Start** | `/start` — Kontext laden (`erinnerung/stand.md` + Regeln + Git-Status) |
 | **WP1** | Task-Start / Verständnis | `codebase-onboarding`, `feature-dev`, `code-tour` |
 | **WP2** | Planung (kritische/große Tasks: P1 Contract, P2.4 Logik) | `plan`, `api-design` |
 | **WP3** | Implementierung | `fastapi-patterns`, `python-patterns`, `tdd-workflow`, `error-handling` |
@@ -64,8 +64,9 @@ Aus `Tasks+Projektplan.md` (P0–P6, DoD) und `Team-Organisation+Regeln.md` (Kop
 
 | Skill | Usecase (projektbezogen) | Schwerpunkt | WP / Auslöser |
 |---|---|---|---|
-| `ecc:ck` | Projektkontext (Use-Case, Stand, Entscheidungen) automatisch laden; Session+Git tracken | WG | WP0 jeder Start |
-| `ecc:save-session` / `ecc:resume-session` | Stand sichern/laden — Kontinuität über 3 Wochen, kein Wissensverlust bei Wechsel | WG | WP0 / WP8 |
+| `/start` | Session-Start: `erinnerung/stand.md` (Stand & Entscheidungen) + Regeln (`claude-sync.md`) + Git-Status laden | WG | WP0 jeder Start |
+| `save-session` | Stand/Entscheidungen am Ende sichern (`erinnerung/stand.md` + Logbuch) | WG | WP8 Session-Ende |
+| `erinnerung-update` | Interner Schreibteil von `save-session` für das Journal (append-only) | WG | WP8 |
 | `ecc:coding-standards` | Gemeinsamer Maßstab (Naming, KISS/DRY, kleine Dateien, Error-Handling): Devs schreiben, Reviewer prüfen danach | CR | WP3 / WP6 |
 | `ecc:git-workflow` | Feature-Branch → Commit-Konvention → PR; **kein direkter `main`-Push** | CR/WG | WP4–WP6 |
 | `ecc:codebase-onboarding` | Heterogenes Team versteht Repo-Struktur (Backend-Konzept §7) schnell | VO | WP1 |
@@ -116,12 +117,12 @@ Konkrete Pflicht-Hooks (Details `gemeinsam/Skills.md §3`): **RB-01-Guard** (blo
 | `ecc:security-review` / `ecc:security-scan` *(geteilt, OP)* | Ingest, Audit, **RB-01**, Secrets | OP | WP6 |
 | `ecc:test-coverage` | Coverage prüfen + fehlende Tests generieren (Suite-Pflege) | OP | WP6/7 |
 | `ecc:python-testing` | Unit-Tests schreiben/pflegen (Agent erstellt, Mensch versteht) | OP | WP6/7 |
-| `ecc:e2e-testing` | **Nur bei G3-UI-Integration** (Playwright/Browser, P5); **API-E2E** (P3.6) via `python-testing` | OP | WP7 (optional) |
+| `ecc:e2e-testing` | **API-E2E** mit `TestClient`/httpx (Ingest → Bewertung → API, P3.6); Browser-E2E (Playwright) nur bei echter G3-UI-Integration | OP | WP7 (optional) |
 | `verify` *(geteilt, OP)* | **Live-Test der laufenden App/API** + Verhalten beobachten | OP | WP7 |
 | `run` | App/Server starten, um Change live zu sehen | WG | WP7 |
 | `ecc:code-tour` | Geführte Tour durch den geänderten Code — **verstehen vor Freigabe** | VO | WP6 |
 | `ecc:santa-loop` | Adversariales Dual-Review (2 unabhängige Reviewer müssen zustimmen) — sicherheitskritische Logik (P2.4, Fail-safe, RB-01) | OP | WP6 (kritische PRs) |
-| `ecc:browser-qa` | UI-Verhalten bei G3-Integration (Backend liefert, Frontend konsumiert) | OP | WP7 (optional) |
+| `ecc:browser-qa` | Live-API-Verhalten prüfen (Backend liefert Daten; Browser/Playwright nur bei G3-UI-Integration) | OP | WP7 (optional) |
 | `ecc:checkpoint` | Test-Durchlauf-Stand sichern | WG | WP7 |
 
 **Verbindliche Regel (bewertungsrelevant, 40 % Einzelleistung) — `CR`:**
@@ -146,7 +147,7 @@ Konkrete Pflicht-Hooks (Details `gemeinsam/Skills.md §3`): **RB-01-Guard** (blo
    einer Skill-Flut. Operative Standardarbeit (Format, Lint, Tests, Repo-Hygiene) übernimmt der Agent.
 6. **Standards als Hooks (Prinzip 3):** `hookify`/`configure-ecc` zentral bei Lucas — PostToolUse
    (format/lint), PreToolUse (blocks), Stop (test/build-gate) — erzwingen statt erhoffen.
-7. **Kontinuität (3 Wochen, Ausfallrisiko):** `ck` + `save/resume-session` sichern Kontext über
+7. **Kontinuität (3 Wochen, Ausfallrisiko):** `/start` + `save-session` sichern Kontext über
    Personen-/Tageswechsel — passt zu „Non-Performer entkoppeln, Naht schützen".
 
 ## 5. Bewusst NICHT gewählt (Ausschlüsse — für Nachvollziehbarkeit)
