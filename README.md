@@ -25,6 +25,11 @@
 
 ```text
 Devteam-vibecodes/
+├── claude-sync.md                       # GLOBALE Agenten-Anweisung → ~/.claude/CLAUDE.md (via setup)
+├── setup.ps1 / setup.sh                 # Einmal-Setup: rollt claude-sync.md global aus
+├── ONBOARDING.md                        # 3-Schritte-Startanleitung
+├── .claude/                             # settings.json · commands/ (/start, /setup) · hooks/
+├── erinnerung/                          # geteiltes Gedächtnis (von /start geladen)
 ├── Skill-Plan.md                        # Master-Plan: Taxonomie, Workflow-Punkte,
 │                                        #   Begründung, Ausschlüsse, Review-Loop
 ├── gemeinsam/
@@ -38,13 +43,16 @@ Devteam-vibecodes/
 
 | Dokument | Inhalt |
 |---|---|
+| [`claude-sync.md`](claude-sync.md) | **Globale Agenten-Anweisung** → `~/.claude/CLAUDE.md` (Operating Mode, Workflow, Conventions, Sicherheit) |
+| [`ONBOARDING.md`](ONBOARDING.md) | 3-Schritte-Setup (klonen → `setup` → `/start`) |
 | [`Skill-Plan.md`](Skill-Plan.md) | Übersicht + Begründung des gesamten Skill-Plans (**hier starten**) |
 | [`gemeinsam/Skills.md`](gemeinsam/Skills.md) | Fundament-Skills für **alle** (Kontext, Konventionen, Review, Git) |
 | [`abteilung-backend-entwickler/Skills.md`](abteilung-backend-entwickler/Skills.md) | Skills für Implementierung (Ingest, API, Bewertungslogik, Tests) |
 | [`abteilung-reviewer-tester/Skills.md`](abteilung-reviewer-tester/Skills.md) | Skills für Reviews, Tests & Live-Test der laufenden App |
 
-> Eine lokale, **nicht versionierte** `CLAUDE.md` steuert die Agenten in diesem Verzeichnis
-> (gepflegt von Lucas, via `.gitignore` ausgeschlossen).
+> Die **geteilte** Agenten-Anweisung ist die versionierte `claude-sync.md`; `setup` rollt sie als
+> globale `~/.claude/CLAUDE.md` aus. Eine lokale, nicht versionierte `CLAUDE.md` (gitignored) kann ein
+> Mitglied zusätzlich für persönliche Notizen halten.
 
 ---
 
@@ -67,10 +75,12 @@ Jeder Skill ist nach **Nutzen-Schwerpunkt** klassifiziert: **OP** Operativ · **
 
 1. **Claude Code installieren** — ein Tool für alle (Skills/Hooks sind Claude-Code-spezifisch).
 2. **Dieses Repo klonen** und die Rolle wählen (Backend-Dev *oder* Reviewer/Test).
-3. **Dein „Einstiegs-Set" lesen** — der bewusst kleine Pflichtkanon in deiner Abteilungs-`Skills.md`:
+3. **Setup ausführen** — `bash setup.sh` (macOS) bzw. `powershell -ExecutionPolicy Bypass -File setup.ps1` (Windows);
+   rollt `claude-sync.md` als globale `~/.claude/CLAUDE.md` aus. Danach `claude` starten und **`/start`** tippen. Details: [`ONBOARDING.md`](ONBOARDING.md).
+4. **Dein „Einstiegs-Set" lesen** — der bewusst kleine Pflichtkanon in deiner Abteilungs-`Skills.md`:
    - **Backend-Dev (Tag 1):** `ck` · `tdd-workflow` · `quality-gate` · `pr` + `code-review` (Selbst-Review) · `save-session`
    - **Reviewer/Test (Tag 1):** `ck` · `code-tour` · `code-review` · `test-coverage` · `run` + `verify` · `save-session`
-4. **Alles Weitere ist situativ** — bei Bedarf aus der Tabelle dazunehmen. Nicht alles auf einmal lernen.
+5. **Alles Weitere ist situativ** — bei Bedarf aus der Tabelle dazunehmen. Nicht alles auf einmal lernen.
 
 ---
 

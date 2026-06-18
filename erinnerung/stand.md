@@ -1,0 +1,30 @@
+# Stand — Team-OS (Vibecoding-Stack)
+
+**Stand:** 2026-06-18 · **Pflege:** Lucas (Systemarchitekt)
+
+## Woran wird gearbeitet
+Aufbau des **Vibecoding-Stacks als eigenständige, vom Arbeitsrepo getrennte Agenten-Heimat**.
+Die Tooling-Infrastruktur (zuvor nur im Code-Repo `Alarmsystem-Dev`) wurde hierher übernommen und
+**projektneutral generalisiert**, sodass sie im Vibecoding-Stack funktioniert.
+
+## Erledigt
+- **`claude-sync.md`** geschrieben — globale, höchste Agenten-Anweisung (Operating Mode = beaufsichtigender
+  Coach, Workflow-/Supervisions-Gates, Conventions, Sicherheit, Tooling-Entscheidungen). Use-Case-Fakten
+  bewusst ausgelagert ins Arbeitsrepo.
+- **`.claude/`-Config** angelegt: `settings.json` (SessionStart-Hinweis), `commands/start.md`,
+  `commands/setup.md`, `hooks/README.md` (Hooks-Blueprint).
+- **Setup-Skripte** `setup.ps1`/`setup.sh` generalisiert (kein Python/`uv`): rollen `claude-sync.md`
+  → globale `~/.claude/CLAUDE.md` aus (idempotent, mit Backup-Guard).
+- **`ONBOARDING.md`** + `erinnerung/`-System auf diesen Stack umgeschrieben.
+
+## Als Nächstes
+- README-Pflege: Vibecoding-README um „Setup & Onboarding" erweitern; Arbeitsrepo-README anpassen
+  (Commit/Push nur nach Freigabe durch Lucas).
+- **Enforcement-Hooks** (RB-01-Guard, Secret-Scan, Size, Format-Lint, Test-Gate) als Shell-Skripte
+  verdrahten (Phase 2 — Team-Infra).
+- Use-case-spezifische Workflow-Skills aus dem `Skill-Plan.md` bauen.
+
+## Offen / Blocker
+- Sync-Mechanismus für **`.claude/`-Config-Updates** über Member hinweg (aktuell: nur `claude-sync.md`
+  via `setup` global; Commands/Hooks liegen repo-lokal).
+- `AGENTS.md`/`Agents-gpt-gemini.md` als **generische Vorlage** im Stack — optional, niedrige Prio.
