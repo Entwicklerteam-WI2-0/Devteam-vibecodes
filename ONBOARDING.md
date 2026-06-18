@@ -26,6 +26,16 @@ Das Skript rollt die geteilte Agent-Config `claude-sync.md` nach `~/.claude/CLAU
 **globale, höchste Anweisung**, die in jeder Session und jedem Repo gilt. Eine vorhandene globale
 `CLAUDE.md` wird **nicht** überschrieben (Backup wird angelegt).
 
+## Schritt 3 (Variante) — Kimi Code statt Claude Code
+Nutzt du **Kimi Code** statt Claude Code, führe stattdessen aus:
+```bash
+bash setup-kimi.sh                                        # macOS / Linux
+powershell -ExecutionPolicy Bypass -File .\setup-kimi.ps1 # Windows
+```
+Das kopiert die Team-Skills nach `~/.kimi/skills/` (Kimi liest dasselbe `SKILL.md`-Format nativ).
+Aufruf im Chat via `/skill:<name>`. Globale Anweisung, Hooks und die Commands `/start`/`/setup` nutzen
+in Kimi ein anderes Format und folgen als spätere, spezialisierte Iteration.
+
 ## Danach — arbeiten
 1. Ordner in **VS Code** öffnen.
 2. Im integrierten Terminal **`claude`** starten.
