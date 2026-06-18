@@ -1,10 +1,10 @@
 # Devteam-Vibecodes — Team-OS für G2 (Backend & Entscheidungslogik)
 
 > Das **Werkzeug-Repo** des Backend-Teams (G2) im Projektkurs *„Vereisungserkennung am Flughafen ANR"*.
-> Hier liegt **nicht der Produktcode**, sondern das **Team-Betriebssystem**: ein einheitlicher,
-> lokal laufender Claude-Code-Stack (rollenspezifische **Skills**, Hooks, gemeinsame Config),
-> mit dem das Team produktiv und regelkonform ins **echte Code-Repo** arbeitet.
-> Sprache aller Artefakte: **Deutsch**.
+> Hier liegt **nicht der Produktcode**, sondern das **Team-Betriebssystem**: eine einheitliche,
+> lokal laufende KI-Agenten-Umgebung — geteilte **Anweisung**, **Skills**, Hooks und Setup —, mit der
+> das Team produktiv und regelkonform im **echten Code-Repo** arbeitet.
+> Self-contained: **ein Klon + ein Setup-Befehl**, kein Plugin nötig. Sprache aller Artefakte: **Deutsch**.
 
 ---
 
@@ -12,12 +12,44 @@
 
 | | **Devteam-Vibecodes** (dieses Repo) | **Alarmsystem-Dev** (Code-Repo) |
 |---|---|---|
-| **Zweck** | Werkzeugkasten: *welche* KI-Skills nutzt *welche* Rolle, *wann* | Der eigentliche Use-Case: Backend-Code + RE-/Design-Doku |
-| **Inhalt** | Skill-Plan, rollenbasierte Toolkits, Konventionen | Lauffähiger Prototyp + Pflichtdokumentation |
-| **Wer arbeitet hier** | Lucas (Architekt/PM) konzipiert die Toolkits | Das gesamte Team (Devs + Reviewer:innen) |
+| **Zweck** | Werkzeugkasten: geteilte Agenten-Anweisung + Skills + Setup | Der eigentliche Use-Case: Backend-Code + RE-/Design-Doku |
+| **Inhalt** | `claude-sync.md`, `.claude/skills/`, Setup-Skripte, Konventionen | Lauffähiger Prototyp + Pflichtdokumentation |
+| **Wer arbeitet hier** | Lucas (Architekt/PM) pflegt das Toolkit | Das gesamte Team (Devs + Reviewer:innen) |
 
 > **Merke:** Wird ein Agent hier gebeten, „das System" zu bauen → das geschieht im **Code-Repo**.
 > Hier wird das *Werkzeug* gebaut, mit dem dort gebaut wird.
+
+---
+
+## Schnellstart
+
+**1. KI-CLI installieren** (einmalig). Die meisten nutzen **Claude Code**; ein Sonderweg für **Kimi Code** ist unten beschrieben.
+
+**2. Dieses Repo klonen**
+```bash
+git clone <REPO-URL-von-Lucas>
+cd Devteam-vibecodes
+```
+
+**3a. Setup — Claude Code (Standard)**
+```bash
+bash setup.sh                                        # macOS / Linux
+powershell -ExecutionPolicy Bypass -File .\setup.ps1 # Windows (als Datei starten!)
+```
+Rollt `claude-sync.md` als globale `~/.claude/CLAUDE.md` aus. Skills/Commands/Hooks kommen automatisch aus `.claude/`.
+Danach: Ordner in **VS Code** öffnen → `claude` starten → „Projekt vertrauen" → **`/start`** tippen.
+
+**3b. Setup — Kimi Code (Sonderfall)**
+```bash
+bash setup-kimi.sh                                        # macOS / Linux
+powershell -ExecutionPolicy Bypass -File .\setup-kimi.ps1 # Windows
+```
+Kopiert die Skills nach `~/.kimi/skills/` (Kimi liest dasselbe `SKILL.md`-Format nativ). Aufruf im Chat via `/skill:<name>`.
+*Globale Anweisung, Hooks und `/start`/`/setup` folgen für Kimi als spätere, spezialisierte Iteration.*
+
+**3c. Codex** — spezialisierte Iteration geplant (Skills sind portabel, anderes Anweisungs-/Hook-Format).
+
+> Details & Troubleshooting: [`ONBOARDING.md`](ONBOARDING.md).
 
 ---
 
@@ -25,34 +57,43 @@
 
 ```text
 Devteam-vibecodes/
-├── claude-sync.md                       # GLOBALE Agenten-Anweisung → ~/.claude/CLAUDE.md (via setup)
-├── setup.ps1 / setup.sh                 # Einmal-Setup: rollt claude-sync.md global aus
-├── ONBOARDING.md                        # 3-Schritte-Startanleitung
-├── .claude/                             # settings.json · commands/ (/start, /setup) · hooks/
-├── erinnerung/                          # geteiltes Gedächtnis (von /start geladen)
-├── Skill-Plan.md                        # Master-Plan: Taxonomie, Workflow-Punkte,
-│                                        #   Begründung, Ausschlüsse, Review-Loop
-├── gemeinsam/
-│   └── Skills.md                        # GETEILTE Skills (von beiden Abteilungen genutzt)
-├── abteilung-backend-entwickler/
-│   └── Skills.md                        # Toolkit der Backend-Entwickler:innen
-├── abteilung-reviewer-tester/
-│   └── Skills.md                        # Toolkit der Reviewerinnen/Testerinnen
-└── README.md                            # diese Datei
+├── claude-sync.md                  # GLOBALE Agenten-Anweisung → ~/.claude/CLAUDE.md (via setup)
+├── setup.ps1 / setup.sh            # Setup Claude Code: rollt claude-sync.md global aus
+├── setup-kimi.ps1 / setup-kimi.sh  # Setup Kimi Code: kopiert Skills → ~/.kimi/skills/
+├── ONBOARDING.md                   # 3-Schritte-Startanleitung (alle CLIs)
+├── .claude/
+│   ├── settings.json               # Hooks (aktiv: SessionStart-Hinweis)
+│   ├── commands/                   # Slash-Commands: /start, /setup
+│   ├── hooks/                      # Hook-Blueprint (RB-01-Guard, Secret-Scan … — Phase 2)
+│   └── skills/                     # DIE 9 PFLICHT-SKILLS (echte SKILL.md, Use-Case-angepasst)
+├── erinnerung/                     # geteiltes Projektgedächtnis (von /start geladen)
+├── Skill-Plan.md                   # Master-Plan: Taxonomie, Workflow-Punkte, Begründung
+├── Entscheidungslog-Toolkit.md     # Tooling-Entscheidungen (Harness/Modell/Umgebung)
+├── gemeinsam/Skills.md             # Plan: GETEILTE Skills (beide Abteilungen)
+├── abteilung-backend-entwickler/Skills.md   # Plan: Toolkit Backend-Dev
+├── abteilung-reviewer-tester/Skills.md      # Plan: Toolkit Reviewer/Test
+└── README.md                       # diese Datei
 ```
 
-| Dokument | Inhalt |
-|---|---|
-| [`claude-sync.md`](claude-sync.md) | **Globale Agenten-Anweisung** → `~/.claude/CLAUDE.md` (Operating Mode, Workflow, Conventions, Sicherheit) |
-| [`ONBOARDING.md`](ONBOARDING.md) | 3-Schritte-Setup (klonen → `setup` → `/start`) |
-| [`Skill-Plan.md`](Skill-Plan.md) | Übersicht + Begründung des gesamten Skill-Plans (**hier starten**) |
-| [`gemeinsam/Skills.md`](gemeinsam/Skills.md) | Fundament-Skills für **alle** (Kontext, Konventionen, Review, Git) |
-| [`abteilung-backend-entwickler/Skills.md`](abteilung-backend-entwickler/Skills.md) | Skills für Implementierung (Ingest, API, Bewertungslogik, Tests) |
-| [`abteilung-reviewer-tester/Skills.md`](abteilung-reviewer-tester/Skills.md) | Skills für Reviews, Tests & Live-Test der laufenden App |
+**Skills im `.claude/skills/`** (geforkt aus ECC, neu geschrieben auf Python/FastAPI/pytest + Use-Case):
+`tdd-workflow` · `python-testing` · `quality-gate` · `fastapi-patterns` · `feature-dev` · `pr` ·
+`code-tour` · `test-coverage` · `save-session`.
 
-> Die **geteilte** Agenten-Anweisung ist die versionierte `claude-sync.md`; `setup` rollt sie als
-> globale `~/.claude/CLAUDE.md` aus. Eine lokale, nicht versionierte `CLAUDE.md` (gitignored) kann ein
-> Mitglied zusätzlich für persönliche Notizen halten.
+> Die **geteilte** Anweisung ist die versionierte `claude-sync.md`; `setup` rollt sie als globale
+> `~/.claude/CLAUDE.md` aus. **Immer `claude-sync.md` ändern (per PR)** — nicht die lokale `CLAUDE.md`,
+> sonst driften die Stände auseinander.
+
+---
+
+## Wie es funktioniert (Architektur)
+
+- **Global vs. Projekt:** `claude-sync.md` (global) trägt Operating Mode, Workflow-Gates, Conventions,
+  Sicherheit — **projektneutral**. Use-Case-Fakten (Schwellenwerte, RB-01-Werte, Phasen) bleiben im
+  Code-Repo `Alarmsystem-Dev` und werden von dort gelesen, nicht hier dupliziert.
+- **Skills reisen mit dem Repo:** echte `SKILL.md` unter `.claude/skills/` — kein ECC-Plugin nötig.
+  Claude Code lädt sie aus `.claude/skills/`, Kimi aus `~/.kimi/skills/` (via `setup-kimi`).
+- **Standards als Hooks:** wiederkehrende Qualitäts-/Sicherheitsregeln werden (Phase 2) als Hooks
+  erzwungen, nicht nur im Review erhofft.
 
 ---
 
@@ -61,26 +102,16 @@ Devteam-vibecodes/
 Eingeteilt nach **Systemverständnis & Output**, nicht nach reinem Coding-Skill — operative
 Standardarbeit (Format, Lint, Tests, Repo-Hygiene) übernimmt der Agent.
 
-- **A) Backend-Entwickler:innen** — bauen gegen den vom Architekten eingefrorenen Contract:
-  Ingest, Persistenz, **Vereisungs-Bewertungslogik**, API. Tests-first (TDD), Selbst-Review vor dem PR.
+- **A) Backend-Entwickler:innen** — bauen gegen den eingefrorenen Contract: Ingest, Persistenz,
+  **Vereisungs-Bewertungslogik**, API. Tests-first (TDD), Selbst-Review vor dem PR.
 - **B) Reviewerinnen/Testerinnen** — der Agent erstellt Review-/Test-Entwürfe, der **Mensch prüft und
   gibt frei** (bewertungsrelevant: 40 % Einzelleistung). Live-Test der laufenden API, Testsuite-Pflege.
 
-Jeder Skill ist nach **Nutzen-Schwerpunkt** klassifiziert: **OP** Operativ · **SR** Selbst-Review ·
-**CR** Conventions/Regeln · **WG** Workflow-Gate (getriggert) · **VO** Verständnis/Onboarding.
+**Einstiegs-Set (Pflicht, Tag 1) — bewusst klein:**
+- **Backend-Dev:** `/start` · `tdd-workflow` · `quality-gate` · `pr` + `code-review` (Selbst-Review) · `save-session`
+- **Reviewer/Test:** `/start` · `code-tour` · `code-review` · `test-coverage` · `run`/`verify` · `save-session`
 
----
-
-## Schnellstart für Teammitglieder
-
-1. **Claude Code installieren** — ein Tool für alle (Skills/Hooks sind Claude-Code-spezifisch).
-2. **Dieses Repo klonen** und die Rolle wählen (Backend-Dev *oder* Reviewer/Test).
-3. **Setup ausführen** — `bash setup.sh` (macOS) bzw. `powershell -ExecutionPolicy Bypass -File setup.ps1` (Windows);
-   rollt `claude-sync.md` als globale `~/.claude/CLAUDE.md` aus. Danach `claude` starten und **`/start`** tippen. Details: [`ONBOARDING.md`](ONBOARDING.md).
-4. **Dein „Einstiegs-Set" lesen** — der bewusst kleine Pflichtkanon in deiner Abteilungs-`Skills.md`:
-   - **Backend-Dev (Tag 1):** `ck` · `tdd-workflow` · `quality-gate` · `pr` + `code-review` (Selbst-Review) · `save-session`
-   - **Reviewer/Test (Tag 1):** `ck` · `code-tour` · `code-review` · `test-coverage` · `run` + `verify` · `save-session`
-5. **Alles Weitere ist situativ** — bei Bedarf aus der Tabelle dazunehmen. Nicht alles auf einmal lernen.
+Alles Weitere ist **situativ** — bei Bedarf aus der Abteilungs-`Skills.md` dazunehmen.
 
 ---
 
@@ -89,24 +120,23 @@ Jeder Skill ist nach **Nutzen-Schwerpunkt** klassifiziert: **OP** Operativ · **
 - **Sprache:** Deutsch für alle Artefakte.
 - **Git:** Feature-Branch → Pull Request → Review → `main`. `main` bleibt lauffähig, **kein direkter Push**.
 - **Genehmigungspflicht:** Push, PR, Merge, force-push und destruktive Git-Aktionen **nur nach
-  expliziter Freigabe durch Lucas**.
+  expliziter Freigabe durch Lucas**. Den Branch/PR-Flow nimmt der Agent dem Dev ab.
 - **Keine Secrets** committen — weder hier noch im Code-Repo.
-- **Use-Case-Fakten** nie aus dem Gedächtnis — immer aus dem Code-Repo lesen (siehe unten).
+- **Use-Case-Fakten** nie aus dem Gedächtnis — immer aus `Alarmsystem-Dev` lesen.
 - **Sicherheitskritisch:** Das Zielsystem darf die Startbahn **nie automatisch freigeben/sperren**
-  (RB-01); bei Ausfall/veralteten Daten **nie GRÜN** (Fail-safe). Diese Regeln werden im Toolkit
-  als **Hooks + Verifikations-Gate** erzwungen, nicht nur im Review erhofft.
+  (RB-01); bei Ausfall/veralteten Daten **nie GRÜN** (Fail-safe).
 
 ---
 
 ## Bezug zum Use-Case
 
 Der eigentliche Prototyp (Erfassung & Bewertung von Vereisungsbedingungen am fiktiven Regionalflughafen
-**ANR** ≈ Flugplatz Coburg) und die maßgebliche Dokumentation liegen im Code-Repo:
+**ANR**) und die maßgebliche Dokumentation liegen im Code-Repo:
 
 ➡️ **[Entwicklerteam-WI2-0/Alarmsystem-Dev](https://github.com/Entwicklerteam-WI2-0/Alarmsystem-Dev)**
 
-Dort stehen das Lastenheft, das Backend-Konzept, die Schwellenwert-/Bewertungslogik, der Projektplan
-und das Entscheidungslogbuch. Bei Use-Case-Fragen **immer zuerst dort** nachsehen.
+Dort stehen Lastenheft, Backend-Konzept, Schwellenwert-/Bewertungslogik, Projektplan und
+Entscheidungslogbuch. Bei Use-Case-Fragen **immer zuerst dort** nachsehen.
 
 ---
 
