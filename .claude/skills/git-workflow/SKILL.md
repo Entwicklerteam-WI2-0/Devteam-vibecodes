@@ -26,6 +26,12 @@ erklären, Freigabe einholen**.
 Branch anlegen, committen (sinnvoll gestückelt), Status erklären, PR vorbereiten (`pr`). Der Dev
 versteht & verantwortet — du machst die Mechanik.
 
+## Ausnahme: `erinnerung/` (geteilter Repo-Fortschritt)
+Dateien unter `erinnerung/` sind **Nicht-Code** und von der **inhaltlichen Review-Pflicht ausgenommen** —
+kein prüfender Reviewer nötig (Konfliktarmut kommt aus **append-only**, siehe Skill `erinnerung-update`).
+Der **Branch → PR → Merge-Weg bleibt** (`main` ist geschützt, Branch Protection ist nicht pfad-granular):
+kleiner PR, **Self-/Auto-Merge ohne Review**. Details: `claude-sync.md` §7.
+
 ## Nicht tun
 - Auf `main` committen/pushen. Ohne Freigabe pushen/mergen. Secrets committen. Force-push ohne Not + Freigabe.
 

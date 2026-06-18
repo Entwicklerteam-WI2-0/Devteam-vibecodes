@@ -13,12 +13,16 @@ weiterläuft. Antworte auf **Deutsch**. Kurz, faktisch.
 Am **Session-Ende** (Workflow-Punkt WP8 in `claude-sync.md`).
 
 ## Ablauf
-1. **Stand aktualisieren** — `erinnerung/stand.md` (bzw. `ck save`): woran gearbeitet, was als Nächstes
-   dran, Blocker. Knapp halten; veraltete Notizen ersetzen, nicht anhäufen.
-2. **Entscheidungen festhalten** — getroffene Entscheidungen ins **Entscheidungslogbuch** (benotetes
+1. **Geteilten Repo-Fortschritt ins Journal schreiben** — Skill **`erinnerung-update`**: hängt einen
+   append-only-Block an `erinnerung/journal/<heute>.md` an (Was/Wo, Commit, nächster Schritt, Rolle).
+   Das ist der **Schreibteil**, den `/start` beim nächsten Mal liest.
+2. **Stand aktualisieren** — `erinnerung/stand.md` (bzw. `ck save`): den konsolidierten Gesamtüberblick
+   bei nennenswertem Fortschritt nachziehen. Knapp halten; veraltete Notizen ersetzen, nicht anhäufen.
+   (Detail lebt im Journal, `stand.md` ist die Verdichtung.)
+3. **Entscheidungen festhalten** — getroffene Entscheidungen ins **Entscheidungslogbuch** (benotetes
    Pflichtdokument, Kriterium „Nachvollziehbarkeit"): Was, warum, welche Alternativen.
-3. **Offene Punkte / Fragen** notieren, die jemand klären muss.
-4. **Doku synchron?** Bei API-/Schema-Änderungen kurz prüfen, ob die API-Doku nachgezogen werden muss
+4. **Offene Punkte / Fragen** notieren, die jemand klären muss.
+5. **Doku synchron?** Bei API-/Schema-Änderungen kurz prüfen, ob die API-Doku nachgezogen werden muss
    (`update-docs`).
 
 ## Inhalt-Regeln

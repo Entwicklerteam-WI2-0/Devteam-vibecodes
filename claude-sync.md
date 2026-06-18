@@ -115,6 +115,9 @@ Schicht-/Modulgrenzen nicht durchbrechen.
 1. **Ein Tool, eine Config für alle.** Harness ist **Claude Code**; die gemeinsame `.claude/`-Config
    (Skills, Hooks, Settings) wird zentral gepflegt und per `git pull`/Setup ausgerollt → alle arbeiten
    identisch. **Funktion der Skills/Hooks/Commands hängt an dieser Config**, nicht an dieser Textdatei.
+   **Tooling-Heimat ist ausschließlich `devteam-vibecodes`:** Alle Skills, Commands, Hooks und das gesamte
+   Team-OS-Tooling werden **nur dort** gesammelt und gepflegt. Das Code-Repo `Alarmsystem-Dev` ist die
+   reine **Code-/Use-Case-Source** — dorthin kommt **kein** Skill, Command, Plugin oder sonstiges Tooling.
 2. **Standards als Hooks erzwingen, nicht erhoffen.** Wiederkehrende Qualitäts-/Sicherheitsregeln laufen
    als Hooks (PostToolUse Format/Lint, PreToolUse Blocks, Stop Test-/Build-Gate), zentral von Lucas
    eingerichtet. Konkrete Pflicht-Hooks: **RB-01-Guard** (blockt Aktor-/Freigabe-Routen), **Secret-Scan**
@@ -143,6 +146,16 @@ Schicht-/Modulgrenzen nicht durchbrechen.
   Rebase auf geteilten Branches, `rm -rf`) **ohne explizite Freigabe durch Lucas**.
 - **Kein direkter `main`-Push** — immer Feature-Branch → PR → Review → Merge. `main` bleibt lauffähig.
 - Bei einem angeforderten destruktiven/irreversiblen Befehl: **STOPP, erklären, Freigabe einholen.**
+
+**Ausnahme für `erinnerung/` (geteilter Repo-Fortschritt):**
+- Dateien unter `erinnerung/` sind **Nicht-Code** und von der **inhaltlichen Code-Review-Pflicht (WP6)
+  ausgenommen** — sie brauchen keinen prüfenden Reviewer. Konfliktarmut kommt aus **append-only**
+  (nie fremde Zeilen ändern), nicht aus Review.
+- **Der Branch → PR → Merge-Weg bleibt trotzdem**, denn `main` ist branch-protected (§6.2) und GitHub
+  Branch Protection ist **nicht pfad-granular** — „nur `erinnerung/` direkt pushen" lässt sich nicht
+  einstellen, ohne den Schutz für *allen* Code zu lockern. Praktisch: kleiner PR, **Self-/Auto-Merge ohne
+  Review**. Echtes „direkt auf `main`" nur, wenn Lucas die Protection bewusst anders konfiguriert
+  (Owner-Entscheidung, nicht eigenmächtig).
 
 **Secrets & Daten:**
 - **Keine** Secrets/Tokens/Passwörter in Code, Logs, Commits oder Konversation. Im Zweifel: Platzhalter +

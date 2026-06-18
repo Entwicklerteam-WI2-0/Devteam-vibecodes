@@ -16,6 +16,10 @@ Die Tooling-Infrastruktur (zuvor nur im Code-Repo `Alarmsystem-Dev`) wurde hierh
 - **Setup-Skripte** `setup.ps1`/`setup.sh` generalisiert (kein Python/`uv`): rollen `claude-sync.md`
   → globale `~/.claude/CLAUDE.md` aus (idempotent, mit Backup-Guard).
 - **`ONBOARDING.md`** + `erinnerung/`-System auf diesen Stack umgeschrieben.
+- **Erinnerungs-System** (aus `PLAN-erinnerung-system.md`) umgesetzt: Tages-Journal `erinnerung/journal/<YYYY-MM-DD>.md`
+  (append-only), neuer Skill **`erinnerung-update`** (Schreibteil, WP8), `/start` liest nur (kein fetch) +
+  zieht heutiges/letztes Journal, `erinnerung/README.md` neu, Git-Ausnahme für `erinnerung/` in `claude-sync.md` §7
+  und `git-workflow`. **Status: lokal, uncommittet — wartet auf Lucas-Review/Freigabe.**
 
 ## Als Nächstes
 - README-Pflege: Vibecoding-README um „Setup & Onboarding" erweitern; Arbeitsrepo-README anpassen
