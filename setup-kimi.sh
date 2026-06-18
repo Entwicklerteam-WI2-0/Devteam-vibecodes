@@ -20,7 +20,7 @@ if [ ! -d "$SRC" ]; then
   exit 1
 fi
 
-DEST="$HOME/.kimi/skills"
+DEST="$HOME/.kimi-code/skills"
 mkdir -p "$DEST"
 echo "Installiere Team-Skills fuer Kimi Code -> $DEST"
 
@@ -37,7 +37,7 @@ done
 
 echo ""
 echo "Fertig: $count Skills installiert in $DEST"
-echo "Kimi Code findet sie automatisch (Brand-Pfad ~/.kimi/skills/)."
+echo "Kimi Code findet sie automatisch (Brand-Pfad ~/.kimi-code/skills/)."
 echo "Aufruf im Chat z.B.:  /skill:tdd-workflow"
 echo ""
 echo "Hinweis: Globale Anweisung (claude-sync.md), Hooks und die Slash-Commands"

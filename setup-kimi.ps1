@@ -25,7 +25,7 @@ if (-not (Test-Path $src)) {
     exit 1
 }
 
-$dest = Join-Path $env:USERPROFILE ".kimi/skills"
+$dest = Join-Path $env:USERPROFILE ".kimi-code/skills"
 New-Item -ItemType Directory -Force -Path $dest | Out-Null
 Write-Host "Installiere Team-Skills fuer Kimi Code -> $dest"
 
@@ -43,7 +43,7 @@ Get-ChildItem -Path $src -Directory | ForEach-Object {
 
 Write-Host ""
 Write-Host "Fertig: $count Skills installiert in $dest"
-Write-Host "Kimi Code findet sie automatisch (Brand-Pfad ~/.kimi/skills/)."
+Write-Host "Kimi Code findet sie automatisch (Brand-Pfad ~/.kimi-code/skills/)."
 Write-Host "Aufruf im Chat z.B.:  /skill:tdd-workflow"
 Write-Host ""
 Write-Host "Hinweis: Globale Anweisung (claude-sync.md), Hooks und die Slash-Commands"
