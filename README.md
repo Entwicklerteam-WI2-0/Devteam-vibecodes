@@ -23,7 +23,7 @@
 
 ## Schnellstart
 
-**1. KI-CLI installieren** (einmalig). Die meisten nutzen **Claude Code**; ein Sonderweg für **Kimi Code** ist unten beschrieben.
+**1. KI-CLI installieren** (einmalig). Die meisten nutzen **Claude Code**; Sonderwege für **Kimi Code** (3b) und **Codex CLI** (3c) sind unten beschrieben.
 
 **2. Dieses Repo klonen**
 ```bash
@@ -44,10 +44,22 @@ Danach: Ordner in **VS Code** öffnen → `claude` starten → „Projekt vertra
 bash setup-kimi.sh                                        # macOS / Linux
 powershell -ExecutionPolicy Bypass -File .\setup-kimi.ps1 # Windows
 ```
-Kopiert die Skills nach `~/.kimi/skills/` (Kimi liest dasselbe `SKILL.md`-Format nativ). Aufruf im Chat via `/skill:<name>`.
+Kopiert die Skills nach `~/.kimi-code/skills/` (Kimi liest dasselbe `SKILL.md`-Format nativ). Aufruf im Chat via `/skill:<name>`.
 *Globale Anweisung, Hooks und `/start`/`/setup` folgen für Kimi als spätere, spezialisierte Iteration.*
 
-**3c. Codex** — spezialisierte Iteration geplant (Skills sind portabel, anderes Anweisungs-/Hook-Format).
+**3c. Setup — Codex CLI (OpenAI / ChatGPT)**
+Erst die **Codex CLI installieren** (`codex --version` muss laufen), dann **denselben Ein-Befehl-Flow**:
+```bash
+bash setup-codex.sh                                        # macOS / Linux
+powershell -ExecutionPolicy Bypass -File .\setup-codex.ps1 # Windows
+```
+Ein Lauf erledigt **alles automatisch**: `claude-sync.md` → `~/.codex/AGENTS.md` (globaler System-Prompt,
+gleiche Rolle wie die `CLAUDE.md`), alle Skills → `~/.codex/skills/` (nativ, identisches `SKILL.md`-Format),
+je Skill ein Command → `~/.codex/prompts/` (Aufruf `/<name>`, z. B. `/tdd-workflow`) und aktiviert das
+Skills-Feature (`codex --enable skills`). Danach: `codex` starten → „Projekt vertrauen". Skills laufen
+automatisch (Auto-Trigger) **oder** explizit per Command.
+*Ist `codex` beim Setup noch nicht installiert, legt das Skript alles korrekt ab und nennt den einen
+Befehl (`codex --enable skills`), den du danach einmal ausführst.*
 
 > Details & Troubleshooting: [`ONBOARDING.md`](ONBOARDING.md).
 
@@ -59,7 +71,8 @@ Kopiert die Skills nach `~/.kimi/skills/` (Kimi liest dasselbe `SKILL.md`-Format
 Devteam-vibecodes/
 ├── claude-sync.md                  # GLOBALE Agenten-Anweisung → ~/.claude/CLAUDE.md (via setup)
 ├── setup.ps1 / setup.sh            # Setup Claude Code: rollt claude-sync.md global aus
-├── setup-kimi.ps1 / setup-kimi.sh  # Setup Kimi Code: kopiert Skills → ~/.kimi/skills/
+├── setup-kimi.ps1 / setup-kimi.sh  # Setup Kimi Code: kopiert Skills → ~/.kimi-code/skills/
+├── setup-codex.ps1 / setup-codex.sh# Setup Codex CLI: AGENTS.md + Skills + Commands global → ~/.codex/
 ├── ONBOARDING.md                   # 3-Schritte-Startanleitung (alle CLIs)
 ├── .claude/
 │   ├── settings.json               # Hooks (aktiv: SessionStart-Hinweis)
@@ -91,7 +104,8 @@ Devteam-vibecodes/
   Sicherheit — **projektneutral**. Use-Case-Fakten (Schwellenwerte, RB-01-Werte, Phasen) bleiben im
   Code-Repo `Alarmsystem-Dev` und werden von dort gelesen, nicht hier dupliziert.
 - **Skills reisen mit dem Repo:** echte `SKILL.md` unter `.claude/skills/` — kein ECC-Plugin nötig.
-  Claude Code lädt sie aus `.claude/skills/`, Kimi aus `~/.kimi/skills/` (via `setup-kimi`).
+  Claude Code lädt sie aus `.claude/skills/`, Kimi aus `~/.kimi-code/skills/` (via `setup-kimi`),
+  Codex aus `~/.codex/skills/` (via `setup-codex`).
 - **Standards als Hooks:** wiederkehrende Qualitäts-/Sicherheitsregeln werden (Phase 2) als Hooks
   erzwungen, nicht nur im Review erhofft.
 
