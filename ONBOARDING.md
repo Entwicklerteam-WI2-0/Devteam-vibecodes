@@ -33,9 +33,9 @@ Nutzt du **Kimi Code** statt Claude Code, führe stattdessen aus:
 bash setup-kimi.sh                                        # macOS / Linux
 powershell -ExecutionPolicy Bypass -File .\setup-kimi.ps1 # Windows
 ```
-Das kopiert die Team-Skills nach `~/.kimi-code/skills/` (Kimi liest dasselbe `SKILL.md`-Format nativ).
-Aufruf im Chat via `/skill:<name>`. Globale Anweisung, Hooks und die Commands `/start`/`/setup` nutzen
-in Kimi ein anderes Format und folgen als spätere, spezialisierte Iteration.
+Das installiert die **Skills** nach `~/.kimi-code/skills/` (Aufruf `/skill:<name>`), die **globale Anweisung**
+nach `~/.kimi-code/AGENTS.md` (additiv) und die **Commands als Skills** — Kimi hat kein Command-Verzeichnis,
+daher wird `/start` zu **`/skill:start`** und `/setup` zu `/skill:setup`.
 
 ## Schritt 3 (Variante) — Codex CLI statt Claude Code
 Nutzt du die **Codex CLI** (OpenAI/ChatGPT): **erst Codex installieren** (`codex --version` muss laufen),

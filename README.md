@@ -47,8 +47,9 @@ Danach: Ordner in **VS Code** öffnen → `claude` starten → „Projekt vertra
 bash setup-kimi.sh                                        # macOS / Linux
 powershell -ExecutionPolicy Bypass -File .\setup-kimi.ps1 # Windows
 ```
-Kopiert die Skills nach `~/.kimi-code/skills/` (Kimi liest dasselbe `SKILL.md`-Format nativ). Aufruf im Chat via `/skill:<name>`.
-*Globale Anweisung, Hooks und `/start`/`/setup` folgen für Kimi als spätere, spezialisierte Iteration.*
+Installiert **Skills** nach `~/.kimi-code/skills/` (Aufruf `/skill:<name>`), die **globale Anweisung** nach
+`~/.kimi-code/AGENTS.md` (additiv) und die **Commands als Skills** — Kimi hat kein Command-Verzeichnis, daher
+wird `/start` zu **`/skill:start`** und `/setup` zu `/skill:setup`.
 
 **3c. Setup — Codex CLI (OpenAI / ChatGPT)**
 Erst die **Codex CLI installieren** (`codex --version` muss laufen), dann **denselben Ein-Befehl-Flow**:
