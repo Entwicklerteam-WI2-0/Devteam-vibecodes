@@ -36,7 +36,10 @@ cd Devteam-vibecodes
 bash setup.sh                                        # macOS / Linux
 powershell -ExecutionPolicy Bypass -File .\setup.ps1 # Windows (als Datei starten!)
 ```
-Rollt `claude-sync.md` als globale `~/.claude/CLAUDE.md` aus. Skills/Commands/Hooks kommen automatisch aus `.claude/`.
+Legt `claude-sync.md` als eigene Datei `~/.claude/team-os-g2.md` ab und ergänzt die globale `~/.claude/CLAUDE.md`
+**additiv** um einen `@import`-Block — eine vorhandene persönliche `CLAUDE.md` bleibt erhalten (Backup wird angelegt).
+Installiert außerdem **Skills + Commands global** nach `~/.claude/skills/` bzw. `~/.claude/commands/` —
+so sind sie in **jedem** Repo verfügbar (auch im Code-Repo `Alarmsystem-Dev`), nicht nur in diesem Tooling-Repo.
 Danach: Ordner in **VS Code** öffnen → `claude` starten → „Projekt vertrauen" → **`/start`** tippen.
 
 **3b. Setup — Kimi Code (Sonderfall)**
@@ -53,11 +56,12 @@ Erst die **Codex CLI installieren** (`codex --version` muss laufen), dann **dens
 bash setup-codex.sh                                        # macOS / Linux
 powershell -ExecutionPolicy Bypass -File .\setup-codex.ps1 # Windows
 ```
-Ein Lauf erledigt **alles automatisch**: `claude-sync.md` → `~/.codex/AGENTS.md` (globaler System-Prompt,
-gleiche Rolle wie die `CLAUDE.md`), alle Skills → `~/.codex/skills/` (nativ, identisches `SKILL.md`-Format),
-je Skill ein Command → `~/.codex/prompts/` (Aufruf `/<name>`, z. B. `/tdd-workflow`) und aktiviert das
+Ein Lauf erledigt **alles automatisch**: `claude-sync.md` **additiv** als Team-Block in `~/.codex/AGENTS.md`
+(globaler System-Prompt; vorhandene `AGENTS.md` bleibt), alle Skills → `~/.codex/skills/` (nativ, identisches `SKILL.md`-Format),
+je Skill ein Command → `~/.codex/prompts/` (Aufruf **`/prompts:<name>`**, z. B. `/prompts:tdd-workflow` — oder `/` tippen und auswählen) und aktiviert das
 Skills-Feature (`codex --enable skills`). Danach: `codex` starten → „Projekt vertrauen". Skills laufen
-automatisch (Auto-Trigger) **oder** explizit per Command.
+**primär automatisch** (du beschreibst die Aufgabe, der passende Skill triggert) — explizit optional per `/prompts:<name>`.
+*Hinweis: OpenAI hat Custom-Prompts als „deprecated" markiert; sie funktionieren weiter, der zukunftssichere Weg sind die nativen Skills.*
 *Ist `codex` beim Setup noch nicht installiert, legt das Skript alles korrekt ab und nennt den einen
 Befehl (`codex --enable skills`), den du danach einmal ausführst.*
 
@@ -70,7 +74,7 @@ Befehl (`codex --enable skills`), den du danach einmal ausführst.*
 ```text
 Devteam-vibecodes/
 ├── claude-sync.md                  # GLOBALE Agenten-Anweisung → ~/.claude/CLAUDE.md (via setup)
-├── setup.ps1 / setup.sh            # Setup Claude Code: rollt claude-sync.md global aus
+├── setup.ps1 / setup.sh            # Setup Claude Code: team-os-g2.md + @import-Block in ~/.claude/CLAUDE.md
 ├── setup-kimi.ps1 / setup-kimi.sh  # Setup Kimi Code: kopiert Skills → ~/.kimi-code/skills/
 ├── setup-codex.ps1 / setup-codex.sh# Setup Codex CLI: AGENTS.md + Skills + Commands global → ~/.codex/
 ├── ONBOARDING.md                   # 3-Schritte-Startanleitung (alle CLIs)
@@ -92,9 +96,9 @@ Devteam-vibecodes/
 `tdd-workflow` · `python-testing` · `quality-gate` · `fastapi-patterns` · `feature-dev` · `pr` ·
 `code-tour` · `test-coverage` · `save-session`.
 
-> Die **geteilte** Anweisung ist die versionierte `claude-sync.md`; `setup` rollt sie als globale
-> `~/.claude/CLAUDE.md` aus. **Immer `claude-sync.md` ändern (per PR)** — nicht die lokale `CLAUDE.md`,
-> sonst driften die Stände auseinander.
+> Die **geteilte** Anweisung ist die versionierte `claude-sync.md`; `setup` legt sie als
+> `~/.claude/team-os-g2.md` ab und bindet sie via `@import`-Block in die globale `~/.claude/CLAUDE.md` ein.
+> **Immer `claude-sync.md` ändern (per PR)** — nicht die lokalen Dateien, sonst driften die Stände auseinander.
 
 ---
 
@@ -104,8 +108,8 @@ Devteam-vibecodes/
   Sicherheit — **projektneutral**. Use-Case-Fakten (Schwellenwerte, RB-01-Werte, Phasen) bleiben im
   Code-Repo `Alarmsystem-Dev` und werden von dort gelesen, nicht hier dupliziert.
 - **Skills reisen mit dem Repo:** echte `SKILL.md` unter `.claude/skills/` — kein ECC-Plugin nötig.
-  Claude Code lädt sie aus `.claude/skills/`, Kimi aus `~/.kimi-code/skills/` (via `setup-kimi`),
-  Codex aus `~/.codex/skills/` (via `setup-codex`).
+  `setup` installiert sie **global** — Claude nach `~/.claude/skills/`, Kimi nach `~/.kimi-code/skills/`,
+  Codex nach `~/.codex/skills/` — damit sie in **jedem** Repo greifen, nicht nur im Tooling-Repo.
 - **Standards als Hooks:** wiederkehrende Qualitäts-/Sicherheitsregeln werden (Phase 2) als Hooks
   erzwungen, nicht nur im Review erhofft.
 

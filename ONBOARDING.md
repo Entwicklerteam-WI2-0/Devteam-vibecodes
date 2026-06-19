@@ -22,9 +22,10 @@ bash setup.sh
 ```powershell
 powershell -ExecutionPolicy Bypass -File setup.ps1
 ```
-Das Skript rollt die geteilte Agent-Config `claude-sync.md` nach `~/.claude/CLAUDE.md` aus — die
-**globale, höchste Anweisung**, die in jeder Session und jedem Repo gilt. Eine vorhandene globale
-`CLAUDE.md` wird **nicht** überschrieben (Backup wird angelegt).
+Das Skript legt die geteilte Agent-Config als `~/.claude/team-os-g2.md` ab und bindet sie via
+`@import`-Block in die globale `~/.claude/CLAUDE.md` ein — die **globale, höchste Anweisung**, die in jeder
+Session und jedem Repo gilt. Eine vorhandene persönliche `CLAUDE.md` wird **nicht** überschrieben: ihr
+Inhalt bleibt, der Team-Block wird nur ergänzt (Backup wird angelegt).
 
 ## Schritt 3 (Variante) — Kimi Code statt Claude Code
 Nutzt du **Kimi Code** statt Claude Code, führe stattdessen aus:
@@ -43,11 +44,12 @@ dann denselben Ein-Befehl-Flow:
 bash setup-codex.sh                                        # macOS / Linux
 powershell -ExecutionPolicy Bypass -File .\setup-codex.ps1 # Windows
 ```
-Ein Lauf erledigt alles: `claude-sync.md` → `~/.codex/AGENTS.md` (globaler System-Prompt), alle Skills
-→ `~/.codex/skills/` (nativ), je Skill ein Command → `~/.codex/prompts/` (Aufruf `/<name>`), und aktiviert
+Ein Lauf erledigt alles: `claude-sync.md` **additiv** als Team-Block in `~/.codex/AGENTS.md` (globaler
+System-Prompt; vorhandene `AGENTS.md` bleibt), alle Skills → `~/.codex/skills/` (nativ), je Skill ein
+Command → `~/.codex/prompts/` (Aufruf **`/prompts:<name>`** oder `/` tippen und auswählen), und aktiviert
 das Skills-Feature (`codex --enable skills`). War `codex` beim Setup noch nicht installiert, führe danach
 **einmal** `codex --enable skills` aus. Dann `codex` starten, „Projekt vertrauen" — Skills laufen
-automatisch oder explizit per `/<name>`.
+primär automatisch (Aufgabe beschreiben) oder explizit per `/prompts:<name>`.
 
 ## Danach — arbeiten
 1. Ordner in **VS Code** öffnen.
@@ -55,7 +57,8 @@ automatisch oder explizit per `/<name>`.
 3. Beim ersten Mal **„Projekt vertrauen"** bestätigen.
 4. **`/start`** tippen → Stand, Regeln und Git-Status werden geladen.
 
-Die Skills, Befehle und Standard-Checks kommen **automatisch aus dem Repo** — du musst nichts einzeln einrichten.
+Das Setup installiert Skills + Commands **global** (`~/.claude/skills/` + `~/.claude/commands/`) — sie greifen
+in **jedem** Repo (auch `Alarmsystem-Dev`), nicht nur hier. Du musst nichts einzeln einrichten.
 
 ## Für die Produktcode-Arbeit
 Zum Bauen am eigentlichen System zusätzlich das **Arbeitsrepo** `Alarmsystem-Dev` klonen und dessen

@@ -4,7 +4,7 @@
 # Macht:
 #   1) claude-sync.md            -> $CODEX_HOME\AGENTS.md   (globaler System-Prompt)
 #   2) .claude/skills/*/SKILL.md -> $CODEX_HOME\skills\<name>\SKILL.md  (nativ, Auto-Trigger)
-#   3) je Skill ein Command      -> $CODEX_HOME\prompts\<name>.md       (explizit per /<name>)
+#   3) je Skill ein Command      -> $CODEX_HOME\prompts\<name>.md       (explizit per /prompts:<name>)
 #   4) Skills-Feature aktivieren -> codex --enable skills (falls codex installiert)
 #
 # Codex liest AGENTS.md und SKILL.md nativ (gleiches Format wie Claude Code/Kimi).
@@ -47,16 +47,37 @@ Write-Host "  Repo:       $scriptDir"
 Write-Host "  Codex-Home: $codexHome"
 Write-Host ""
 
-# --- 1) Globaler System-Prompt: claude-sync.md -> AGENTS.md -------------------
-if (Test-Path $agents) {
-    Copy-Item $agents "$agents.bak" -Force
-    Write-Host "HINWEIS: vorhandene AGENTS.md gesichert -> $agents.bak"
-}
-Copy-Item $sync $agents -Force
-Write-Host "[1/3] Globaler System-Prompt gesetzt: $agents"
-
-# --- UTF-8 ohne BOM fuer generierte Dateien ----------------------------------
+# --- UTF-8 ohne BOM fuer generierte/angehaengte Dateien ----------------------
 $utf8NoBom = New-Object System.Text.UTF8Encoding($false)
+
+# --- 1) Globaler System-Prompt: Team-Block in AGENTS.md (ADDITIV) ------------
+# Codex garantiert keinen @import-Include in AGENTS.md -> Team-Inhalt wird als
+# markierter Block inline gefuehrt; vorhandene AGENTS.md bleibt erhalten.
+$codexBegin = "<!-- TEAM-OS-G2 BEGIN - verwaltet von setup-codex, nicht editieren -->"
+$codexEnd   = "<!-- TEAM-OS-G2 END -->"
+$syncText   = [System.IO.File]::ReadAllText($sync, [System.Text.Encoding]::UTF8)
+$teamBlock  = $codexBegin + "`n" + $syncText.TrimEnd("`r", "`n") + "`n" + $codexEnd + "`n"
+
+if (-not (Test-Path $agents)) {
+    [System.IO.File]::WriteAllText($agents, $teamBlock, $utf8NoBom)
+    Write-Host "[1/3] Globaler System-Prompt angelegt: $agents"
+} else {
+    $existing = [System.IO.File]::ReadAllText($agents, [System.Text.Encoding]::UTF8)
+    if ($existing -like "*$codexBegin*") {
+        # Alten Team-Block entfernen, frischen anhaengen (Re-Run aktualisiert den Inhalt).
+        $pattern = [regex]::Escape($codexBegin) + "[\s\S]*?" + [regex]::Escape($codexEnd)
+        $rest = ([regex]::Replace($existing, $pattern, "")).TrimEnd("`r", "`n")
+        if ($rest.Length -gt 0) { $rest = $rest + "`n`n" }
+        [System.IO.File]::WriteAllText($agents, $rest + $teamBlock, $utf8NoBom)
+        Write-Host "[1/3] Team-Block in AGENTS.md aktualisiert: $agents"
+    } else {
+        # Persoenliche AGENTS.md vorhanden -> Block anhaengen, Inhalt bleibt.
+        Copy-Item $agents "$agents.bak" -Force
+        $rest = $existing.TrimEnd("`r", "`n") + "`n`n"
+        [System.IO.File]::WriteAllText($agents, $rest + $teamBlock, $utf8NoBom)
+        Write-Host "[1/3] Persoenliche AGENTS.md beibehalten; Team-Block angehaengt (Backup: $agents.bak)."
+    }
+}
 
 # --- 2) + 3) Skills nativ kopieren + Command-Wrapper erzeugen -----------------
 $count = 0
@@ -98,7 +119,7 @@ Get-ChildItem -Path $src -Directory | ForEach-Object {
     }
 }
 Write-Host "[2/3] $count Skills nativ installiert -> $skillsDir"
-Write-Host "[3/3] $count Commands erzeugt        -> $promptsDir  (Aufruf: /<name>)"
+Write-Host "[3/3] $count Commands erzeugt        -> $promptsDir  (Aufruf: /prompts:<name>  oder / tippen und auswaehlen)"
 Write-Host ""
 
 # --- 4) Skills-Feature aktivieren --------------------------------------------
@@ -118,6 +139,6 @@ if ($codexCmd) {
 Write-Host ""
 Write-Host "Fertig. Naechste Schritte:"
 Write-Host "  1) Ordner in VS Code oeffnen, 'codex' im Terminal starten, Projekt 'vertrauen'."
-Write-Host "  2) Skills laufen automatisch (Auto-Trigger) ODER explizit per Command, z.B.:  /tdd-workflow"
+Write-Host "  2) Skills triggern primaer AUTOMATISCH (Aufgabe beschreiben). Explizit optional: /prompts:tdd-workflow"
 Write-Host "  3) Der globale System-Prompt (claude-sync.md) gilt jetzt in jeder Codex-Session."
 Write-Host "  4) Fuer die Produktcode-Arbeit zusaetzlich 'Alarmsystem-Dev' klonen (hat eigene AGENTS.md)."

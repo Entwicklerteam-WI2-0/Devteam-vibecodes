@@ -5,7 +5,7 @@
 # Macht:
 #   1) claude-sync.md            -> $CODEX_HOME/AGENTS.md   (globaler System-Prompt)
 #   2) .claude/skills/*/SKILL.md -> $CODEX_HOME/skills/<name>/SKILL.md  (nativ, Auto-Trigger)
-#   3) je Skill ein Command      -> $CODEX_HOME/prompts/<name>.md       (explizit per /<name>)
+#   3) je Skill ein Command      -> $CODEX_HOME/prompts/<name>.md       (explizit per /prompts:<name>)
 #   4) Skills-Feature aktivieren -> codex --enable skills (falls codex installiert)
 #
 # Codex liest AGENTS.md und SKILL.md nativ (gleiches Format wie Claude Code/Kimi).
@@ -39,13 +39,28 @@ echo "  Repo:       $SCRIPT_DIR"
 echo "  Codex-Home: $CODEX_HOME"
 echo ""
 
-# --- 1) Globaler System-Prompt: claude-sync.md -> AGENTS.md -------------------
-if [ -f "$AGENTS" ]; then
+# --- 1) Globaler System-Prompt: Team-Block in AGENTS.md (ADDITIV) ------------
+# Codex garantiert keinen @import-Include in AGENTS.md -> Team-Inhalt wird als
+# markierter Block inline gefuehrt; vorhandene AGENTS.md bleibt erhalten.
+CODEX_BEGIN="<!-- TEAM-OS-G2 BEGIN - verwaltet von setup-codex, nicht editieren -->"
+CODEX_END="<!-- TEAM-OS-G2 END -->"
+
+if [ ! -f "$AGENTS" ]; then
+  { printf '%s\n' "$CODEX_BEGIN"; cat "$SYNC"; printf '\n%s\n' "$CODEX_END"; } > "$AGENTS"
+  echo "[1/3] Globaler System-Prompt angelegt: $AGENTS"
+elif grep -qF "$CODEX_BEGIN" "$AGENTS"; then
+  # Alten Team-Block entfernen, frischen anhaengen (Re-Run aktualisiert den Inhalt).
+  awk -v b="$CODEX_BEGIN" -v e="$CODEX_END" '$0==b{inb=1;next} $0==e{inb=0;next} !inb{print}' "$AGENTS" > "$AGENTS.tmp"
+  { cat "$AGENTS.tmp"; printf '%s\n' "$CODEX_BEGIN"; cat "$SYNC"; printf '\n%s\n' "$CODEX_END"; } > "$AGENTS"
+  rm -f "$AGENTS.tmp"
+  echo "[1/3] Team-Block in AGENTS.md aktualisiert: $AGENTS"
+else
+  # Persoenliche AGENTS.md vorhanden -> Block anhaengen, Inhalt bleibt.
   cp "$AGENTS" "$AGENTS.bak"
-  echo "HINWEIS: vorhandene AGENTS.md gesichert -> $AGENTS.bak"
+  { cat "$AGENTS"; printf '\n'; printf '%s\n' "$CODEX_BEGIN"; cat "$SYNC"; printf '\n%s\n' "$CODEX_END"; } > "$AGENTS.tmp"
+  mv "$AGENTS.tmp" "$AGENTS"
+  echo "[1/3] Persoenliche AGENTS.md beibehalten; Team-Block angehaengt (Backup: $AGENTS.bak)."
 fi
-cp "$SYNC" "$AGENTS"
-echo "[1/3] Globaler System-Prompt gesetzt: $AGENTS"
 
 # --- Hilfsfunktion: Command-Wrapper schreiben (sichere Quoting-Variante) ------
 write_prompt() {
@@ -83,7 +98,7 @@ for d in "$SRC"/*/; do
   count=$((count + 1))
 done
 echo "[2/3] $count Skills nativ installiert -> $SKILLS_DIR"
-echo "[3/3] $count Commands erzeugt        -> $PROMPTS_DIR  (Aufruf: /<name>)"
+echo "[3/3] $count Commands erzeugt        -> $PROMPTS_DIR  (Aufruf: /prompts:<name>  oder / tippen und auswaehlen)"
 echo ""
 
 # --- 4) Skills-Feature aktivieren --------------------------------------------
@@ -101,6 +116,6 @@ fi
 echo ""
 echo "Fertig. Naechste Schritte:"
 echo "  1) Ordner in VS Code oeffnen, 'codex' im Terminal starten, Projekt 'vertrauen'."
-echo "  2) Skills laufen automatisch (Auto-Trigger) ODER explizit per Command, z.B.:  /tdd-workflow"
+echo "  2) Skills triggern primaer AUTOMATISCH (Aufgabe beschreiben). Explizit optional: /prompts:tdd-workflow"
 echo "  3) Der globale System-Prompt (claude-sync.md) gilt jetzt in jeder Codex-Session."
 echo "  4) Fuer die Produktcode-Arbeit zusaetzlich 'Alarmsystem-Dev' klonen (hat eigene AGENTS.md)."
