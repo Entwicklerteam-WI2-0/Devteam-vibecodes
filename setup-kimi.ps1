@@ -5,7 +5,7 @@
 #   1) .claude/skills/*/SKILL.md -> $KIMI_CODE_HOME\skills\<name>\SKILL.md   (nativ, /skill:<name>)
 #   2) .claude/commands/*.md     -> $KIMI_CODE_HOME\skills\<name>\SKILL.md   (Kimi hat KEIN
 #                                   Command-Verzeichnis -> Commands werden Skills: /skill:start)
-#   3) claude-sync.md            -> $KIMI_CODE_HOME\AGENTS.md  (globale Anweisung, additiv)
+#   3) claude-sync.md            -> $KIMI_CODE_HOME\AGENTS.md  (fehlt -> WIRD AGENTS.md; sonst additiv)
 #   Kimi liest ~/.kimi-code/ nativ (gleiches SKILL.md-Format).
 # -------------------------------------------------------------
 $ErrorActionPreference = "Stop"
@@ -79,23 +79,37 @@ if (Test-Path $cmdSrc) {
 }
 Write-Host "[2/3] $ccount Commands als Skills installiert  (Aufruf: /skill:start, /skill:setup)"
 
-# 3) Globale Anweisung -> AGENTS.md (additiv, nie ueberschreiben)
+# 3) Globale Anweisung -> AGENTS.md, 4 Faelle (idempotent, Kimi inline; kein @import):
+#    Fall 1  fehlt           -> claude-sync.md WIRD die AGENTS.md (voll, inline)
+#    Fall 2  hat Team-Block   -> Block auffrischen (bereits erweitert)
+#    Fall 3  Team-Vollkopie   -> AGENTS.md in-place aktualisieren (Backup)
+#    Fall 4  persoenlich      -> Team-Block anhaengen (Backup)
 $kb = "<!-- TEAM-OS-G2 BEGIN - verwaltet von setup-kimi, nicht editieren -->"
 $ke = "<!-- TEAM-OS-G2 END -->"
+$heading = "Globale Agenten-Anweisung (Team-OS G2)"
 $syncText  = [System.IO.File]::ReadAllText($sync, [System.Text.Encoding]::UTF8)
 $teamBlock = $kb + "`n" + $syncText.TrimEnd("`r", "`n") + "`n" + $ke + "`n"
+
 if (-not (Test-Path $kagents)) {
-    [System.IO.File]::WriteAllText($kagents, $teamBlock, $utf8NoBom)
-    Write-Host "[3/3] Globale Anweisung angelegt: $kagents"
+    # Fall 1: keine AGENTS.md -> claude-sync.md wird sie (voll, inline)
+    Copy-Item $sync $kagents -Force
+    Write-Host "[3/3] Keine AGENTS.md gefunden -> claude-sync.md als AGENTS.md gesetzt: $kagents"
 } else {
     $existing = [System.IO.File]::ReadAllText($kagents, [System.Text.Encoding]::UTF8)
     if ($existing -like "*$kb*") {
+        # Fall 2: bereits erweitert -> Team-Block ersetzen/auffrischen
         $pattern = [regex]::Escape($kb) + "[\s\S]*?" + [regex]::Escape($ke)
         $rest = ([regex]::Replace($existing, $pattern, "")).TrimEnd("`r", "`n")
         if ($rest.Length -gt 0) { $rest = $rest + "`n`n" }
         [System.IO.File]::WriteAllText($kagents, $rest + $teamBlock, $utf8NoBom)
-        Write-Host "[3/3] Team-Block in AGENTS.md aktualisiert: $kagents"
+        Write-Host "[3/3] Team-Block in AGENTS.md aufgefrischt: $kagents"
+    } elseif ($existing -like "*$heading*") {
+        # Fall 3: AGENTS.md IST eine Team-OS-Vollkopie -> in-place aktualisieren
+        Copy-Item $kagents "$kagents.bak" -Force
+        Copy-Item $sync $kagents -Force
+        Write-Host "[3/3] Team-OS-Vollkopie erkannt -> AGENTS.md in-place aktualisiert (Backup: $kagents.bak)."
     } else {
+        # Fall 4: persoenliche AGENTS.md -> behalten, Team-Block anhaengen
         Copy-Item $kagents "$kagents.bak" -Force
         $rest = $existing.TrimEnd("`r", "`n") + "`n`n"
         [System.IO.File]::WriteAllText($kagents, $rest + $teamBlock, $utf8NoBom)

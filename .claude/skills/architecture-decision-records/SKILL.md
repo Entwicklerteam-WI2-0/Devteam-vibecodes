@@ -30,7 +30,7 @@ Bewertungs-Parametrisierung, Tooling).
 
 ## Leitplanken
 - Faktisch, belegbasiert, Deutsch. Keine erfundenen Begründungen.
-- Use-Case-Entscheidungen → Logbuch im Code-Repo `Alarmsystem-Dev`; Tooling → `Entscheidungslog-Toolkit.md`.
+- Use-Case-Entscheidungen → Logbuch im Code-Repo `Alarmsystem-Dev`; Tooling → `Entscheidungslog-Lucas/Entscheidungslog-Toolkit.md`.
 
 ## Nicht tun
 - Entscheidungen undokumentiert lassen. Alternativen weglassen (gerade die zählen für die Bewertung).

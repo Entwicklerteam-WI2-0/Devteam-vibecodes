@@ -88,8 +88,10 @@ Devteam-vibecodes/
 │   ├── stand.md                    # Aktueller Stand (Session-Resumé)
 │   └── journal/                    # Tageseinträge (append-only)
 ├── Skill-Plan.md                   # Master-Plan: Taxonomie, Workflow-Punkte, Begründung
-├── Entscheidungslog-Toolkit.md     # Tooling-Entscheidungen (Harness/Modell/Umgebung)
-├── Seam-Sync-Fragenkatalog.md      # Naht-Fragen (Contract G1↔G2↔G3)
+├── Entscheidungslog-Lucas/         # persönl. Entscheidungslogs (Architekt) — jede Datei beginnt mit Datum
+│   ├── Entscheidungslog-Toolkit.md      # Tool-/Modell-/Lizenz-Entscheidungen
+│   └── Lucas-Entscheidungslog.md        # Aufbau Team-OS, Organisationsstruktur, Workflows
+├── Seam-Sync-Fragenkatalog.md       # Naht-Fragen (Contract G1↔G2↔G3)
 ├── gemeinsam/Skills.md             # Geteilte Skills (beide Abteilungen)
 ├── abteilung-backend-entwickler/Skills.md   # Toolkit Backend-Dev
 ├── abteilung-reviewer-tester/Skills.md      # Toolkit Reviewer/Test

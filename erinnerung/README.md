@@ -11,7 +11,7 @@ getrennt → konfliktarm.
 |---|---|
 | `stand.md` | **Konsolidierter Gesamtüberblick**: woran wird gearbeitet, was ist als Nächstes dran, Blocker. Verdichtet der Architekt manuell aus dem Journal. |
 | `journal/<YYYY-MM-DD>.md` | **Detail-Tagebuch pro Tag**: append-only Blöcke je Session/Dev. Das laufende Protokoll, aus dem `stand.md` verdichtet wird. |
-| *(optional)* `entscheidungen.md` | Kurz-Spiegel wichtiger Tooling-Entscheidungen (Detail: `Entscheidungslog-Toolkit.md`). |
+| *(optional)* `entscheidungen.md` | Kurz-Spiegel wichtiger Tooling-Entscheidungen (Detail: `Entscheidungslog-Lucas/Entscheidungslog-Toolkit.md`). |
 | *(optional)* `offene-fragen.md` | Offene Punkte, die noch jemand klären muss. |
 
 ## Regeln

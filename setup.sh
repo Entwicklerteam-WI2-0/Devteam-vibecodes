@@ -2,8 +2,11 @@
 # -------------------------------------------------------------
 # setup.sh - Einmal-Setup Team-OS (macOS / Linux)
 # Aufruf:  bash setup.sh    (oder ./setup.sh nach chmod +x)
-# Macht:   - claude-sync.md  -> eigene Datei ~/.claude/team-os-g2.md
-#          - ADDITIVER @import-Block in ~/.claude/CLAUDE.md (nie ueberschreiben)
+# Macht (globale ~/.claude/CLAUDE.md, 4 Faelle):
+#   - fehlt          -> claude-sync.md WIRD die globale CLAUDE.md (voll, inline)
+#   - hat Import     -> nur ~/.claude/team-os-g2.md auffrischen
+#   - Team-Vollkopie -> CLAUDE.md in-place aktualisieren (Backup)
+#   - persoenlich    -> team-os-g2.md anlegen + additiver @import-Block (Backup)
 # -------------------------------------------------------------
 set -euo pipefail
 
@@ -38,26 +41,32 @@ END="<!-- TEAM-OS-G2 END -->"
 # 1) ~/.claude sicherstellen
 mkdir -p "$CLAUDE_DIR"
 
-# 2) Team-Anweisung als EIGENE Datei (eine Quelle; bei jedem Lauf aktualisiert)
-cp "$SOURCE" "$TEAM_FILE"
-echo "Team-Anweisung aktualisiert: $TEAM_FILE"
+# 2) Globale CLAUDE.md gemaess 4 Faellen behandeln (idempotent):
+#    Fall 1  fehlt         -> claude-sync.md WIRD die CLAUDE.md (voll, inline)
+#    Fall 2  hat Import     -> nur team-os-g2.md auffrischen (bereits erweitert)
+#    Fall 3  Team-Vollkopie -> CLAUDE.md in-place aktualisieren (inline-Mitglied, Re-Run)
+#    Fall 4  persoenlich    -> team-os-g2.md anlegen + Import-Block anhaengen
+HEADING="Globale Agenten-Anweisung (Team-OS G2)"
 
-# 3) Import in die globale CLAUDE.md - ADDITIV, nie ueberschreiben (idempotent)
 if [ ! -f "$TARGET" ]; then
-  { printf '%s\n' "$BEGIN"; printf '%s\n' "$IMPORT"; printf '%s\n' "$END"; } > "$TARGET"
-  echo "Globale CLAUDE.md angelegt mit Team-Import: $TARGET"
+  # Fall 1: keine globale CLAUDE.md -> claude-sync.md wird sie (voll, inline)
+  cp "$SOURCE" "$TARGET"
+  echo "Keine globale CLAUDE.md gefunden -> claude-sync.md als globale CLAUDE.md gesetzt: $TARGET"
 elif grep -qF "$IMPORT" "$TARGET"; then
-  echo "Team-Import bereits vorhanden in CLAUDE.md - nichts zu tun."
-elif grep -q "Globale Agenten-Anweisung (Team-OS G2)" "$TARGET"; then
-  # Frueherer Stand: claude-sync.md wurde direkt hineinkopiert -> auf Import umstellen.
+  # Fall 2: bereits erweitertes Mitglied -> nur Team-Anweisung auffrischen
+  cp "$SOURCE" "$TEAM_FILE"
+  echo "Import bereits vorhanden -> team-os-g2.md aufgefrischt (CLAUDE.md unangetastet): $TEAM_FILE"
+elif grep -qF "$HEADING" "$TARGET"; then
+  # Fall 3: CLAUDE.md IST eine Team-OS-Vollkopie -> in-place aktualisieren
   cp "$TARGET" "$TARGET.bak"
-  { printf '%s\n' "$BEGIN"; printf '%s\n' "$IMPORT"; printf '%s\n' "$END"; } > "$TARGET"
-  echo "Alte Direktkopie erkannt -> auf Import umgestellt (Backup: $TARGET.bak)."
+  cp "$SOURCE" "$TARGET"
+  echo "Team-OS-Vollkopie erkannt -> CLAUDE.md in-place aktualisiert (Backup: $TARGET.bak)."
 else
-  # Persoenliche CLAUDE.md vorhanden -> nur den Block anhaengen, Inhalt bleibt.
+  # Fall 4: persoenliche CLAUDE.md -> behalten; team-os-g2.md + Import anhaengen
+  cp "$SOURCE" "$TEAM_FILE"
   cp "$TARGET" "$TARGET.bak"
   { printf '\n'; printf '%s\n' "$BEGIN"; printf '%s\n' "$IMPORT"; printf '%s\n' "$END"; } >> "$TARGET"
-  echo "Persoenliche CLAUDE.md beibehalten; Team-Import angehaengt (Backup: $TARGET.bak)."
+  echo "Persoenliche CLAUDE.md beibehalten; team-os-g2.md angelegt + Import angehaengt (Backup: $TARGET.bak)."
 fi
 
 # 4) Skills GLOBAL installieren -> in JEDEM Repo verfuegbar (auch Alarmsystem-Dev),

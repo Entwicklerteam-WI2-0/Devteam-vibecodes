@@ -6,7 +6,7 @@
 #   1) .claude/skills/*/SKILL.md -> $KIMI_CODE_HOME/skills/<name>/SKILL.md   (nativ, /skill:<name>)
 #   2) .claude/commands/*.md     -> $KIMI_CODE_HOME/skills/<name>/SKILL.md   (Kimi hat KEIN
 #                                   Command-Verzeichnis -> Commands werden Skills: /skill:start)
-#   3) claude-sync.md            -> $KIMI_CODE_HOME/AGENTS.md  (globale Anweisung, additiv)
+#   3) claude-sync.md            -> $KIMI_CODE_HOME/AGENTS.md  (fehlt -> WIRD AGENTS.md; sonst additiv)
 #   Kimi liest ~/.kimi-code/ nativ (gleiches SKILL.md-Format; KIMI_CODE_HOME wird respektiert).
 # -------------------------------------------------------------
 set -euo pipefail
@@ -59,18 +59,31 @@ if [ -d "$CMD_SRC" ]; then
 fi
 echo "[2/3] $ccount Commands als Skills installiert  (Aufruf: /skill:start, /skill:setup)"
 
-# 3) Globale Anweisung -> AGENTS.md (additiv, nie ueberschreiben)
+# 3) Globale Anweisung -> AGENTS.md, 4 Faelle (idempotent, Kimi inline; kein @import):
+#    Fall 1  fehlt         -> claude-sync.md WIRD die AGENTS.md (voll, inline)
+#    Fall 2  hat Team-Block -> Block auffrischen (bereits erweitert)
+#    Fall 3  Team-Vollkopie -> AGENTS.md in-place aktualisieren (Backup)
+#    Fall 4  persoenlich    -> Team-Block anhaengen (Backup)
 KB="<!-- TEAM-OS-G2 BEGIN - verwaltet von setup-kimi, nicht editieren -->"
 KE="<!-- TEAM-OS-G2 END -->"
+HEADING="Globale Agenten-Anweisung (Team-OS G2)"
 if [ ! -f "$KAGENTS" ]; then
-  { printf '%s\n' "$KB"; cat "$SYNC"; printf '\n%s\n' "$KE"; } > "$KAGENTS"
-  echo "[3/3] Globale Anweisung angelegt: $KAGENTS"
+  # Fall 1: keine AGENTS.md -> claude-sync.md wird sie (voll, inline)
+  cp "$SYNC" "$KAGENTS"
+  echo "[3/3] Keine AGENTS.md gefunden -> claude-sync.md als AGENTS.md gesetzt: $KAGENTS"
 elif grep -qF "$KB" "$KAGENTS"; then
+  # Fall 2: bereits erweitert -> Team-Block auffrischen
   awk -v b="$KB" -v e="$KE" '$0==b{i=1;next} $0==e{i=0;next} !i{print}' "$KAGENTS" > "$KAGENTS.tmp"
   { cat "$KAGENTS.tmp"; printf '%s\n' "$KB"; cat "$SYNC"; printf '\n%s\n' "$KE"; } > "$KAGENTS"
   rm -f "$KAGENTS.tmp"
-  echo "[3/3] Team-Block in AGENTS.md aktualisiert: $KAGENTS"
+  echo "[3/3] Team-Block in AGENTS.md aufgefrischt: $KAGENTS"
+elif grep -qF "$HEADING" "$KAGENTS"; then
+  # Fall 3: AGENTS.md IST eine Team-OS-Vollkopie -> in-place aktualisieren
+  cp "$KAGENTS" "$KAGENTS.bak"
+  cp "$SYNC" "$KAGENTS"
+  echo "[3/3] Team-OS-Vollkopie erkannt -> AGENTS.md in-place aktualisiert (Backup: $KAGENTS.bak)."
 else
+  # Fall 4: persoenliche AGENTS.md -> behalten, Team-Block anhaengen
   cp "$KAGENTS" "$KAGENTS.bak"
   { cat "$KAGENTS"; printf '\n'; printf '%s\n' "$KB"; cat "$SYNC"; printf '\n%s\n' "$KE"; } > "$KAGENTS.tmp"
   mv "$KAGENTS.tmp" "$KAGENTS"

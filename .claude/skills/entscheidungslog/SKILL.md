@@ -16,12 +16,24 @@ Kriterium **„Nachvollziehbarkeit"** ein (40 % Einzelleistung).
 - Spätestens **am Session-Ende** (zusammen mit `save-session`) — Tageseinträge nachtragen.
 
 ## Anlegen (erstes Mal)
-Lege die persönliche Datei mit Kopf an. **Ablageort** gemäß Team-Konvention im Code-Repo
-`Alarmsystem-Dev` (z. B. `Team-Organisation+Regeln.md` / `03-abgaben/`) — **nicht erfinden**, im Zweifel
-mit Lucas/Team abstimmen. Dateiname mit eigenem Namen, z. B. `entscheidungslog-<name>.md`.
+
+**Ablageort — nach Entscheidungstyp:**
+- **Team-OS-/Tooling-Entscheidungen** (Aufbau des Werkzeugkastens, Stack-/Modellwahl, Organisationsstruktur,
+  Workflows der Abteilungen) → eigener Ordner **`Entscheidungslog-Lucas/`** in **diesem** Repo
+  (`Devteam-vibecodes`). Dort liegen bereits:
+  - `Entscheidungslog-Toolkit.md` — Tool-/Modell-/Lizenz-Entscheidungen,
+  - `Lucas-Entscheidungslog.md` — Aufbau Team-OS, Organisationsstruktur, Workflows der Abteilungen.
+- **Produktcode-Entscheidungen** (Backend-Devs) → Code-Repo `Alarmsystem-Dev` per Team-Konvention —
+  **nicht erfinden**, im Zweifel mit Lucas/Team abstimmen.
+- Allgemeines Muster für ein persönliches Log: Ordner `Entscheidungslog-<Name>/`, sprechender Dateiname.
+
+**Datums-Konvention (verbindlich):** Jede Log-Datei **beginnt im obersten Abschnitt mit einem Datum** —
+dem **Erstellungsdatum bzw. der letzten Bearbeitung** (Format `YYYY-MM-DD`). Sammelt eine Datei
+Entscheidungen über mehrere Tage, zusätzlich einen **Zeitraum** (von–bis) angeben.
 
 ```markdown
 # Persönliches Entscheidungslog — <Vorname Nachname> (G2)
+> **Erstellt / letzte Bearbeitung:** YYYY-MM-DD  ·  *(bei Sammel-Logs:)* **Zeitraum:** YYYY-MM-DD bis YYYY-MM-DD
 > Eigene technische Entscheidungen + Begründung. Bewertungsrelevant (Nachvollziehbarkeit).
 ```
 

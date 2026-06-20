@@ -39,4 +39,4 @@ Der Stack wird **zunächst nur für Claude Code** gebaut — die **meisten Membe
 - Die geteilte Anweisung (`claude-sync.md`) ist **harness-neutral** → portierbar (Claude→`~/.claude/CLAUDE.md`,
   Codex→`AGENTS.md`, Kimi→Config noch zu verifizieren).
 - **ECC-Skills/Hooks/Commands bleiben Claude-Code-spezifisch** — auf Kimi/Codex nicht verfügbar; daher
-  bleibt Claude der **empfohlene** Standard (Qualitäts-/Methodentreue-Absicherung, vgl. `Entscheidungslog-Toolkit.md`).
+  bleibt Claude der **empfohlene** Standard (Qualitäts-/Methodentreue-Absicherung, vgl. `Entscheidungslog-Lucas/Entscheidungslog-Toolkit.md`).

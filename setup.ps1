@@ -1,8 +1,11 @@
 # -------------------------------------------------------------
 # setup.ps1 - Einmal-Setup Team-OS (Windows / PowerShell)
 # Aufruf:  powershell -ExecutionPolicy Bypass -File setup.ps1
-# Macht:   - claude-sync.md  -> eigene Datei ~/.claude/team-os-g2.md
-#          - ADDITIVER @import-Block in ~/.claude/CLAUDE.md (nie ueberschreiben)
+# Macht (globale ~/.claude/CLAUDE.md, 4 Faelle):
+#   - fehlt          -> claude-sync.md WIRD die globale CLAUDE.md (voll, inline)
+#   - hat Import     -> nur ~/.claude/team-os-g2.md auffrischen
+#   - Team-Vollkopie -> CLAUDE.md in-place aktualisieren (Backup)
+#   - persoenlich    -> team-os-g2.md anlegen + additiver @import-Block (Backup)
 # -------------------------------------------------------------
 $ErrorActionPreference = "Stop"
 
@@ -51,29 +54,35 @@ if (-not (Test-Path $claudeDir)) {
 $utf8NoBom = New-Object System.Text.UTF8Encoding($false)
 $block = (@($begin, $import, $end) -join "`n") + "`n"
 
-# 2) Team-Anweisung als EIGENE Datei (eine Quelle; bei jedem Lauf aktualisiert)
-Copy-Item $source $teamFile -Force
-Write-Host "Team-Anweisung aktualisiert: $teamFile"
+# 2) Globale CLAUDE.md gemaess 4 Faellen behandeln (idempotent):
+#    Fall 1  fehlt           -> claude-sync.md WIRD die CLAUDE.md (voll, inline)
+#    Fall 2  hat Import       -> nur team-os-g2.md auffrischen (bereits erweitert)
+#    Fall 3  Team-Vollkopie   -> CLAUDE.md in-place aktualisieren (inline-Mitglied, Re-Run)
+#    Fall 4  persoenlich      -> team-os-g2.md anlegen + Import-Block anhaengen
+$heading = "Globale Agenten-Anweisung (Team-OS G2)"
 
-# 3) Import in die globale CLAUDE.md - ADDITIV, nie ueberschreiben (idempotent)
 if (-not (Test-Path $target)) {
-    [System.IO.File]::WriteAllText($target, $block, $utf8NoBom)
-    Write-Host "Globale CLAUDE.md angelegt mit Team-Import: $target"
+    # Fall 1: keine globale CLAUDE.md -> claude-sync.md wird sie (voll, inline)
+    Copy-Item $source $target -Force
+    Write-Host "Keine globale CLAUDE.md gefunden -> claude-sync.md als globale CLAUDE.md gesetzt: $target"
 } else {
     $content = [System.IO.File]::ReadAllText($target, [System.Text.Encoding]::UTF8)
     if ($content -like "*$import*") {
-        Write-Host "Team-Import bereits vorhanden in CLAUDE.md - nichts zu tun."
-    } elseif ($content -like "*Globale Agenten-Anweisung (Team-OS G2)*") {
-        # Frueherer Stand: claude-sync.md wurde direkt hineinkopiert -> auf Import umstellen.
+        # Fall 2: bereits erweitertes Mitglied -> nur Team-Anweisung auffrischen
+        Copy-Item $source $teamFile -Force
+        Write-Host "Import bereits vorhanden -> team-os-g2.md aufgefrischt (CLAUDE.md unangetastet): $teamFile"
+    } elseif ($content -like "*$heading*") {
+        # Fall 3: CLAUDE.md IST eine Team-OS-Vollkopie -> in-place aktualisieren
         Copy-Item $target "$target.bak" -Force
-        [System.IO.File]::WriteAllText($target, $block, $utf8NoBom)
-        Write-Host "Alte Direktkopie erkannt -> auf Import umgestellt (Backup: $target.bak)."
+        Copy-Item $source $target -Force
+        Write-Host "Team-OS-Vollkopie erkannt -> CLAUDE.md in-place aktualisiert (Backup: $target.bak)."
     } else {
-        # Persoenliche CLAUDE.md vorhanden -> nur den Block anhaengen, Inhalt bleibt.
+        # Fall 4: persoenliche CLAUDE.md -> behalten; Team-Anweisung als eigene Datei + Import anhaengen
+        Copy-Item $source $teamFile -Force
         Copy-Item $target "$target.bak" -Force
         $newContent = $content.TrimEnd("`r", "`n") + "`n`n" + $block
         [System.IO.File]::WriteAllText($target, $newContent, $utf8NoBom)
-        Write-Host "Persoenliche CLAUDE.md beibehalten; Team-Import angehaengt (Backup: $target.bak)."
+        Write-Host "Persoenliche CLAUDE.md beibehalten; team-os-g2.md angelegt + Import angehaengt (Backup: $target.bak)."
     }
 }
 

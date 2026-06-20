@@ -3,7 +3,7 @@
 > **Zweck:** Nachvollziehbare Dokumentation der Toolkit-/Tooling-Entscheidungen für das Team-OS in
 > diesem Repo (`Devteam-vibecodes`). **Nicht** die Produktarchitektur — die steht im
 > `Alarmsystem-Dev/02-Arbeitsdokumente/Entscheidungslog-Lucas-Systemarchitektur.md` (dort gespiegelt als E-24…E-27).
-> **Stand:** 2026-06-17 · **Autor:** Vöhringer, Lucas (Systemarchitekt) · **Status:** Beschlossen
+> **Erstellt / letzte Bearbeitung:** 2026-06-17 · **Stand:** 2026-06-17 · **Autor:** Vöhringer, Lucas (Systemarchitekt) · **Status:** Beschlossen
 > **Bezug:** `CLAUDE.md` §6/§8 · `Skill-Plan.md` · `gemeinsam/Skills.md` · `abteilung-*/Skills.md`
 
 ---
