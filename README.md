@@ -4,7 +4,7 @@
 > Hier liegt **nicht der Produktcode**, sondern das **Team-Betriebssystem**: eine einheitliche,
 > lokal laufende KI-Agenten-Umgebung — geteilte **Anweisung**, **Skills**, Hooks und Setup —, mit der
 > das Team produktiv und regelkonform im **echten Code-Repo** arbeitet.
-> Self-contained: **ein Klon + ein Setup-Befehl**, kein Plugin nötig. Sprache aller Artefakte: **Deutsch**.
+> Self-contained: **ein Klon + ein Setup-Befehl**, kein Marketplace-Plugin nötig (das Setup baut lokal ein `uni`-Plugin). Sprache aller Artefakte: **Deutsch**.
 
 ---
 
@@ -45,6 +45,8 @@ Danach: Ordner in **VS Code** öffnen → `claude` starten → „Projekt vertra
 **Beim allerersten Lauf** startet ein kurzes **Rollen-Bootstrap** (Abteilung? bei Backend: Dev oder
 Database-Engineer?) — danach plant der Agent jede Session entlang deines Abteilungs-Workflows und signiert
 deine Erinnerungs-Einträge mit deiner Rolle.
+
+> Details zum Bootstrap: [`bootstrap.md`](bootstrap.md).
 
 **3b. Setup — Kimi Code (Alternative)**
 ```bash
@@ -103,15 +105,18 @@ Devteam-vibecodes/
 ├── setup-codex.ps1 / setup-codex.sh# Setup Codex CLI: AGENTS.md + Skills + Commands → ~/.codex/
 ├── update.ps1 / update.sh          # Update: git pull + Setup erneut (Version alt → neu); auch via /update
 ├── VERSION                         # Tooling-Version (SemVer) — plus Git-Tags vX.Y.Z
+├── .gitattributes / .gitignore     # EOL-Normalisierung (sh=LF, ps1=CRLF) bzw. Ignore-Regeln
 ├── ONBOARDING.md                   # 3-Schritte-Startanleitung (alle CLIs)
+├── bootstrap.md                    # Rollen-Bootstrap erklärt (was beim 1. uni:start passiert)
 ├── .github/
 │   └── workflows/                  # CI: claude.yml (Issue-Trigger), claude-code-review.yml (PR-Review)
 ├── .claude/
 │   ├── settings.json               # Aktive Hooks (SessionStart-Hinweis)
 │   ├── commands/                   # start -> uni:start (ins uni-Plugin); /setup + /update bleiben global
 │   ├── hooks/                      # Hook-Blueprint (RB-01-Guard, Secret-Scan, Schema-Diff — geplant)
-│   └── skills/                     # 36 SKILLS (je eine SKILL.md — via setup global installiert)
+│   └── skills/                     # 36 SKILLS (je eine SKILL.md — via setup als uni-Plugin installiert)
 ├── erinnerung/                     # Geteiltes Projektgedächtnis (von uni:start geladen)
+│   ├── README.md                   # erklärt das Erinnerungs-System
 │   ├── stand.md                    # Aktueller Stand (Session-Resumé)
 │   └── journal/                    # Tageseinträge (append-only)
 ├── Skill-Plan.md                   # Master-Plan: Taxonomie, Workflow-Punkte, Begründung
@@ -160,10 +165,12 @@ Devteam-vibecodes/
   Sicherheit — **projektneutral**. Use-Case-Fakten (Schwellenwerte, RB-01-Werte, Phasen) bleiben im
   Code-Repo `Alarmsystem-Dev` und werden von dort gelesen, nicht hier dupliziert.
 - **Skills reisen mit dem Repo:** echte `SKILL.md` unter `.claude/skills/` — kein ECC-Plugin nötig.
-  `setup` installiert sie **global** — Claude nach `~/.claude/skills/`, Kimi nach `~/.kimi-code/skills/`,
-  Codex nach `~/.codex/skills/` — damit sie in **jedem** Repo greifen, nicht nur im Tooling-Repo.
-- **Standards als Hooks:** wiederkehrende Qualitäts-/Sicherheitsregeln werden als Hooks erzwungen
-  (RB-01-Guard, Secret-Scan, OpenAPI-Schema-Diff — geplant/in Einrichtung), nicht nur im Review erhofft.
+  `setup` installiert sie **global** — Claude als `uni`-Plugin nach `~/.claude/skills/uni/` (Aufruf `uni:<name>`),
+  Kimi nach `~/.kimi-code/skills/` (`/skill:<name>`), Codex nach `~/.codex/skills/` (`/prompts:<name>`) —
+  damit sie in **jedem** Repo greifen, nicht nur im Tooling-Repo.
+- **Standards als Hooks (geplant):** Aktuell ist **nur ein SessionStart-Hinweis** aktiv. Die
+  Enforcement-Hooks (RB-01-Guard, Secret-Scan, OpenAPI-Schema-Diff) sind **Phase 2 — noch nicht verdrahtet**;
+  bis dahin tragen **menschliches Review + GitHub Branch Protection** die Durchsetzung.
 - **CI-Workflows:** `.github/workflows/claude.yml` reagiert auf Issue-/PR-Kommentare mit `@claude`-Trigger;
   `claude-code-review.yml` löst automatische PR-Reviews aus.
 

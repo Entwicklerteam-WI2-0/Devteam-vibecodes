@@ -5,7 +5,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "echo \"Tipp: mit /start beginnen - laedt Stand, Regeln und Git-Status.\""
+            "command": "echo \"Tipp: mit /uni:start beginnen - laedt Stand, Regeln und Git-Status.\""
           }
         ]
       }
