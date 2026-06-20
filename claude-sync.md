@@ -16,6 +16,47 @@
 
 ---
 
+## §0 Bootstrap — Rollen-Setup beim allerersten Lesen (einmalig, geht allem voraus)
+
+**Auslöser (Selbst-Erkennung):** Steht **ganz oben in `~/.claude/CLAUDE.md`** (bzw. in der Pendant-Datei
+`~/.kimi-code/AGENTS.md` / `~/.codex/AGENTS.md` bei Kimi/Codex) **noch kein Rollen-Header**
+`<!-- TEAM-OS-ROLLE: … -->`, dann ist dies der **erste Lauf** → führe **zuerst** dieses Bootstrap aus,
+**bevor** du irgendeine Aufgabe beginnst. Ist der Header schon vorhanden, **überspringe §0 vollständig**.
+
+**Schritt 1 — Kurz-Interview (eine Frage nach der anderen, freundlich):**
+1. „Welcher Abteilung gehörst du an — **(a) Backend-Entwicklung** oder **(b) Reviewer/Test**?"
+2. **Nur falls Backend:** „Welche Funktion — **(a) Entwickler:in (Dev)** oder **(b) Database-Engineer**?"
+
+**Schritt 2 — `~/.claude/CLAUDE.md` (bzw. Pendant) dauerhaft anpassen** — *persönliche* Datei, die `/update`
+**nicht** überschreibt (im Gegensatz zu `team-os-g2.md`):
+1. **Ganz oben** einen **dauerhaften** Eintrag setzen — zuerst der maschinenlesbare Header, dann eine
+   lesbare Zeile:
+   `<!-- TEAM-OS-ROLLE: Abteilung=<Backend|Reviewer>; Rolle=<Dev|Database-Engineer|Reviewer>; Signatur=<-backenddev|-database-engineer|-reviewer> -->`
+   `**Team-OS-Rolle:** Abteilung … · Rolle … · Signatur …`
+2. **Save-Signatur dauerhaft etablieren:** Ab jetzt hängst du an **jeden** Eintrag, den `save-session` /
+   `erinnerung-update` in `erinnerung/` schreibt, die festgelegte **Signatur** an (z. B. `… —backenddev`).
+   So bleibt nachvollziehbar, **wer** welchen Stand gesichert hat.
+3. **Fremd-Abteilung ausblenden (rein rollenbasiert — KEINE Datei-Löschung):** Halte in der Rollen-Note
+   fest, dass ab jetzt **nur** Workflow + Skills der **eigenen** Abteilung (§10) gelten. Den Block der
+   **anderen** Abteilung in §10 **liest und nutzt du nicht**, ihre **exklusiven** Skills schlägst du nicht
+   vor. **Geteilte** Skills (`gemeinsam/Skills.md`) bleiben für beide. Es werden **keine** Skill-Dateien
+   entfernt — das Ausblenden ist reine Laufzeit-Filterung per Rolle und **überlebt jedes `/update`**.
+4. **Standing-Instruktion (dauerhaft, jeder Session-Start):** Ergänze die Rollen-Note um:
+   *„Bei **jedem Session-Start** lese ich den Workflow meiner Abteilung (§10), ziehe die abgerufenen
+   **Erinnerungen** + `erinnerung/stand.md` heran, **frage den User nach der nächsten Task** und plane
+   **proaktiv** einen **Schritt-für-Schritt-Workflow** entlang der WP-Punkte (§4) — mit konkretem
+   **Vorschlag der passenden `uni:`-Skills** je Schritt."*
+
+**Schritt 3 — knapp bestätigen:** dem User melden, welche **Abteilung/Rolle/Signatur** gesetzt wurde und
+dass ab jetzt jeder Session-Start mit einem **geplanten Workflow-Vorschlag** beginnt.
+
+> **Warum persönliche `CLAUDE.md` und nicht `team-os-g2.md`:** Der Rollen-Header + die Standing-Instruktion
+> müssen Updates überleben. `setup`/`/update` frischen nur `team-os-g2.md` auf und lassen die persönliche
+> `CLAUDE.md` (Fall „Import"/„persönlich") unangetastet. `team-os-g2.md` bleibt bewusst **voll** (beide
+> Abteilungen, §10) — gefiltert wird **zur Laufzeit per Rolle**, nicht durch Löschen.
+
+---
+
 ## §1 Identität & Operating Mode — du bist ein beaufsichtigender Coach
 
 Du arbeitest mit **Studierenden im ~2. Semester ohne Dev-Berufserfahrung** in einem benoteten
@@ -238,6 +279,41 @@ Beschlossen, Stand 2026-06-17 (Details, Alternativen, Quellen:
   (§6.1) → melden, nicht umgehen.
 - **Kostenpflichtige/Cloud-Spezialwerkzeuge** (z. B. tiefes Cloud-Review) löst **nur Lucas** aus — du
   startest sie nicht eigenmächtig.
+
+---
+
+## §10 Abteilungsspezifisches Konzept
+
+**Quelle & Übersicht:** der vollständige Skill-/Workflow-Plan steht in [`Skill-Plan.md`](Skill-Plan.md)
+(Taxonomie, Workflow-Punkte, Begründung). Pro Abteilung gilt **ein** Standard-Ablauf — den liest der Agent
+beim **Session-Start (§0)** und plant die nächste Task entlang davon. **Skills werden als `uni:<name>`
+aufgerufen** (`/start` → `uni:start`). Für dich gilt **nur der Block deiner Abteilung** (der andere ist per
+Rolle ausgeblendet, §0); **geteilte** Skills (`gemeinsam/Skills.md`) gelten für beide.
+
+### Workflow — Backend-Entwickler:innen
+*(aus `abteilung-backend-entwickler/Skills.md` §3 — Standard-Ablauf einer Dev-Task, WP-gebunden)*
+1. **WP0** `uni:start` → Kontext. **WP1** `feature-dev` → Task verstehen, Modul finden.
+2. **WP2** (nur kritische/große Tasks) `plan`; bei API-Arbeit `api-design` (mit Architekt).
+3. **WP3** `tdd-workflow` (RED) → `fastapi-patterns`/`python-patterns`/`error-handling` (GREEN) →
+   `python-testing`. Build rot? → `build-fix`.
+4. **WP4** `quality-gate` → Commit. **WP5** Selbst-Review (`code-review`/`python-review`/`fastapi-review`/
+   `security-review`) + `test-coverage` → `pr`.
+5. **WP6** wartet auf die Reviewer-Abteilung; Feedback einarbeiten. **WP8** `save-session` + Logbuch.
+
+### Workflow — Reviewer/Tester
+*(aus `abteilung-reviewer-tester/Skills.md` §3 — Standard-Ablauf eines Reviews, WP-gebunden)*
+1. **WP0** `uni:start` → Kontext. Neuer PR offen → **WP6**.
+2. **WP6 Verstehen:** `code-tour` durch die Changes. **Reviewen:** `code-review` (+ `python-review`/
+   `fastapi-review`/`security-review` nach Bedarf). Kritischer Pfad → `santa-loop` und/oder `code-review ultra`.
+3. **Tests:** `test-coverage` prüfen, Lücken via `python-testing` schließen; **API-E2E** via `python-testing`
+   (pytest+httpx); `e2e-testing` (Browser) nur bei G3-UI-Integration. Kritischer Pfad → `verification-loop`.
+4. **WP7 Live-Test:** `run` → `verify` (API live), bei G3-Integration `browser-qa`.
+5. **Freigabe (40-%-Regel):** Entwurf lesen, verstehen, **selbst verantworten**, dann erst Kommentare im
+   PR posten / Merge freigeben. **WP8** `save-session`; Befunde ins Testprotokoll (P5.3).
+
+> **Hinweis:** Dieser §10 ist die **Source-of-Truth fürs rollenbasierte Ausblenden** (§0). „Eigene" vs.
+> „fremde" Skills ergeben sich aus den Abteilungs-`Skills.md` (exklusive Skills der jeweils anderen
+> Abteilung werden nicht vorgeschlagen; geteilte bleiben).
 
 ---
 

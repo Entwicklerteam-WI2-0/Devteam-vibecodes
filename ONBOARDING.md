@@ -55,10 +55,15 @@ primär automatisch (Aufgabe beschreiben) oder explizit per `/prompts:<name>`.
 1. Ordner in **VS Code** öffnen.
 2. Im integrierten Terminal **`claude`** starten.
 3. Beim ersten Mal **„Projekt vertrauen"** bestätigen.
-4. **`/start`** tippen → Stand, Regeln und Git-Status werden geladen.
+4. **`/uni:start`** tippen → Stand, Regeln und Git-Status werden geladen.
+   **Beim allerersten Mal** läuft ein kurzes **Rollen-Bootstrap**: du wählst deine Abteilung
+   (Backend-Entwicklung / Reviewer-Test; bei Backend zusätzlich: **Dev** oder **Database-Engineer**).
+   Danach plant der Agent jede Session entlang deines Abteilungs-Workflows und signiert deine
+   Erinnerungs-Einträge mit deiner Rolle.
 
-Das Setup installiert Skills + Commands **global** (`~/.claude/skills/` + `~/.claude/commands/`) — sie greifen
-in **jedem** Repo (auch `Alarmsystem-Dev`), nicht nur hier. Du musst nichts einzeln einrichten.
+Das Setup installiert die Skills als **`uni`-Plugin** (`~/.claude/skills/uni/` → Aufruf **`uni:<skill>`**,
+kollisionsfrei neben einem evtl. installierten ECC-Stack) und die Commands `/setup` + `/update` global — sie
+greifen in **jedem** Repo (auch `Alarmsystem-Dev`), nicht nur hier. Du musst nichts einzeln einrichten.
 
 ## Für die Produktcode-Arbeit
 Zum Bauen am eigentlichen System zusätzlich das **Arbeitsrepo** `Alarmsystem-Dev` klonen und dessen
@@ -80,7 +85,8 @@ geladen werden. In Claude Code geht das nach dem ersten Setup auch per Slash-Com
 ---
 
 ### Wenn etwas klemmt
-- **`claude` kennt `/start` nicht** → du bist im falschen Ordner; ins geklonte `Devteam-vibecodes` wechseln.
+- **`claude` kennt `uni:start` nicht** → du bist im falschen Ordner (ins geklonte `Devteam-vibecodes` wechseln)
+  oder das uni-Plugin ist nicht installiert → `setup` erneut laufen lassen, dann Claude Code neu starten.
 - **Globale CLAUDE.md kam nicht an** → prüfen, ob `~/.claude/CLAUDE.md` existiert; ggf. `claude-sync.md`
   manuell dorthin kopieren (siehe Skript-Ausgabe).
 - **Sonst:** Lucas fragen — nicht raten.

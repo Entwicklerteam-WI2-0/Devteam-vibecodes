@@ -37,6 +37,7 @@ TEAM_FILE="$CLAUDE_DIR/team-os-g2.md"
 IMPORT="@~/.claude/team-os-g2.md"
 BEGIN="<!-- TEAM-OS-G2 BEGIN - verwaltet von setup, nicht editieren -->"
 END="<!-- TEAM-OS-G2 END -->"
+UNI_DIR="$CLAUDE_DIR/skills/uni"   # Skills-Dir-Plugin -> Namespace uni: (kollisionsfrei neben ecc:)
 
 # 1) ~/.claude sicherstellen
 mkdir -p "$CLAUDE_DIR"
@@ -69,40 +70,60 @@ else
   echo "Persoenliche CLAUDE.md beibehalten; team-os-g2.md angelegt + Import angehaengt (Backup: $TARGET.bak)."
 fi
 
-# 4) Skills GLOBAL installieren -> in JEDEM Repo verfuegbar (auch Alarmsystem-Dev),
-#    nicht nur wenn man in diesem Tooling-Repo sitzt.
+# 4) Skills als 'uni'-Plugin GLOBAL installieren -> Namespace uni: (kollisionsfrei neben ecc:).
+#    Migration: alte FLACHE Team-Skill-Installationen entfernen (sonst Dubletten bei ECC-Nutzern).
 SKILLS_SRC="$SCRIPT_DIR/.claude/skills"
-SKILLS_DST="$CLAUDE_DIR/skills"
 if [ -d "$SKILLS_SRC" ]; then
+  mkdir -p "$UNI_DIR/.claude-plugin" "$UNI_DIR/skills" "$UNI_DIR/commands"
+  cat > "$UNI_DIR/.claude-plugin/plugin.json" <<'JSON'
+{
+  "name": "uni",
+  "version": "1.0.0",
+  "description": "Team-OS G2 Skills & Commands - Namespace uni: (kollisionsfrei neben ecc:)",
+  "skills": ["./skills/"],
+  "commands": ["./commands/"]
+}
+JSON
   scount=0
   for d in "$SKILLS_SRC"/*/; do
     [ -d "$d" ] || continue
     [ -f "${d}SKILL.md" ] || continue
     name="$(basename "$d")"
-    mkdir -p "$SKILLS_DST/$name"
-    cp "${d}SKILL.md" "$SKILLS_DST/$name/SKILL.md"
+    mkdir -p "$UNI_DIR/skills/$name"
+    cp "${d}SKILL.md" "$UNI_DIR/skills/$name/SKILL.md"
+    # Migration: evtl. vorhandene ALTE flache Installation desselben Skills entfernen
+    if [ "$name" != "uni" ] && [ -d "$CLAUDE_DIR/skills/$name" ]; then
+      rm -rf "$CLAUDE_DIR/skills/$name"
+    fi
     scount=$((scount + 1))
   done
-  echo "Skills global installiert: $scount -> $SKILLS_DST"
+  echo "Skills als uni-Plugin installiert: $scount -> $UNI_DIR/skills  (Aufruf: uni:<skill>)"
 fi
 
-# 5) Commands GLOBAL installieren (/start, /setup ueberall verfuegbar)
+# 5) Commands installieren: 'start' ins uni-Plugin (-> uni:start);
+#    setup/update bleiben GLOBAL (muessen vor dem Plugin nutzbar sein).
 CMD_SRC="$SCRIPT_DIR/.claude/commands"
 CMD_DST="$CLAUDE_DIR/commands"
 if [ -d "$CMD_SRC" ]; then
-  mkdir -p "$CMD_DST"
+  mkdir -p "$CMD_DST" "$UNI_DIR/commands"
   ccount=0
   for f in "$CMD_SRC"/*.md; do
     [ -f "$f" ] || continue
-    cp "$f" "$CMD_DST/$(basename "$f")"
+    bn="$(basename "$f")"
+    if [ "$bn" = "start.md" ]; then
+      cp "$f" "$UNI_DIR/commands/start.md"
+      rm -f "$CMD_DST/start.md"     # Migration: altes flaches /start entfernen
+    else
+      cp "$f" "$CMD_DST/$bn"
+    fi
     ccount=$((ccount + 1))
   done
-  echo "Commands global installiert: $ccount -> $CMD_DST"
+  echo "Commands installiert: setup/update global -> $CMD_DST ; start -> uni:start"
 fi
 
 echo ""
 echo "Fertig. Naechste Schritte:"
 echo "  1) Ordner in VS Code oeffnen"
 echo "  2) 'claude' im integrierten Terminal starten"
-echo "  3) Projekt einmal 'vertrauen', dann '/start' tippen"
+echo "  3) Projekt einmal 'vertrauen', dann 'uni:start' tippen (beim 1. Mal startet das Rollen-Bootstrap)"
 echo "  4) Fuer die Produktcode-Arbeit zusaetzlich das Arbeitsrepo 'Alarmsystem-Dev' klonen + dessen Setup ausfuehren."

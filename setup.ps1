@@ -43,6 +43,7 @@ $teamFile  = Join-Path $claudeDir "team-os-g2.md"
 $import    = "@~/.claude/team-os-g2.md"
 $begin     = "<!-- TEAM-OS-G2 BEGIN - verwaltet von setup, nicht editieren -->"
 $end       = "<!-- TEAM-OS-G2 END -->"
+$uniDir    = Join-Path $claudeDir "skills/uni"   # Skills-Dir-Plugin -> Namespace uni: (kollisionsfrei neben ecc:)
 
 # 1) ~/.claude sicherstellen
 if (-not (Test-Path $claudeDir)) {
@@ -86,40 +87,64 @@ if (-not (Test-Path $target)) {
     }
 }
 
-# 4) Skills GLOBAL installieren -> in JEDEM Repo verfuegbar (auch Alarmsystem-Dev),
-#    nicht nur wenn man in diesem Tooling-Repo sitzt.
+# 4) Skills als 'uni'-Plugin GLOBAL installieren -> Namespace uni: (kollisionsfrei neben ecc:).
+#    Migration: alte FLACHE Team-Skill-Installationen entfernen (sonst Dubletten bei ECC-Nutzern).
 $skillsSrc = Join-Path $scriptDir ".claude/skills"
-$skillsDst = Join-Path $claudeDir "skills"
 if (Test-Path $skillsSrc) {
+    New-Item -ItemType Directory -Force -Path (Join-Path $uniDir ".claude-plugin") | Out-Null
+    New-Item -ItemType Directory -Force -Path (Join-Path $uniDir "skills")        | Out-Null
+    New-Item -ItemType Directory -Force -Path (Join-Path $uniDir "commands")      | Out-Null
+    $pluginJson = @'
+{
+  "name": "uni",
+  "version": "1.0.0",
+  "description": "Team-OS G2 Skills & Commands - Namespace uni: (kollisionsfrei neben ecc:)",
+  "skills": ["./skills/"],
+  "commands": ["./commands/"]
+}
+'@
+    [System.IO.File]::WriteAllText((Join-Path $uniDir ".claude-plugin/plugin.json"), $pluginJson, $utf8NoBom)
     $scount = 0
     Get-ChildItem -Path $skillsSrc -Directory | ForEach-Object {
         $skillFile = Join-Path $_.FullName "SKILL.md"
         if (Test-Path $skillFile) {
-            $t = Join-Path $skillsDst $_.Name
+            $name = $_.Name
+            $t = Join-Path $uniDir "skills/$name"
             New-Item -ItemType Directory -Force -Path $t | Out-Null
             Copy-Item $skillFile (Join-Path $t "SKILL.md") -Force
+            # Migration: evtl. vorhandene ALTE flache Installation desselben Skills entfernen
+            $oldFlat = Join-Path $claudeDir "skills/$name"
+            if (($name -ne "uni") -and (Test-Path $oldFlat)) { Remove-Item -Recurse -Force $oldFlat }
             $scount++
         }
     }
-    Write-Host "Skills global installiert: $scount -> $skillsDst"
+    Write-Host "Skills als uni-Plugin installiert: $scount -> $uniDir\skills  (Aufruf: uni:<skill>)"
 }
 
-# 5) Commands GLOBAL installieren (/start, /setup ueberall verfuegbar)
+# 5) Commands installieren: 'start' ins uni-Plugin (-> uni:start);
+#    setup/update bleiben GLOBAL (muessen vor dem Plugin nutzbar sein).
 $cmdSrc = Join-Path $scriptDir ".claude/commands"
 $cmdDst = Join-Path $claudeDir "commands"
 if (Test-Path $cmdSrc) {
     New-Item -ItemType Directory -Force -Path $cmdDst | Out-Null
+    New-Item -ItemType Directory -Force -Path (Join-Path $uniDir "commands") | Out-Null
     $ccount = 0
     Get-ChildItem -Path $cmdSrc -Filter *.md -File | ForEach-Object {
-        Copy-Item $_.FullName (Join-Path $cmdDst $_.Name) -Force
+        if ($_.Name -eq "start.md") {
+            Copy-Item $_.FullName (Join-Path $uniDir "commands/start.md") -Force
+            $oldStart = Join-Path $cmdDst "start.md"   # Migration: altes flaches /start entfernen
+            if (Test-Path $oldStart) { Remove-Item -Force $oldStart }
+        } else {
+            Copy-Item $_.FullName (Join-Path $cmdDst $_.Name) -Force
+        }
         $ccount++
     }
-    Write-Host "Commands global installiert: $ccount -> $cmdDst"
+    Write-Host "Commands installiert: setup/update global -> $cmdDst ; start -> uni:start"
 }
 
 Write-Host ""
 Write-Host "Fertig. Naechste Schritte:"
 Write-Host "  1) Ordner in VS Code oeffnen"
 Write-Host "  2) 'claude' im integrierten Terminal starten"
-Write-Host "  3) Projekt einmal 'vertrauen', dann '/start' tippen"
+Write-Host "  3) Projekt einmal 'vertrauen', dann 'uni:start' tippen (beim 1. Mal startet das Rollen-Bootstrap)"
 Write-Host "  4) Fuer die Produktcode-Arbeit zusaetzlich das Arbeitsrepo 'Alarmsystem-Dev' klonen + dessen Setup ausfuehren."

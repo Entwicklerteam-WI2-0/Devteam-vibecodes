@@ -38,9 +38,13 @@ powershell -ExecutionPolicy Bypass -File .\setup.ps1 # Windows (als Datei starte
 ```
 Legt `claude-sync.md` als eigene Datei `~/.claude/team-os-g2.md` ab und ergänzt die globale `~/.claude/CLAUDE.md`
 **additiv** um einen `@import`-Block — eine vorhandene persönliche `CLAUDE.md` bleibt erhalten (Backup wird angelegt).
-Installiert außerdem alle **Skills + Commands global** nach `~/.claude/skills/` bzw. `~/.claude/commands/` —
-so sind sie in **jedem** Repo verfügbar (auch im Code-Repo `Alarmsystem-Dev`), nicht nur in diesem Tooling-Repo.
-Danach: Ordner in **VS Code** öffnen → `claude` starten → „Projekt vertrauen" → **`/start`** tippen.
+Installiert außerdem die **Skills als `uni`-Plugin** (`~/.claude/skills/uni/` → Aufruf **`uni:<skill>`**,
+kollisionsfrei neben einem evtl. installierten **ECC**-Stack) plus die globalen Commands `/setup` + `/update`.
+Sie greifen in **jedem** Repo (auch im Code-Repo `Alarmsystem-Dev`), nicht nur in diesem Tooling-Repo.
+Danach: Ordner in **VS Code** öffnen → `claude` starten → „Projekt vertrauen" → **`/uni:start`** tippen.
+**Beim allerersten Lauf** startet ein kurzes **Rollen-Bootstrap** (Abteilung? bei Backend: Dev oder
+Database-Engineer?) — danach plant der Agent jede Session entlang deines Abteilungs-Workflows und signiert
+deine Erinnerungs-Einträge mit deiner Rolle.
 
 **3b. Setup — Kimi Code (Alternative)**
 ```bash
@@ -104,10 +108,10 @@ Devteam-vibecodes/
 │   └── workflows/                  # CI: claude.yml (Issue-Trigger), claude-code-review.yml (PR-Review)
 ├── .claude/
 │   ├── settings.json               # Aktive Hooks (SessionStart-Hinweis)
-│   ├── commands/                   # Slash-Commands: /start, /setup, /update
+│   ├── commands/                   # start -> uni:start (ins uni-Plugin); /setup + /update bleiben global
 │   ├── hooks/                      # Hook-Blueprint (RB-01-Guard, Secret-Scan, Schema-Diff — geplant)
 │   └── skills/                     # 36 SKILLS (je eine SKILL.md — via setup global installiert)
-├── erinnerung/                     # Geteiltes Projektgedächtnis (von /start geladen)
+├── erinnerung/                     # Geteiltes Projektgedächtnis (von uni:start geladen)
 │   ├── stand.md                    # Aktueller Stand (Session-Resumé)
 │   └── journal/                    # Tageseinträge (append-only)
 ├── Skill-Plan.md                   # Master-Plan: Taxonomie, Workflow-Punkte, Begründung
@@ -122,7 +126,7 @@ Devteam-vibecodes/
 └── README.md                       # diese Datei
 ```
 
-**Skills im `.claude/skills/`** (36, aus dem ECC-Stack auf Python/FastAPI/pytest + Use-Case angepasst):
+**Skills im `.claude/skills/`** (36, aus dem ECC-Stack auf Python/FastAPI/pytest + Use-Case angepasst) — `setup` installiert sie als **`uni`-Plugin**, Aufruf **`uni:<name>`** (kollisionsfrei neben ECC):
 
 > **Skills in Aktion** — wann welcher Skill feuert, an einem echten Ticket durchgespielt:
 > [`Skillanleitung.md`](Skillanleitung.md). Übersicht & Begründung: [`Skill-Plan.md`](Skill-Plan.md).
@@ -176,9 +180,9 @@ Standardarbeit (Format, Lint, Tests, Repo-Hygiene) übernimmt der Agent.
   gibt frei** (bewertungsrelevant: 40 % Einzelleistung). Live-Test der laufenden API, Testsuite-Pflege.
 
 **Einstiegs-Set (Pflicht, Tag 1) — bewusst klein:**
-- **Backend-Dev (4 Kern-Skills):** `/start` · `tdd-workflow` · `quality-gate` · `pr` + `code-review` (Selbst-Review) · `save-session`
+- **Backend-Dev (4 Kern-Skills):** `uni:start` · `tdd-workflow` · `quality-gate` · `pr` + `code-review` (Selbst-Review) · `save-session`
   Woche 1, sobald TDD sitzt: `feature-dev` · `python-testing` · `fastapi-patterns`
-- **Reviewer/Test:** `/start` · `code-tour` · `code-review` · `test-coverage` · `run`/`verify` · `save-session`
+- **Reviewer/Test:** `uni:start` · `code-tour` · `code-review` · `test-coverage` · `run`/`verify` · `save-session`
   Situativ: `santa-loop` + `verification-loop` (kritischer Pfad) · `browser-qa` (G3-Integration)
 
 Alles Weitere ist **situativ** — bei Bedarf aus den Abteilungs-`Skills.md` dazunehmen.
