@@ -118,7 +118,7 @@ Devteam-vibecodes/
 │   └── journal/                    # Tageseinträge (append-only)
 ├── Skill-Plan.md                   # Master-Plan: Taxonomie, Workflow-Punkte, Begründung
 ├── Skillanleitung.md               # Skills in Aktion: realistischer Durchlauf an einem Ticket (Dev + Reviewer)
-├── Entscheidungslog-Lucas/         # persönl. Entscheidungslogs (Architekt) — jede Datei beginnt mit Datum
+├── Entscheidungslog-Lucas/         # Architekten-Log; je Person legt der `entscheidungslog`-Skill `<Name>-Entscheidungslog/` an (datierte .md)
 │   ├── Entscheidungslog-Toolkit.md      # Tool-/Modell-/Lizenz-Entscheidungen
 │   └── Lucas-Entscheidungslog.md        # Aufbau Team-OS, Organisationsstruktur, Workflows
 ├── Seam-Sync-Fragenkatalog.md       # Naht-Fragen (Contract G1↔G2↔G3)
