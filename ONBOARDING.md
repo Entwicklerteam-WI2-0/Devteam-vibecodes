@@ -65,6 +65,18 @@ Zum Bauen am eigentlichen System zusätzlich das **Arbeitsrepo** `Alarmsystem-De
 eigenes Setup ausführen — dort liegt der Code samt projekt-spezifischer `CLAUDE.md` (Schwellenwerte,
 Anforderungen, Phasen).
 
+## Aktuell bleiben (Updates)
+Das Toolkit ist **versioniert** (`VERSION` + Git-Tags, SemVer, **seit v1.0.0**). Von Zeit zu Zeit den
+neuesten Stand holen — ein Befehl im geklonten `Devteam-vibecodes`:
+```bash
+bash update.sh                                         # macOS / Linux
+powershell -ExecutionPolicy Bypass -File .\update.ps1  # Windows
+```
+Holt den neuesten Stand (`git pull`) und führt das Setup erneut aus (frischt `team-os-g2.md`, Skills und
+Commands auf, zeigt **Version alt → neu**). Danach **Claude Code neu starten**, damit neue Skills/Commands
+geladen werden. In Claude Code geht das nach dem ersten Setup auch per Slash-Command **`/update`**.
+(Details: README, Abschnitt „Aktualisieren & Versionierung".)
+
 ---
 
 ### Wenn etwas klemmt
