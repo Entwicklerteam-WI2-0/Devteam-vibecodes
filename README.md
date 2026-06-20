@@ -23,7 +23,7 @@
 
 ## Schnellstart
 
-**1. KI-CLI installieren** (einmalig). Die meisten nutzen **Claude Code**; Sonderwege für **Kimi Code** (3b) und **Codex CLI** (3c) sind unten beschrieben.
+**1. KI-CLI installieren** (einmalig). Der Standard ist **Claude Code**; Alternativen für **Kimi Code** (3b) und **Codex CLI** (3c) sind unten beschrieben.
 
 **2. Dieses Repo klonen**
 ```bash
@@ -38,11 +38,11 @@ powershell -ExecutionPolicy Bypass -File .\setup.ps1 # Windows (als Datei starte
 ```
 Legt `claude-sync.md` als eigene Datei `~/.claude/team-os-g2.md` ab und ergänzt die globale `~/.claude/CLAUDE.md`
 **additiv** um einen `@import`-Block — eine vorhandene persönliche `CLAUDE.md` bleibt erhalten (Backup wird angelegt).
-Installiert außerdem **Skills + Commands global** nach `~/.claude/skills/` bzw. `~/.claude/commands/` —
+Installiert außerdem alle **Skills + Commands global** nach `~/.claude/skills/` bzw. `~/.claude/commands/` —
 so sind sie in **jedem** Repo verfügbar (auch im Code-Repo `Alarmsystem-Dev`), nicht nur in diesem Tooling-Repo.
 Danach: Ordner in **VS Code** öffnen → `claude` starten → „Projekt vertrauen" → **`/start`** tippen.
 
-**3b. Setup — Kimi Code (Sonderfall)**
+**3b. Setup — Kimi Code (Alternative)**
 ```bash
 bash setup-kimi.sh                                        # macOS / Linux
 powershell -ExecutionPolicy Bypass -File .\setup-kimi.ps1 # Windows
@@ -52,17 +52,15 @@ Installiert **Skills** nach `~/.kimi-code/skills/` (Aufruf `/skill:<name>`), die
 wird `/start` zu **`/skill:start`** und `/setup` zu `/skill:setup`.
 
 **3c. Setup — Codex CLI (OpenAI / ChatGPT)**
-Erst die **Codex CLI installieren** (`codex --version` muss laufen), dann **denselben Ein-Befehl-Flow**:
+Erst die **Codex CLI installieren** (`codex --version` muss laufen), dann denselben Ein-Befehl-Flow:
 ```bash
 bash setup-codex.sh                                        # macOS / Linux
 powershell -ExecutionPolicy Bypass -File .\setup-codex.ps1 # Windows
 ```
 Ein Lauf erledigt **alles automatisch**: `claude-sync.md` **additiv** als Team-Block in `~/.codex/AGENTS.md`
-(globaler System-Prompt; vorhandene `AGENTS.md` bleibt), alle Skills → `~/.codex/skills/` (nativ, identisches `SKILL.md`-Format),
+(globaler System-Prompt; vorhandene `AGENTS.md` bleibt), alle Skills → `~/.codex/skills/` (nativ),
 je Skill ein Command → `~/.codex/prompts/` (Aufruf **`/prompts:<name>`**, z. B. `/prompts:tdd-workflow` — oder `/` tippen und auswählen) und aktiviert das
-Skills-Feature (`codex --enable skills`). Danach: `codex` starten → „Projekt vertrauen". Skills laufen
-**primär automatisch** (du beschreibst die Aufgabe, der passende Skill triggert) — explizit optional per `/prompts:<name>`.
-*Hinweis: OpenAI hat Custom-Prompts als „deprecated" markiert; sie funktionieren weiter, der zukunftssichere Weg sind die nativen Skills.*
+Skills-Feature (`codex --enable skills`). Danach: `codex` starten → „Projekt vertrauen".
 *Ist `codex` beim Setup noch nicht installiert, legt das Skript alles korrekt ab und nennt den einen
 Befehl (`codex --enable skills`), den du danach einmal ausführst.*
 
@@ -74,30 +72,50 @@ Befehl (`codex --enable skills`), den du danach einmal ausführst.*
 
 ```text
 Devteam-vibecodes/
-├── claude-sync.md                  # GLOBALE Agenten-Anweisung → ~/.claude/CLAUDE.md (via setup)
+├── claude-sync.md                  # GLOBALE Agenten-Anweisung → ~/.claude/team-os-g2.md (via setup)
 ├── setup.ps1 / setup.sh            # Setup Claude Code: team-os-g2.md + @import-Block in ~/.claude/CLAUDE.md
-├── setup-kimi.ps1 / setup-kimi.sh  # Setup Kimi Code: kopiert Skills → ~/.kimi-code/skills/
-├── setup-codex.ps1 / setup-codex.sh# Setup Codex CLI: AGENTS.md + Skills + Commands global → ~/.codex/
+├── setup-kimi.ps1 / setup-kimi.sh  # Setup Kimi Code: Skills + Anweisung → ~/.kimi-code/
+├── setup-codex.ps1 / setup-codex.sh# Setup Codex CLI: AGENTS.md + Skills + Commands → ~/.codex/
 ├── ONBOARDING.md                   # 3-Schritte-Startanleitung (alle CLIs)
+├── .github/
+│   └── workflows/                  # CI: claude.yml (Issue-Trigger), claude-code-review.yml (PR-Review)
 ├── .claude/
-│   ├── settings.json               # Hooks (aktiv: SessionStart-Hinweis)
+│   ├── settings.json               # Aktive Hooks (SessionStart-Hinweis)
 │   ├── commands/                   # Slash-Commands: /start, /setup
-│   ├── hooks/                      # Hook-Blueprint (RB-01-Guard, Secret-Scan … — Phase 2)
-│   └── skills/                     # DIE 9 PFLICHT-SKILLS (echte SKILL.md, Use-Case-angepasst)
-├── erinnerung/                     # geteiltes Projektgedächtnis (von /start geladen)
+│   ├── hooks/                      # Hook-Blueprint (RB-01-Guard, Secret-Scan, Schema-Diff — geplant)
+│   └── skills/                     # 36 SKILLS (je eine SKILL.md — via setup global installiert)
+├── erinnerung/                     # Geteiltes Projektgedächtnis (von /start geladen)
+│   ├── stand.md                    # Aktueller Stand (Session-Resumé)
+│   └── journal/                    # Tageseinträge (append-only)
 ├── Skill-Plan.md                   # Master-Plan: Taxonomie, Workflow-Punkte, Begründung
 ├── Entscheidungslog-Toolkit.md     # Tooling-Entscheidungen (Harness/Modell/Umgebung)
-├── gemeinsam/Skills.md             # Plan: GETEILTE Skills (beide Abteilungen)
-├── abteilung-backend-entwickler/Skills.md   # Plan: Toolkit Backend-Dev
-├── abteilung-reviewer-tester/Skills.md      # Plan: Toolkit Reviewer/Test
+├── Seam-Sync-Fragenkatalog.md      # Naht-Fragen (Contract G1↔G2↔G3)
+├── gemeinsam/Skills.md             # Geteilte Skills (beide Abteilungen)
+├── abteilung-backend-entwickler/Skills.md   # Toolkit Backend-Dev
+├── abteilung-reviewer-tester/Skills.md      # Toolkit Reviewer/Test
 └── README.md                       # diese Datei
 ```
 
-**Skills im `.claude/skills/`** (geforkt aus ECC, neu geschrieben auf Python/FastAPI/pytest + Use-Case):
-`tdd-workflow` · `python-testing` · `quality-gate` · `fastapi-patterns` · `feature-dev` · `pr` ·
-`code-tour` · `test-coverage` · `save-session`.
+**Skills im `.claude/skills/`** (36, aus dem ECC-Stack auf Python/FastAPI/pytest + Use-Case angepasst):
 
-> Die **geteilte** Anweisung ist die versionierte `claude-sync.md`; `setup` legt sie als
+*Geteilt — beide Rollen:*
+`aside` · `code-review` · `coding-standards` · `codebase-onboarding` · `documentation-lookup` ·
+`ecc-guide` · `erinnerung-update` · `fastapi-review` · `git-workflow` · `python-review` ·
+`save-session` · `security-review`
+
+*Backend-Entwickler:innen:*
+`api-design` · `architecture-decision-records` · `build-fix` · `checkpoint` · `entscheidungslog` ·
+`error-handling` · `fastapi-patterns` · `feature-dev` · `plan` · `pr` ·
+`python-patterns` · `python-testing` · `quality-gate` · `test-coverage` · `tdd-workflow` · `update-docs`
+
+*Reviewerinnen/Testerinnen:*
+`browser-qa` · `code-tour` · `e2e-testing` · `review-pr` · `santa-loop` ·
+`security-scan` · `verification-loop`
+
+*Situativ (erst bei Stack-Wechsel T2+):*
+`database-migrations`
+
+> Die **geteilte Anweisung** ist die versionierte `claude-sync.md`; `setup` legt sie als
 > `~/.claude/team-os-g2.md` ab und bindet sie via `@import`-Block in die globale `~/.claude/CLAUDE.md` ein.
 > **Immer `claude-sync.md` ändern (per PR)** — nicht die lokalen Dateien, sonst driften die Stände auseinander.
 
@@ -111,8 +129,10 @@ Devteam-vibecodes/
 - **Skills reisen mit dem Repo:** echte `SKILL.md` unter `.claude/skills/` — kein ECC-Plugin nötig.
   `setup` installiert sie **global** — Claude nach `~/.claude/skills/`, Kimi nach `~/.kimi-code/skills/`,
   Codex nach `~/.codex/skills/` — damit sie in **jedem** Repo greifen, nicht nur im Tooling-Repo.
-- **Standards als Hooks:** wiederkehrende Qualitäts-/Sicherheitsregeln werden (Phase 2) als Hooks
-  erzwungen, nicht nur im Review erhofft.
+- **Standards als Hooks:** wiederkehrende Qualitäts-/Sicherheitsregeln werden als Hooks erzwungen
+  (RB-01-Guard, Secret-Scan, OpenAPI-Schema-Diff — geplant/in Einrichtung), nicht nur im Review erhofft.
+- **CI-Workflows:** `.github/workflows/claude.yml` reagiert auf Issue-/PR-Kommentare mit `@claude`-Trigger;
+  `claude-code-review.yml` löst automatische PR-Reviews aus.
 
 ---
 
@@ -127,10 +147,12 @@ Standardarbeit (Format, Lint, Tests, Repo-Hygiene) übernimmt der Agent.
   gibt frei** (bewertungsrelevant: 40 % Einzelleistung). Live-Test der laufenden API, Testsuite-Pflege.
 
 **Einstiegs-Set (Pflicht, Tag 1) — bewusst klein:**
-- **Backend-Dev:** `/start` · `tdd-workflow` · `quality-gate` · `pr` + `code-review` (Selbst-Review) · `save-session`
+- **Backend-Dev (4 Kern-Skills):** `/start` · `tdd-workflow` · `quality-gate` · `pr` + `code-review` (Selbst-Review) · `save-session`
+  Woche 1, sobald TDD sitzt: `feature-dev` · `python-testing` · `fastapi-patterns`
 - **Reviewer/Test:** `/start` · `code-tour` · `code-review` · `test-coverage` · `run`/`verify` · `save-session`
+  Situativ: `santa-loop` + `verification-loop` (kritischer Pfad) · `browser-qa` (G3-Integration)
 
-Alles Weitere ist **situativ** — bei Bedarf aus der Abteilungs-`Skills.md` dazunehmen.
+Alles Weitere ist **situativ** — bei Bedarf aus den Abteilungs-`Skills.md` dazunehmen.
 
 ---
 
