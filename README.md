@@ -68,6 +68,27 @@ Befehl (`codex --enable skills`), den du danach einmal ausführst.*
 
 ---
 
+## Aktualisieren & Versionierung
+
+Das Toolkit ist **versioniert** — `VERSION`-Datei + Git-Tags (SemVer), **seit v1.0.0**.
+Aktueller Stand: siehe `VERSION` bzw. neuester Tag (`git tag`).
+
+**Update auf den neuesten Stand — ein Befehl:**
+```bash
+bash update.sh                                         # macOS / Linux
+powershell -ExecutionPolicy Bypass -File .\update.ps1  # Windows
+```
+Holt den neuesten Stand (`git pull`) und führt anschließend das Setup erneut aus — frischt `team-os-g2.md`,
+alle Skills und Commands in `~/.claude/` auf und zeigt **Version alt → neu**. Danach **Claude Code neu
+starten**, damit neue Skills/Commands geladen werden. (Kimi/Codex: zusätzlich das jeweilige `setup-…` erneut ausführen.)
+
+> Nach dem ersten Setup geht das in Claude Code auch per Slash-Command **`/update`** (identischer Ablauf).
+> Erstmalig — solange `/update` noch nicht installiert ist — einmal `git pull` + Setup; danach steht `/update` bereit.
+> **Versionspflege (Lucas):** bei nennenswerten Änderungen `VERSION` hochzählen + Tag setzen
+> (`git tag -a vX.Y.Z -m "…" && git push origin vX.Y.Z`).
+
+---
+
 ## Repo-Struktur
 
 ```text
@@ -76,12 +97,14 @@ Devteam-vibecodes/
 ├── setup.ps1 / setup.sh            # Setup Claude Code: team-os-g2.md + @import-Block in ~/.claude/CLAUDE.md
 ├── setup-kimi.ps1 / setup-kimi.sh  # Setup Kimi Code: Skills + Anweisung → ~/.kimi-code/
 ├── setup-codex.ps1 / setup-codex.sh# Setup Codex CLI: AGENTS.md + Skills + Commands → ~/.codex/
+├── update.ps1 / update.sh          # Update: git pull + Setup erneut (Version alt → neu); auch via /update
+├── VERSION                         # Tooling-Version (SemVer) — plus Git-Tags vX.Y.Z
 ├── ONBOARDING.md                   # 3-Schritte-Startanleitung (alle CLIs)
 ├── .github/
 │   └── workflows/                  # CI: claude.yml (Issue-Trigger), claude-code-review.yml (PR-Review)
 ├── .claude/
 │   ├── settings.json               # Aktive Hooks (SessionStart-Hinweis)
-│   ├── commands/                   # Slash-Commands: /start, /setup
+│   ├── commands/                   # Slash-Commands: /start, /setup, /update
 │   ├── hooks/                      # Hook-Blueprint (RB-01-Guard, Secret-Scan, Schema-Diff — geplant)
 │   └── skills/                     # 36 SKILLS (je eine SKILL.md — via setup global installiert)
 ├── erinnerung/                     # Geteiltes Projektgedächtnis (von /start geladen)
