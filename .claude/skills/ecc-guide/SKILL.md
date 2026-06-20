@@ -40,9 +40,13 @@ kurz und praxisnah.
 | WP7 | Live-Test / Integration | `run`, `verify`, `e2e-testing`, `browser-qa`, `verification-loop` |
 | WP8 | Ende / Doku | `save-session`, `update-docs`, `architecture-decision-records` |
 
+> **Hinweis (Einsteiger):** `/start` ist ein **Command**, `run`/`verify` sind **globale** ECC-Skills —
+> sie gehören **nicht** zum Team-Skill-Set (den Skills hier), sind aber trotzdem verfügbar. Dort nicht danach suchen.
+
 ## Wichtige Spezialskills
 - **Kritischer Pfad:** `verification-loop` + `santa-loop` (adversariales Dual-Review).
-- **Sicherheit:** `security-review` (Rahmen) + `security-scan` (fokussierter Scan).
+- **Sicherheit:** `security-review` (Rahmen) + `security-scan` (fokussierter Quick-Scan).
+- **Review-Tiefe:** `code-review` (inhaltlicher Prüf-Baustein / Dev-Selbst-Review) vs. `review-pr` (vollständiges PR-Review mit DoD-Gate & Freigabe).
 - **Navigation / Seitenfrage:** `ecc-guide`, `aside`.
 
 ## Nicht tun

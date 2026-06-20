@@ -111,6 +111,7 @@ Devteam-vibecodes/
 │   ├── stand.md                    # Aktueller Stand (Session-Resumé)
 │   └── journal/                    # Tageseinträge (append-only)
 ├── Skill-Plan.md                   # Master-Plan: Taxonomie, Workflow-Punkte, Begründung
+├── Skillanleitung.md               # Skills in Aktion: realistischer Durchlauf an einem Ticket (Dev + Reviewer)
 ├── Entscheidungslog-Lucas/         # persönl. Entscheidungslogs (Architekt) — jede Datei beginnt mit Datum
 │   ├── Entscheidungslog-Toolkit.md      # Tool-/Modell-/Lizenz-Entscheidungen
 │   └── Lucas-Entscheidungslog.md        # Aufbau Team-OS, Organisationsstruktur, Workflows
@@ -122,6 +123,9 @@ Devteam-vibecodes/
 ```
 
 **Skills im `.claude/skills/`** (36, aus dem ECC-Stack auf Python/FastAPI/pytest + Use-Case angepasst):
+
+> **Skills in Aktion** — wann welcher Skill feuert, an einem echten Ticket durchgespielt:
+> [`Skillanleitung.md`](Skillanleitung.md). Übersicht & Begründung: [`Skill-Plan.md`](Skill-Plan.md).
 
 *Geteilt — beide Rollen:*
 `aside` · `code-review` · `coding-standards` · `codebase-onboarding` · `documentation-lookup` ·

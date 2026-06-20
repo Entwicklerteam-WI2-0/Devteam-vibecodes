@@ -1,13 +1,17 @@
 ---
 name: review-pr
-description: Vollständiges Pull-Request-Review in der Reviewer/Test-Abteilung (G2) — Änderungen verstehen, DoD prüfen, Befunde mit Schweregrad melden, Freigabe nur bei erfüllter DoD. Nutze diesen Skill, wenn ein PR der Backend-Abteilung zu prüfen ist.
+description: Vollständiges Pull-Request-Review der Reviewer/Test-Abteilung (G2) — der DoD-gegatete Orchestrator: bündelt Verstehen (`code-tour`), inhaltliche Prüfung (`code-review`/`python-review`/`fastapi-review`), Sicherheit (`security-review`) und kritischen Pfad (`verification-loop`) zur Freigabe-Entscheidung. Für die reine inhaltliche Diff-Prüfung → `code-review`. Nutze diesen Skill, wenn ein PR zu prüfen ist.
 origin: ECC (review-pr), neu geschrieben für G2 — Use-Case
 ---
 
 # review-pr — Pull Request prüfen (G2)
 
-Du führst das PR-Review der Reviewer/Test-Abteilung. Antworte auf **Deutsch**. Der **Mensch
+Du führst das **vollständige** PR-Review der Reviewer/Test-Abteilung. Antworte auf **Deutsch**. Der **Mensch
 verantwortet die Freigabe** (40 %-Regel) — du lieferst fundierte Befunde, kein blindes Durchwinken.
+
+> **Abgrenzung zu `code-review`:** Dieser Skill ist der **Orchestrator** — er bündelt die Bausteine
+> (`code-tour` → `code-review`/`python-review`/`fastapi-review` → `security-review` → `verification-loop`)
+> zu einer **DoD-gegateten Freigabe-Entscheidung**. Die reine inhaltliche Diff-Bewertung selbst: `code-review`.
 
 ## Wann aktivieren
 Neuer PR der Backend-Abteilung offen (Workflow-Punkt WP6).
@@ -19,7 +23,7 @@ Neuer PR der Backend-Abteilung offen (Workflow-Punkt WP6).
    - Kritischer Pfad: Vorfall A/B + Fail-safe als benannte grüne Tests (`verification-loop`).
    - Anforderungs-ID referenziert; Entscheidung im Logbuch.
 3. **Qualität prüfen:** `python-review` + `fastapi-review` (Idiome, DI, Schemas, RB-01, Fail-safe).
-4. **Sicherheit:** Eingabevalidierung, keine Secrets (`security-scan`).
+4. **Sicherheit:** strukturierter Sicherheits-Review — Eingabevalidierung, Secrets, RB-01, Fail-safe (`security-review`; schneller Gate-Scan: `security-scan`).
 5. **Befunde melden:** mit Schweregrad (CRITICAL blockt; HIGH/MEDIUM/LOW), konkret + umsetzbar.
 
 ## Freigabe-Kriterium

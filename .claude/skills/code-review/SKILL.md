@@ -1,13 +1,17 @@
 ---
 name: code-review
-description: Generisches Code-Review für das G2-Backend — Struktur, Lesbarkeit, Korrektheit, Sicherheit und Tests. Als Selbst-Review (Dev vor PR) und als Hauptwerkzeug der Reviewer-Abteilung. Nutze diesen Skill beim Prüfen von Changes.
+description: Inhaltliches Code-Review für das G2-Backend — Struktur, Lesbarkeit, Korrektheit, Sicherheit, Tests. Der wiederverwendbare Prüf-Baustein: als Selbst-Review (Dev vor PR) und als Kern-Check im PR-Review. Für das vollständige PR-Review mit DoD-Gate und Freigabe → `review-pr`. Nutze diesen Skill beim Prüfen eines Diffs/Changes.
 origin: ECC (code-review), neu geschrieben für G2 — Python/FastAPI/SQLite + Use-Case
 ---
 
 # code-review — Changes reviewen (G2-Backend)
 
-Du reviewst Code-Changes — als **Selbst-Review** (Dev vor dem PR, WP5) oder als **Hauptwerkzeug**
-der Reviewer-Abteilung (WP6). Antworte auf **Deutsch**, mit konkreten Befunden (`Datei:Zeile`).
+Du reviewst Code-Changes — als **Selbst-Review** (Dev vor dem PR, WP5) oder als **inhaltlicher Kern-Check**
+innerhalb des Reviewer-PR-Reviews (WP6). Antworte auf **Deutsch**, mit konkreten Befunden (`Datei:Zeile`).
+
+> **Abgrenzung zu `review-pr`:** Dieser Skill ist der **inhaltliche Prüf-Baustein** (einen Diff bewerten).
+> Das **vollständige PR-Review** mit DoD-Gate, Coverage-Nachweis und Freigabe-Kriterium orchestriert
+> `review-pr` — es *nutzt* `code-review` als einen seiner Bausteine.
 
 ## Wann aktivieren
 - Vor dem PR: eigener Diff noch einmal strukturiert prüfen.
@@ -40,5 +44,4 @@ der Reviewer-Abteilung (WP6). Antworte auf **Deutsch**, mit konkreten Befunden (
 - Automatisch GitHub-Kommentare posten oder mergen.
 
 ---
-*Fachlich vertiefen: `python-review`, `fastapi-review`, `security-review`. Vorbereiten: `code-tour`.
-Regeln: `claude-sync.md` §4 (WP5/6) / §7.*
+*Vollständiges PR-Review (Orchestrator): `review-pr`. Fachlich vertiefen: `python-review`, `fastapi-review`, `security-review`. Vorbereiten: `code-tour`. Regeln: `claude-sync.md` §4 (WP5/6) / §7.*
