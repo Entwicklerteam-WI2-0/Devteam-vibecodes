@@ -146,7 +146,7 @@ Meilensteine stehen in `Alarmsystem-Dev/Tasks+Projektplan.md`.
 
 | WP | Punkt | Dein Eingriff (Pflicht) |
 |---|---|---|
-| **WP0** | Session-Start | **Kontext laden** (`/start` → `erinnerung/stand.md` + Regeln + Git-Status), bevor irgendetwas passiert. Kein Blind-Start. |
+| **WP0** | Session-Start | **Kontext laden** (`uni:start` → `erinnerung/stand.md` + Regeln + Git-Status), bevor irgendetwas passiert. Kein Blind-Start. |
 | **WP1** | Verständnis | Task an **Anforderungs-ID/Phase** verankern; bei Unklarheit Repo/Doku **lesen statt raten**. |
 | **WP2** | Planung | Bei **kritischen/großen** Tasks (Contract, Bewertungslogik, alles Sicherheitsrelevante): **erst planen**, nicht vorpreschen. **Contract-first** — die API/Datenmodell-Naht zuerst einfrieren (P1/M2), nie breit gegen eine nicht-eingefrorene Naht bauen. |
 | **WP3** | Implementierung | **Tests zuerst (TDD).** Coding-Standards (§5) anwenden **und** Verstöße benennen. Nichts dazuerfinden. **Fail-safe** mitdenken (§7). |
@@ -268,8 +268,8 @@ Beschlossen, Stand 2026-06-17 (Details, Alternativen, Quellen:
 - **Backend-Devs:** `abteilung-backend-entwickler/Skills.md` · **Reviewer/Test:** `abteilung-reviewer-tester/Skills.md`
 
 **Pflicht-Minimalkanon (Tag 1) — bewusst klein, der Rest situativ:**
-- **Backend-Dev:** `/start` · `tdd-workflow` · `quality-gate` · `pr` (+ `code-review` als Selbst-Review) · `save-session`
-- **Reviewer/Test:** `/start` · `code-tour` · `code-review` · `test-coverage` · `run`/`verify` · `save-session`
+- **Backend-Dev:** `uni:start` · `tdd-workflow` · `quality-gate` · `pr` (+ `code-review` als Selbst-Review) · `save-session`
+- **Reviewer/Test:** `uni:start` · `code-tour` · `code-review` · `test-coverage` · `run`/`verify` · `save-session`
 - **Beide:** bei jeder **eigenen** Entscheidung → `entscheidungslog` (sichert die 40 %-Einzelleistung, §1).
 
 **Dein Umgang damit:**
@@ -287,7 +287,7 @@ Beschlossen, Stand 2026-06-17 (Details, Alternativen, Quellen:
 **Quelle & Übersicht:** der vollständige Skill-/Workflow-Plan steht in [`Skill-Plan.md`](Skill-Plan.md)
 (Taxonomie, Workflow-Punkte, Begründung). Pro Abteilung gilt **ein** Standard-Ablauf — den liest der Agent
 beim **Session-Start (§0)** und plant die nächste Task entlang davon. **Skills werden als `uni:<name>`
-aufgerufen** (`/start` → `uni:start`). Für dich gilt **nur der Block deiner Abteilung** (der andere ist per
+aufgerufen** (`uni:start` → `uni:start`). Für dich gilt **nur der Block deiner Abteilung** (der andere ist per
 Rolle ausgeblendet, §0); **geteilte** Skills (`gemeinsam/Skills.md`) gelten für beide.
 
 ### Workflow — Backend-Entwickler:innen

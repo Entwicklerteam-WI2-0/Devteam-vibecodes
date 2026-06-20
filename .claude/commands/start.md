@@ -3,7 +3,7 @@ description: Session-Start — Stand, Regeln und Git-Status laden (Resume)
 ---
 Du beginnst eine Arbeitssitzung im **Vibecoding-Stack** (Team-OS-Werkzeugrepo). Antworte auf **Deutsch**.
 
-> **`/start` liest nur — es fetcht/pullt nicht.** Die Devs `git pull`en als ersten Workflow-Schritt selbst; `/start` liest den **lokal bereits aktualisierten** Stand.
+> **`uni:start` liest nur — es fetcht/pullt nicht.** Die Devs `git pull`en als ersten Workflow-Schritt selbst; `uni:start` liest den **lokal bereits aktualisierten** Stand.
 
 Gehe so vor:
 1. **Erinnerung lesen (vollständig):**

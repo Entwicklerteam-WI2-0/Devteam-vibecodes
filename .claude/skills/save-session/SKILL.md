@@ -15,7 +15,7 @@ Am **Session-Ende** (Workflow-Punkt WP8 in `claude-sync.md`).
 ## Ablauf
 1. **Geteilten Repo-Fortschritt ins Journal schreiben** — Skill **`erinnerung-update`**: hängt einen
    append-only-Block an `erinnerung/journal/<heute>.md` an (Was/Wo, Commit, nächster Schritt, Rolle).
-   Das ist der **Schreibteil**, den `/start` beim nächsten Mal liest.
+   Das ist der **Schreibteil**, den `uni:start` beim nächsten Mal liest.
 2. **Stand aktualisieren** — `erinnerung/stand.md` (bzw. `ck save`): den konsolidierten Gesamtüberblick
    bei nennenswertem Fortschritt nachziehen. Knapp halten; veraltete Notizen ersetzen, nicht anhäufen.
    (Detail lebt im Journal, `stand.md` ist die Verdichtung.)
@@ -33,4 +33,4 @@ Am **Session-Ende** (Workflow-Punkt WP8 in `claude-sync.md`).
 - Lange, veraltete Protokolle anhäufen. Entscheidungen undokumentiert lassen (kostet Punkte).
 
 ---
-*Gegenstück beim Start: `/start`. Ablauf: `claude-sync.md` §4 (WP8).*
+*Gegenstück beim Start: `uni:start`. Ablauf: `claude-sync.md` §4 (WP8).*

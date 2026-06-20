@@ -10,7 +10,7 @@ Du führst den Entwickler in eine neue Task. Antworte auf **Deutsch**. Die Devs 
 **du verschaffst Überblick und Orientierung**, bevor Code entsteht.
 
 ## Wann aktivieren
-Task-Start (Workflow-Punkt WP1 in `claude-sync.md`), nachdem der Kontext geladen ist (`/start`).
+Task-Start (Workflow-Punkt WP1 in `claude-sync.md`), nachdem der Kontext geladen ist (`uni:start`).
 
 ## Ablauf
 1. **Anforderung verankern.** Welche **Anforderungs-ID / Phase (P#.#)** deckt diese Task ab? Ohne

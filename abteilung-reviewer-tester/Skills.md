@@ -41,14 +41,14 @@ P5.3 (Testprotokoll).
 > kein Standard-Skill der Abteilung. Für den Alltag genügt `santa-loop` als adversariales Dual-Review.
 
 > **Einstiegs-Set (Pflicht, Tag 1) — der Minimalkanon, den jede Reviewerin kennen muss:**
-> `/start` (Start) · `code-tour` (Change verstehen) · `code-review` (reviewen) · `test-coverage` (Tests prüfen) ·
+> `uni:start` (Start) · `code-tour` (Change verstehen) · `code-review` (reviewen) · `test-coverage` (Tests prüfen) ·
 > `run` + `verify` (Live-Test) · `save-session` (Ende). Plus die **40-%-Regel** aus §1.
 > `santa-loop` + `verification-loop` (kritischer Pfad) und `browser-qa` (G3-Integration) sind **situativ**;
 > `code-review ultra` ist eine **Ausnahme nur durch Lucas** (kostenpflichtig).
 
 ## 3. Standard-Ablauf eines Reviews (WP-gebunden)
 
-1. **WP0** `/start` → Kontext. Neuer PR offen → **WP6**.
+1. **WP0** `uni:start` → Kontext. Neuer PR offen → **WP6**.
 2. **WP6 Verstehen:** `code-tour` durch die Changes. **Reviewen:** `code-review` (+ `python-review`/
    `fastapi-review`/`security-review` nach Bedarf). Kritischer Pfad → `santa-loop` und/oder `code-review ultra`.
 3. **Tests:** `test-coverage` prüfen, Lücken via `python-testing` schließen; **API-E2E** via `python-testing`

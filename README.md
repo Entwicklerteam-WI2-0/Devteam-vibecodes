@@ -46,8 +46,6 @@ Danach: Ordner in **VS Code** öffnen → `claude` starten → „Projekt vertra
 Database-Engineer?) — danach plant der Agent jede Session entlang deines Abteilungs-Workflows und signiert
 deine Erinnerungs-Einträge mit deiner Rolle.
 
-> Details zum Bootstrap: [`bootstrap.md`](bootstrap.md).
-
 **3b. Setup — Kimi Code (Alternative)**
 ```bash
 bash setup-kimi.sh                                        # macOS / Linux
@@ -107,7 +105,6 @@ Devteam-vibecodes/
 ├── VERSION                         # Tooling-Version (SemVer) — plus Git-Tags vX.Y.Z
 ├── .gitattributes / .gitignore     # EOL-Normalisierung (sh=LF, ps1=CRLF) bzw. Ignore-Regeln
 ├── ONBOARDING.md                   # 3-Schritte-Startanleitung (alle CLIs)
-├── bootstrap.md                    # Rollen-Bootstrap erklärt (was beim 1. uni:start passiert)
 ├── .github/
 │   └── workflows/                  # CI: claude.yml (Issue-Trigger), claude-code-review.yml (PR-Review)
 ├── .claude/

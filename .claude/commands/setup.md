@@ -10,7 +10,7 @@ Gehe so vor:
    - **Persönliche** `CLAUDE.md` vorhanden → bleibt erhalten; es wird `~/.claude/team-os-g2.md` angelegt und ein **additiver** `@import`-Block angehängt.
    - Re-Runs aktualisieren nur (Vollkopie in-place, sonst `team-os-g2.md`) — nie doppelt.
 3. **Verifizieren:** prüfen, dass `~/.claude/CLAUDE.md` die Team-Anweisung enthält — **entweder direkt** (inline) **oder via** `@import` auf `~/.claude/team-os-g2.md`.
-4. **Knapp melden**, was passiert ist, und die nächsten Schritte: `claude` neu starten und `/start` tippen.
+4. **Knapp melden**, was passiert ist, und die nächsten Schritte: `claude` neu starten und `uni:start` tippen.
 
 Bei Fehlern: den Fehler verständlich erklären und den nächsten konkreten Schritt vorschlagen.
 Installiere **nichts** heimlich außerhalb des Setup-Skripts. Keine destruktiven Git-Aktionen.

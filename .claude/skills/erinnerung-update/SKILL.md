@@ -12,7 +12,7 @@ damit die nächste Person (oder du morgen) den Verlauf des Teams nachvollziehen 
 
 ## Wann aktivieren
 Am **Session-Ende** (Workflow-Punkt WP8 in `claude-sync.md`). Schreibt das, was `save-session` an
-geteiltem Fortschritt festhält, ins Journal. `/start` **liest** dieses Journal beim nächsten Start.
+geteiltem Fortschritt festhält, ins Journal. `uni:start` **liest** dieses Journal beim nächsten Start.
 
 ## Goldene Regel: append-only
 **Niemals** bestehende Blöcke oder Zeilen anderer ändern, umschreiben oder löschen — nur **unten anhängen**.
@@ -59,4 +59,4 @@ Das hält Merges konfliktfrei (zwei Leute hängen an verschiedenen Stellen an �
 - Das ganze Journal umschreiben oder „aufräumen".
 
 ---
-*Gegenstück beim Start: `/start` (liest stand.md + heutiges Journal). Verwandt: `save-session`. Ablauf: `claude-sync.md` §4 (WP8). Git-Ausnahme für `erinnerung/`: §7.*
+*Gegenstück beim Start: `uni:start` (liest stand.md + heutiges Journal). Verwandt: `save-session`. Ablauf: `claude-sync.md` §4 (WP8). Git-Ausnahme für `erinnerung/`: §7.*

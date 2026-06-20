@@ -17,7 +17,7 @@ doppelt gepflegt.
 
 | Skill | Usecase (konkret im Projekt) | Schwerpunkt | WP / Auslöser |
 |---|---|---|---|
-| `/start` | Session-Start (Resume): lädt `erinnerung/stand.md` (Stand & Entscheidungen) + Regeln (`claude-sync.md`) + Git-Status → jede:r startet mit demselben Kontext (3-Wochen-Kontinuität, Personenwechsel) | **WG** | WP0 jeder Session-Start |
+| `uni:start` | Session-Start (Resume): lädt `erinnerung/stand.md` (Stand & Entscheidungen) + Regeln (`claude-sync.md`) + Git-Status → jede:r startet mit demselben Kontext (3-Wochen-Kontinuität, Personenwechsel) | **WG** | WP0 jeder Session-Start |
 | `save-session` | Stand/Entscheidungen am Ende sichern (`erinnerung/stand.md` + Logbuch) | **WG** | WP8 Session-Ende |
 | `entscheidungslog` | **Persönliches** Entscheidungslog des Devs anlegen/pflegen (eigene Entscheidungen + Begründung + Alternativen) — bewertungsrelevant (Nachvollziehbarkeit, 40 % Einzelleistung) | **CR/WG** | bei jeder eigenen Entscheidung + WP8 |
 | `ecc:coding-standards` | Gemeinsamer Maßstab: Naming, KISS/DRY/YAGNI, kleine Dateien (<800), Funktionen <50, explizites Error-Handling, keine Magic Numbers — **Devs schreiben danach, Reviewer prüfen danach** | **CR** | WP3 (Dev) / WP6 (Reviewer) |
@@ -32,7 +32,7 @@ doppelt gepflegt.
 | `ecc:security-review` | Sicherheitskritisch: Ingest-Validierung, Audit-Log, **RB-01** (kein Freigabe-/Aktor-Endpoint), keine Secrets | **SR/OP** | WP5 / WP6 |
 | `verify` | Laufende App/API starten und **Verhalten beobachten** — Dev verifiziert den Slice, Reviewerin macht den Live-Test | **OP** | WP5 / WP7 |
 
-> **Pflicht-bei-jedem-Start/Ende (standardmäßig, nicht optional):** `/start` zu
+> **Pflicht-bei-jedem-Start/Ende (standardmäßig, nicht optional):** `uni:start` zu
 > **WP0** und `save-session` zu **WP8**. Diese drei sind das gemeinsame Minimum, das **immer** läuft —
 > alle anderen Skills sind rollen-/situationsabhängig (siehe die jeweiligen Abteilungs-`Skills.md`).
 
@@ -61,7 +61,7 @@ Sie setzen die Designprinzipien aus `CLAUDE.md §6` um (gemeinsame Config + Stan
 
 ## 4. Standard-Ablauf (gilt für beide Abteilungen)
 
-1. **WP0 Start:** `/start` lädt Kontext (Stand, Regeln, Git-Status).
+1. **WP0 Start:** `uni:start` lädt Kontext (Stand, Regeln, Git-Status).
 2. **WP1 Verständnis:** Bei Unklarheit `codebase-onboarding` / `ecc-guide`; Doku via `documentation-lookup`.
 3. **WP4/5/6 Qualität:** Review-Skills greifen — als **SR** (Dev) bzw. **OP** (Reviewer), Maßstab = `coding-standards`.
 4. **WP8 Ende:** `save-session`; Entscheidungen ins **Entscheidungslogbuch** (Doku-Rolle), `git-workflow` für PR.

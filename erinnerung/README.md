@@ -1,7 +1,7 @@
 # erinnerung/ — Geteilter Repo-Fortschritt (Team-OS)
 
 Dies ist das **gemeinsame Gedächtnis** des Teams: der **allgemeine Repo-Fortschritt, den alle pflegen**.
-`/start` **liest** es beim Sitzungsbeginn (damit jede:r mit demselben Stand startet — auch nach Tages-/
+`uni:start` **liest** es beim Sitzungsbeginn (damit jede:r mit demselben Stand startet — auch nach Tages-/
 Personenwechsel), der Skill **`erinnerung-update`** **schreibt** am Session-Ende. Lesen und Schreiben sind
 getrennt → konfliktarm.
 
@@ -41,4 +41,4 @@ Erinnerungsdateien (`erinnerung/`) sind **Nicht-Code** und von der **inhaltliche
 ausgenommen** — sie gehen ohne Review direkt rein (kurzes Konflikt-Fenster dank append-only). Details und
 der Branch-Protection-Hinweis: `claude-sync.md` §7.
 
-> Schreiben: Skill `erinnerung-update` · Lesen: `/start` · Workflow-Punkte: `claude-sync.md` §4 (WP0/WP8).
+> Schreiben: Skill `erinnerung-update` · Lesen: `uni:start` · Workflow-Punkte: `claude-sync.md` §4 (WP0/WP8).

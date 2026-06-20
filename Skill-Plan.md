@@ -42,7 +42,7 @@ Aus `Tasks+Projektplan.md` (P0–P6, DoD) und `Team-Organisation+Regeln.md` (Kop
 
 | WP | Punkt im Workflow | Standard-Skills (Auszug) |
 |---|---|---|
-| **WP0** | **Session-Start** | `/start` — Kontext laden (`erinnerung/stand.md` + Regeln + Git-Status) |
+| **WP0** | **Session-Start** | `uni:start` — Kontext laden (`erinnerung/stand.md` + Regeln + Git-Status) |
 | **WP1** | Task-Start / Verständnis | `codebase-onboarding`, `feature-dev`, `code-tour` |
 | **WP2** | Planung (kritische/große Tasks: P1 Contract, P2.4 Logik) | `plan`, `api-design` |
 | **WP3** | Implementierung | `fastapi-patterns`, `python-patterns`, `tdd-workflow`, `error-handling` |
@@ -64,7 +64,7 @@ Aus `Tasks+Projektplan.md` (P0–P6, DoD) und `Team-Organisation+Regeln.md` (Kop
 
 | Skill | Usecase (projektbezogen) | Schwerpunkt | WP / Auslöser |
 |---|---|---|---|
-| `/start` | Session-Start: `erinnerung/stand.md` (Stand & Entscheidungen) + Regeln (`claude-sync.md`) + Git-Status laden | WG | WP0 jeder Start |
+| `uni:start` | Session-Start: `erinnerung/stand.md` (Stand & Entscheidungen) + Regeln (`claude-sync.md`) + Git-Status laden | WG | WP0 jeder Start |
 | `save-session` | Stand/Entscheidungen am Ende sichern (`erinnerung/stand.md` + Logbuch) | WG | WP8 Session-Ende |
 | `erinnerung-update` | Interner Schreibteil von `save-session` für das Journal (append-only) | WG | WP8 |
 | `ecc:coding-standards` | Gemeinsamer Maßstab (Naming, KISS/DRY, kleine Dateien, Error-Handling): Devs schreiben, Reviewer prüfen danach | CR | WP3 / WP6 |
@@ -147,7 +147,7 @@ Konkrete Pflicht-Hooks (Details `gemeinsam/Skills.md §3`): **RB-01-Guard** (blo
    einer Skill-Flut. Operative Standardarbeit (Format, Lint, Tests, Repo-Hygiene) übernimmt der Agent.
 6. **Standards als Hooks (Prinzip 3):** `hookify`/`configure-ecc` zentral bei Lucas — PostToolUse
    (format/lint), PreToolUse (blocks), Stop (test/build-gate) — erzwingen statt erhoffen.
-7. **Kontinuität (3 Wochen, Ausfallrisiko):** `/start` + `save-session` sichern Kontext über
+7. **Kontinuität (3 Wochen, Ausfallrisiko):** `uni:start` + `save-session` sichern Kontext über
    Personen-/Tageswechsel — passt zu „Non-Performer entkoppeln, Naht schützen".
 
 ## 5. Bewusst NICHT gewählt (Ausschlüsse — für Nachvollziehbarkeit)

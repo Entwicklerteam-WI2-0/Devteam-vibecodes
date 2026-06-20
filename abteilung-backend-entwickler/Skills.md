@@ -33,7 +33,7 @@ Quittierung, Audit). Achse: **Architekt → Spec → Dev → Implementierung**, 
 | `ecc:update-docs` | **API-Doku** (Pflichtdokument) aus Routen/Schemas synchron halten + Entscheidungslogbuch konsolidieren | **WG** | WP8 (nach API-/Entscheidungs-Änderung) |
 
 > **Einstiegs-Set (Pflicht, Tag 1) — bewusst klein, 4 Kern-Skills:**
-> `/start` (Start) · `tdd-workflow` (Kern-Arbeit, Tests-first) · `quality-gate` (vor Commit) ·
+> `uni:start` (Start) · `tdd-workflow` (Kern-Arbeit, Tests-first) · `quality-gate` (vor Commit) ·
 > `pr` mit `code-review` als Selbst-Review (vor PR). Am Ende immer `save-session`.
 > **Woche 1, sobald TDD sitzt:** `feature-dev`, `python-testing`, `fastapi-patterns`.
 > Alles Weitere ist **situativ** — nicht alles auf einmal lernen.
@@ -57,7 +57,7 @@ Reviewer-Abteilung geht (entlastet WP6, hebt die Merge-Qualität):
 
 ## 3. Standard-Ablauf einer Dev-Task (WP-gebunden)
 
-1. **WP0** `/start` → Kontext. **WP1** `feature-dev` → Task verstehen, Modul finden.
+1. **WP0** `uni:start` → Kontext. **WP1** `feature-dev` → Task verstehen, Modul finden.
 2. **WP2** (nur kritische/große Tasks) `plan`; bei API-Arbeit `api-design` (mit Architekt).
 3. **WP3** `tdd-workflow` (RED) → `fastapi-patterns`/`python-patterns`/`error-handling` (GREEN) →
    `python-testing`. Build rot? → `build-fix`.

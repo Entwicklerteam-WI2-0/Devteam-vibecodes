@@ -9,7 +9,7 @@
 ## Wie Skills überhaupt funktionieren (30 Sekunden)
 - Ein Skill ist ein benannter Arbeitsschritt, den du im Chat auslöst: einfach den **Namen tippen**
   (z. B. `tdd-workflow`) oder die Aufgabe beschreiben — der Agent zieht den passenden Skill von selbst.
-- `/start`, `/setup`, `/update` sind **Commands** (mit `/`). Skills ruft man **ohne** `/` auf.
+- `/uni:start`, `/setup`, `/update` sind **Commands** (mit `/`). Skills ruft man **ohne** `/` auf.
 - Du musst die Liste **nicht** auswendig können: im Zweifel `ecc-guide` fragen („welcher Skill jetzt?").
 - Der Agent macht die Arbeit — **du verstehst, entscheidest und verantwortest** (40 %-Einzelleistung).
 
@@ -20,8 +20,8 @@
 **Ticket (realistisch):** *„In `assessment/` soll bei veralteten/Stale-Daten **nie GRÜN** herauskommen
 (NF-01, Fail-safe)."* Das ist **kritischer Pfad** — also sauber, mit Tests, nicht schnell hingehackt.
 
-### 1. `/start` — bevor irgendetwas passiert  · WP0
-Du tippst `/start`. Lädt Stand (`erinnerung/stand.md`), Regeln und Git-Status. **Kein Blind-Start** —
+### 1. `uni:start` — bevor irgendetwas passiert  · WP0
+Du tippst `uni:start`. Lädt Stand (`erinnerung/stand.md`), Regeln und Git-Status. **Kein Blind-Start** —
 du weißt sofort, wo das Team steht und auf welchem Branch du bist.
 
 ### 2. `feature-dev` — Task verstehen & im Code verorten  · WP1
@@ -70,7 +70,7 @@ Sichert den Stand (append-only in `erinnerung/`), damit der/die Nächste nahtlos
 
 ## Szenario B — Reviewerin/Testerin: den PR von oben prüfen
 
-### 1. `/start` → 2. `code-tour`  · WP0/WP6
+### 1. `uni:start` → 2. `code-tour`  · WP0/WP6
 `code-tour` führt dich durch den Change, **bevor** du urteilst — verstehen vor freigeben.
 
 ### 3. `review-pr` — der Orchestrator mit DoD-Gate  · WP6

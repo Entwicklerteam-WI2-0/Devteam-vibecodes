@@ -12,14 +12,14 @@ kurz und praxisnah.
 ## Pflicht-Minimalkanon pro Rolle
 
 ### Backend-Entwickler:in (Tag 1)
-1. `/start` — Session-Start & Kontext.
+1. `uni:start` — Session-Start & Kontext.
 2. `tdd-workflow` — Tests-first für Bewertungslogik/Feature.
 3. `quality-gate` — Format/Lint vor dem Commit.
 4. `code-review` (Selbst-Review) + `pr` — vor dem PR.
 5. `save-session` — am Ende.
 
 ### Reviewerin/Testerin (Tag 1)
-1. `/start` — Session-Start & Kontext.
+1. `uni:start` — Session-Start & Kontext.
 2. `code-tour` — Change verstehen.
 3. `code-review` — Review durchführen.
 4. `test-coverage` — Tests prüfen.
@@ -30,7 +30,7 @@ kurz und praxisnah.
 
 | WP | Situation | Passende Skills |
 |---|---|---|
-| WP0 | Session starten | `/start` |
+| WP0 | Session starten | `uni:start` |
 | WP1 | Task verstehen / Codebase kennenlernen | `feature-dev`, `codebase-onboarding`, `code-tour` |
 | WP2 | Große/kritische Task planen / API-Design | `plan`, `api-design` |
 | WP3 | Implementieren | `tdd-workflow`, `python-testing`, `fastapi-patterns`, `python-patterns`, `error-handling` |
@@ -40,7 +40,7 @@ kurz und praxisnah.
 | WP7 | Live-Test / Integration | `run`, `verify`, `e2e-testing`, `browser-qa`, `verification-loop` |
 | WP8 | Ende / Doku | `save-session`, `update-docs`, `architecture-decision-records` |
 
-> **Hinweis (Einsteiger):** `/start` ist ein **Command**, `run`/`verify` sind **globale** ECC-Skills —
+> **Hinweis (Einsteiger):** `uni:start` ist ein **Command**, `run`/`verify` sind **globale** ECC-Skills —
 > sie gehören **nicht** zum Team-Skill-Set (den Skills hier), sind aber trotzdem verfügbar. Dort nicht danach suchen.
 
 ## Wichtige Spezialskills
