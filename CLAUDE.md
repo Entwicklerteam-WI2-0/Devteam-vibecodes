@@ -4,8 +4,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **Devteam-Vibecodes — Team-OS für G2 (Backend & Entscheidungslogik).**
 
-> Diese Datei steuert Agenten, die **in diesem Verzeichnis** (`C:\Users\luceb\Desktop\Devteam-vibecodes`)
-> arbeiten. Hier wird **nicht der Produktcode** gebaut, sondern das **Team-Betriebssystem**: der
+> Diese Datei steuert Agenten, die **in diesem Repo** arbeiten (`Devteam-vibecodes` — egal, wohin geklont).
+> Hier wird **nicht der Produktcode** gebaut, sondern das **Team-Betriebssystem**: der
 > einheitliche, lokal laufende Agenten-Stack (gemeinsame Config, Hooks, **rollenspezifische Skills**),
 > mit dem die Backend-Gruppe G2 produktiv und regelkonform ins **echte Repo** arbeiten kann.
 > Sprache aller Artefakte: **Deutsch**.
@@ -102,7 +102,7 @@ Tag setzen (`git tag -a vX.Y.Z … && git push origin vX.Y.Z`). Hinweis: **diese
 
 ## 2. Source of Truth — das Code-Repo `Alarmsystem-Dev`
 
-Wurzel: **`C:\Users\luceb\Desktop\Alarmsystem-Dev`**
+Lokal: das **separat geklonte** Schwester-Repo `Alarmsystem-Dev` (üblicherweise neben diesem Repo).
 Remote: **`Entwicklerteam-WI2-0/Alarmsystem-Dev`** (GitHub, Org), Branch `main`.
 
 Damit Agenten den Use-Case **richtig verstehen und bauen** können, sind dies die maßgeblichen Quellen
@@ -116,25 +116,25 @@ Damit Agenten den Use-Case **richtig verstehen und bauen** können, sind dies di
 - `README.md` — ausführlichster **Gesamtüberblick** (Struktur, Deliverables, Workflow).
 
 ### Briefing-Rohmaterial (read-only, `01-quellen/`)
-- `01-quellen\Die Hintergrundgeschichte.txt` — **bewusst widersprüchliches** Rohmaterial; Primärquelle des RE.
-- `01-quellen\Studierenden-Handreichung.txt` — Aufgabenstellung, Rollen, Meilensteine, Bewertung.
-- `01-quellen\Zeitplan.txt` — 3-Wochen-Plan, Meilensteine M1–M3.
-- `01-quellen\Prüfungsleistung Anforderungen.txt` — Bewertungskriterien (40 % individuell / 60 % Gruppe).
+- `01-quellen/Die Hintergrundgeschichte.txt` — **bewusst widersprüchliches** Rohmaterial; Primärquelle des RE.
+- `01-quellen/Studierenden-Handreichung.txt` — Aufgabenstellung, Rollen, Meilensteine, Bewertung.
+- `01-quellen/Zeitplan.txt` — 3-Wochen-Plan, Meilensteine M1–M3.
+- `01-quellen/Prüfungsleistung Anforderungen.txt` — Bewertungskriterien (40 % individuell / 60 % Gruppe).
 
 ### Erarbeitete Artefakte (`02-Arbeitsdokumente/`, lebende Deliverables)
-- `02-Arbeitsdokumente\Usecase-quick.md` — Anforderungen **FA-01–12**, **NF-01–11**, Randbedingung **RB-01**,
+- `02-Arbeitsdokumente/Usecase-quick.md` — Anforderungen **FA-01–12**, **NF-01–11**, Randbedingung **RB-01**,
   offene Entscheidungen **AE-01/AE-02**, Konflikte **K1–K9**.
-- `02-Arbeitsdokumente\Schwellenwerte.md` — **Vereisungslogik + Schwellenwerte** (4 Stufen 🟢🟡🟠🔴).
+- `02-Arbeitsdokumente/Schwellenwerte.md` — **Vereisungslogik + Schwellenwerte** (4 Stufen 🟢🟡🟠🔴).
   ⚠️ Selbst KI-generiert → **bezogene Werte mindestens logisch gegenprüfen**, nicht blind übernehmen.
-- `02-Arbeitsdokumente\Backend-Konzept.md` — **Architektur G2**: Module (§2), Datenfluss (§3), Datenmodell (§4),
+- `02-Arbeitsdokumente/Backend-Konzept.md` — **Architektur G2**: Module (§2), Datenfluss (§3), Datenmodell (§4),
   Tech-Stack-Optionen (§6), **Code-/Repo-Struktur (§7)**, Ausbaustufen T0–T3 (§8), FA/NF→Modul-Mapping (§10).
-- `02-Arbeitsdokumente\Tasks+Projektplan.md` — Phasen P0–P6, Meilensteine, Kanban (Owner/DoD/Größe).
-- `02-Arbeitsdokumente\Team-Organisation+Regeln.md` — Rollen/DRI, Teamregeln.
-- `02-Arbeitsdokumente\Entscheidungslog-Lucas-Systemarchitektur.md` — **Entscheidungslogbuch** (bewertungsrelevant).
-- `02-Arbeitsdokumente\assets\` — Architekturskizze (`WhatsApp Image 2026-06-15 at 11.24.52.jpeg`), `Bild (1).png`.
+- `02-Arbeitsdokumente/Tasks+Projektplan.md` — Phasen P0–P6, Meilensteine, Kanban (Owner/DoD/Größe).
+- `02-Arbeitsdokumente/Team-Organisation+Regeln.md` — Rollen/DRI, Teamregeln.
+- `02-Arbeitsdokumente/Entscheidungslog-Lucas-Systemarchitektur.md` — **Entscheidungslogbuch** (bewertungsrelevant).
+- `02-Arbeitsdokumente/assets/` — Architekturskizze (`WhatsApp Image 2026-06-15 at 11.24.52.jpeg`), `Bild (1).png`.
 
 ### Abgaben (`03-abgaben/`, eingefrorene Stände)
-- `03-abgaben\Nutzer und Stakeholdermodel 1.md` / `2.md` — Stakeholder-/Nutzermodell.
+- `03-abgaben/Nutzer und Stakeholdermodel 1.md` / `2.md` — Stakeholder-/Nutzermodell.
 
 > **Gemeinsame IDs (FA/NF/RB/AE, K1–K9) über alle Dokumente.** Bei Klassifikations-/ID-Änderung **alle**
 > betroffenen Dokumente konsistent halten (Drift-Gefahr). Die `CLAUDE.md` im Code-Repo hält den aktuellen
@@ -191,12 +191,14 @@ Skills/Hooks für Standardprozesse: Repo-/Branch-Arbeit, **Pull Requests**, Conv
 40 % Einzelleistung): **Agent erstellt Review-Entwurf → Reviewerin liest/versteht/gibt frei → posten.**
 Mensch bleibt im Loop.
 
-> **Designprinzipien (Stand Brainstorm, von Lucas zu bestätigen):**
-> 1. **Ein Tool für alle = Claude Code** (Skills/Hooks sind Claude-Code-spezifisch; Cursor/Codex inkompatibel).
+> **Designprinzipien des Team-OS (entschieden — Vollbeleg: `Entscheidungslog-Toolkit.md`):**
+> 1. **Ein gemeinsamer Stack:** **Claude Code** als Standard (volle Skill-/Hook-Parität); **Kimi Code** &
+>    **Codex CLI** als **sanktionierte Varianten** (dieselbe portierte Anweisung, Skills nativ).
 > 2. **Gemeinsame Config ins Repo committen** (`.claude/` mit settings, skills, CLAUDE.md) statt globaler
 >    Pro-Maschine-Config → `git pull` = alle identisch, zentral von Lucas gepflegt.
-> 3. **Standards als Hooks erzwingen**, nicht als Text erhoffen (PostToolUse format/lint, PreToolUse blocks,
->    Stop build/test-gate) + serverseitig **GitHub Branch Protection** (PR-Pflicht, kein direkter `main`-Push).
+> 3. **Standards als Hooks erzwingen** (Ziel): Stand jetzt ist **nur ein SessionStart-Hinweis** aktiv; die
+>    Enforcement-Hooks (format/lint, RB-01-Guard, Secret-Scan, test-gate) sind **Phase 2, noch nicht verdrahtet**.
+>    Bis dahin trägt **Review + GitHub Branch Protection** die Durchsetzung (PR-Pflicht, kein direkter `main`-Push).
 > 4. **Aus ECC kuratieren statt neu bauen** (vorhandene Skills/Agents: `python-review`, `fastapi-review`,
 >    `tdd-workflow`, `pr`, `code-review`, `security-review`, `update-codemaps` …).
 > 5. **Eine Umgebung für alle Rollen** (z. B. VSC + integriertes Terminal + Claude Code).
@@ -209,13 +211,15 @@ Mensch bleibt im Loop.
   klare Anleitungen, sichere Defaults, möglichst automatisch (Hooks) statt manuell.
 - **Code-Stil** (auch für generierte Beispiele): KISS/DRY/YAGNI, kleine Dateien (<800 Zeilen), Funktionen <50 Zeilen,
   explizites Error-Handling, Input-Validierung an Systemgrenzen, keine Magic Numbers.
-- **Offene Entscheidungen** (Tool/Stack/Lizenz) sind noch **nicht final** — als Optionen behandeln, nicht setzen.
+- **Entscheidungsstand:** Harness (Claude Code + Kimi/Codex) und Lizenz sind **entschieden** (`Entscheidungslog-Toolkit.md`);
+  offen ist nur die **formale Begründung des Backend-Stacks (T0)** — als Empfehlung behandeln, nicht als gesetzt.
 
-## 8. Offene Entscheidungen (blockieren die Detailplanung)
+## 8. Entscheidungsstand (Tooling entschieden, Stack empfohlen)
 
-1. **Ein einheitliches Tool (Claude Code) für alle?** — Voraussetzung für einen gemeinsamen Skill-/Hook-Satz.
-2. **Backend-Stack final (Python/FastAPI?)** — bestimmt, welche Reviewer-/Test-Skills greifen.
-3. **LLM-Lizenz/Kosten** für 6–7 Personen — bestimmt die realistische Tool-Wahl mit.
+Belegt im `Entscheidungslog-Toolkit.md` (vgl. `claude-sync.md` §8):
+1. **Harness — entschieden:** **Claude Code** als Standard; **Kimi Code** & **Codex CLI** als sanktionierte Varianten (gleiche portierte Anweisung).
+2. **LLM-Lizenz — entschieden:** Claude-Abo (Pro = Standard, Max optional); kein API-/Token-Billing im Normalbetrieb.
+3. **Backend-Stack — empfohlen, noch zu begründen:** Python/FastAPI/SQLite (T0); die formale Begründung gehört ins Entscheidungslogbuch des Code-Repos und bestimmt, welche Reviewer-/Test-Skills greifen.
 
 ---
 *Diese Datei pflegt Lucas (Systemarchitekt). Stand/Ergebnisse/Entscheidungen zum Use-Case selbst stehen in
