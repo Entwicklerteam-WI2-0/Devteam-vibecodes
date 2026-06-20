@@ -1,7 +1,7 @@
 # Persönliches Entscheidungslog — Lucas Vöhringer (G2)
 ## Aufbau Team-OS · Organisationsstruktur · Workflows der Abteilungen
 
-> **Zeitraum der Erstellung:** dokumentierter Aufbau **2026-06-17 bis 2026-06-20** · **Erstellt am:** 2026-06-20
+> **Zeitraum der Erstellung:** dokumentierter Aufbau **2026-06-17 bis 2026-06-21** · **Erstellt am:** 2026-06-20 · **Letzte Bearbeitung:** 2026-06-21
 > **Autor:** Vöhringer, Lucas (Systemarchitekt G2) · **Status:** laufend gepflegt
 > Eigene technische/organisatorische Entscheidungen + Begründung. **Bewertungsrelevant** (Nachvollziehbarkeit, 40 % Einzelleistung).
 
@@ -48,6 +48,20 @@
 - **Begründung:** heterogenes Team, vorhandene Configs schützen; gefahrlose Wiederholbarkeit.
 - **Alternativen:** Überschreiben (verworfen — zerstört persönliche Configs).
 - **Ergebnis/Status:** umgesetzt (inkl. Migration einer früheren Direktkopie → `@import`).
+
+### 2026-06-21 — `uni:`-Namespace: Team-Skills als Skills-Dir-Plugin (kollisionsfrei neben ECC)
+- **Kontext/Task:** Kollegen mit installiertem **ECC** bekamen Namens-/Auffindungsprobleme, weil die Team-Skills flach in `~/.claude/skills/` lagen.
+- **Entscheidung:** Skills als **`uni`-Plugin** ausrollen (`~/.claude/skills/uni/` mit `.claude-plugin/plugin.json` → `uni@skills-dir`, Aufruf `uni:<skill>` / `uni:start`). `setup`/`update` **bauen** das Plugin beim Install und **migrieren** alte flache Team-Skills + flaches `/start` weg; `/setup` + `/update` bleiben globale Commands.
+- **Begründung:** Namespace `uni:` ist **kollisionsfrei neben `ecc:`**; offiziell unterstützte Skills-Dir-Plugin-Mechanik (kein Marketplace-/Install-Schritt nötig).
+- **Alternativen:** (a) Repo-Quelle selbst in Plugin-Struktur umbauen — verworfen (CI + repo-eigene Sessions änderten sich mit); (b) flach lassen — verworfen (ECC-Kollision/Verwirrung).
+- **Ergebnis/Status:** umgesetzt (setup.sh/.ps1, isoliert getestet), v1.1.0. **Wichtig:** skills-dir-Plugins laden erst beim **nächsten** Session-Start — in einer schon laufenden Session fehlt der Skill (genau dieser Stolperstein trat auf).
+
+### 2026-06-21 — Projekt-`CLAUDE.md` versioniert + generisch + Kopplungs-Karte gegen Doku-Drift
+- **Kontext/Task:** die projektbasierte `CLAUDE.md` war nur lokal (`.gitignore`d, „nur fürs initiale Repo-Setup"); zudem wiederkehrendes Problem „READMEs/Doku sind falsch".
+- **Entscheidung:** `CLAUDE.md` **aus `.gitignore`** nehmen (versioniert/reist mit) **und generisch** machen (Maschinen-Absolutpfade raus, Forward-Slash, veraltete „Brainstorm/offene Entscheidungen" auf entschiedenen Stand). Zusätzlich eine **Kopplungs-Karte** einbauen: je geteiltem Fakt **Source of Truth → Spiegel → Auslöser**.
+- **Begründung:** Projekt-Guidance soll alle Kollegen erreichen, nicht nur die Architekten-Maschine — sobald sie reist, dürfen keine maschinen-/personenspezifischen oder veralteten Aussagen drin sein; die Karte macht Drift-Hotspots explizit (z. B. `/start`→`uni:start` an ~13 Stellen).
+- **Alternativen:** lokal lassen (verworfen — erreicht niemanden); in separate `MAINTENANCE.md` spiegeln (zurückgestellt, solange Lucas alleiniger Pfleger); ad-hoc grep statt Karte (verworfen — fehleranfällig).
+- **Ergebnis/Status:** umgesetzt, v1.1.3 / v1.1.4; Selbst-Aussagen „gitignored/nicht versioniert" mitkorrigiert (sonst sofortige Drift).
 
 ---
 
@@ -112,12 +126,19 @@
 - **Alternativen:** Setup-Skript installiert Hooks global/per-Repo (offen gehalten — für dieses Modell nicht nötig).
 - **Ergebnis/Status:** Modell festgelegt. **Offen:** die **fertigen** Hook-Artefakte (Skripte + `settings.json`-Block + `/install-hooks`-Command) müssen noch ins Repo, damit der Agent nur **installiert** statt neu schreibt — sonst Uniformitäts-/Drift-Risiko gerade bei den Security-Hooks. **Empfohlene Reihenfolge:** zuerst stack-agnostisch (`secret-scan`, `rb01-guard`, `size-guard`), dann stack-abhängig (`format-lint`, `test-gate`), `openapi-diff` als CI-Job.
 
+### 2026-06-21 — Rollen-Bootstrap (§0) + Fremd-Abteilung ausblenden statt löschen
+- **Kontext/Task:** Member sollen beim ersten Start Abteilung/Rolle festlegen, nur die eigenen Skills/Workflows sehen und ihre Erinnerungs-Einträge signiert bekommen.
+- **Entscheidung:** **Bootstrap als §0** in `claude-sync.md` (selbst-erkennend über fehlenden `TEAM-OS-ROLLE`-Header) → Kurz-Interview (Abteilung; bei Backend Dev/Database-Engineer), dann dauerhafter Rollen-Header in der **persönlichen** `CLAUDE.md`, Save-Signatur, **rollenbasiertes Ausblenden** der Fremd-Abteilung und Standing-Session-Start-Instruktion. **Architekt/Admin** (Lucas) setzt `Ausblenden=nein` → volle Sicht, kein Interview. Zugehörig: **§10 Abteilungskonzept** (beide Abteilungs-Workflows + `Skill-Plan.md`-Link).
+- **Begründung:** **Ausblenden** (Laufzeit-Filter per Rolle) ist **update-fest** — überlebt `/update`, das alle Skills neu installiert — und robust bei Rollenwechsel/Doppelrolle.
+- **Alternativen:** fremde Skill-Dateien **physisch löschen** + `/update` rollen-aware neu prunen — verworfen (fragil gegen Update-Reinstall, Verlust bei Rollenwechsel).
+- **Ergebnis/Status:** umgesetzt, v1.1.0; Bootstrap ist **instruktionsgetrieben** (kein Hook), greift beim ersten `uni:start`. Architekten-Header lokal gesetzt.
+
 ---
 
 ## Offene Punkte / Review-Trigger
 - **Enforcement-Hooks noch nicht gebaut** (nur Blueprint in `.claude/hooks/README.md`) → Security-Garantien hängen derzeit an menschlichem Review + GitHub Branch Protection.
 - **Fertige Hook-Artefakte + `/install-hooks`-Command** ins Repo (siehe Eintrag 2026-06-20).
-- **Doku-Drift:** `README.md` nennt „die 9 Pflicht-Skills", real liegen ~36 `SKILL.md` in `.claude/skills/` → angleichen.
+- **Doku-Drift (erledigt 2026-06-21):** `README.md` nannte früher „9 Pflicht-Skills" → jetzt **36** angeglichen; Anti-Drift künftig über die neue **Kopplungs-Karte** in `CLAUDE.md`.
 - **`.claude/`-Config-Sync** (Commands/Hooks) über Member: aktuell nur `claude-sync.md` global via Setup; Commands/Hooks liegen repo-lokal (`stand.md`-Blocker).
 - **Stack-Lock** (Python/FastAPI final?) blockt die stack-abhängigen Hooks (`format-lint`/`test-gate`/`openapi-diff`).
 
