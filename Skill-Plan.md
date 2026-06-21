@@ -58,7 +58,7 @@ Aus `Tasks+Projektplan.md` (P0–P6, DoD) und `Team-Organisation+Regeln.md` (Kop
 ## 3. Konsolidierte Skill-Liste (alle drei Gruppen)
 
 > Vollständige Usecases/Ablauf je Gruppe in den jeweiligen `Skills.md`. Hier die Übersicht.
-> Präfix `ecc:` = ECC-Plugin-Skill; ohne Präfix = Claude-Code-Built-in.
+> Präfix `uni:` = Team-OS-Skill (via uni-Plugin); `ecc:` = ECC-Plugin-Skill; ohne Präfix = Claude-Code-Built-in.
 
 ### 3.1 GEMEINSAM (beide Abteilungen) → `gemeinsam/Skills.md`
 
