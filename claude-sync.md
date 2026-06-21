@@ -195,11 +195,13 @@ statt es einfach zu erzeugen. Schicht-/Modulgrenzen nicht durchbrechen.
    arbeiten identisch. **Tooling-Heimat ist ausschließlich `devteam-vibecodes`:** alle Skills, Commands,
    Hooks **nur dort** pflegen. Das Code-Repo `Alarmsystem-Dev` ist reine **Code-/Use-Case-Source** — dorthin
    kommt **kein** Skill, Command, Plugin oder sonstiges Tooling.
-2. **Standards als Hooks erzwingen, nicht erhoffen — aber ehrlich über den Status.** **Stand jetzt ist nur
-   ein harmloser SessionStart-Hinweis aktiv.** Die Enforcement-Hooks — **RB-01-Guard** (blockt Aktor-/
-   Freigabe-Routen), **Secret-Scan** (vor Commit), **OpenAPI-Schema-Diff** (schützt die Naht), Format/Lint,
-   Test-Gate — sind **geplant (Phase 2), noch nicht verdrahtet**. **Bis sie laufen, trägt die Durchsetzung
-   der Mensch (Review) + serverseitige Branch Protection** (PR-Pflicht, kein direkter `main`-Push).
+2. **Standards als Hooks erzwingen, nicht erhoffen — aber ehrlich über den Status.** Aktiv sind der
+   **SessionStart-Hinweis** und das **Fact-Forcing-Gate** (Claude Code only, eigener `UNI_GATE_*`-Namespace,
+   State in `~/.uni-gate/`). Auf **Kimi Code** und **Codex CLI** läuft kein Tool-Hook-Enforcement — dort gilt
+   nur die Text-Guidance aus dieser Anweisung. Die weiteren Enforcement-Hooks — **RB-01-Guard**
+   (blockt Aktor-/Freigabe-Routen), **Secret-Scan** (vor Commit), **OpenAPI-Schema-Diff** (schützt die Naht),
+   Format/Lint, Test-Gate — sind **geplant (Phase 2), noch nicht verdrahtet**. **Bis sie laufen, trägt die
+   Durchsetzung der Mensch (Review) + serverseitige Branch Protection** (PR-Pflicht, kein direkter `main`-Push).
    → **Verlass dich nicht auf einen Guard, der noch nicht existiert** — prüfe RB-01, Secrets und Fail-safe
    **selbst** (§7).
 3. **Human-in-the-loop (40 % Einzelleistung).** Der Agent leistet die operative Schwerarbeit; der **Mensch
@@ -319,3 +321,5 @@ Rolle ausgeblendet, §0); **geteilte** Skills (`gemeinsam/Skills.md`) gelten fü
 
 *Globale Anweisung des Team-OS G2 · Zweck: regelkonforme, nachvollziehbare Arbeit am Hauptrepo ermöglichen ·
 Source-of-Truth zum Use-Case bleibt stets `Alarmsystem-Dev`.*
+
+*Toolkit-Version: v1.4.0*

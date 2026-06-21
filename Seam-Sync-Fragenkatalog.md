@@ -103,3 +103,5 @@ Damit die Nachbargruppen unsere Architektur-Grenzen kennen:
 
 *Vorbereitet von G2 (Backend & Entscheidungslogik) für den Seam-Sync. Antworten gehören anschließend
 ins Entscheidungslogbuch + in die API-Spezifikation (`Alarmsystem-Dev`).*
+
+*Toolkit-Version: v1.4.0*

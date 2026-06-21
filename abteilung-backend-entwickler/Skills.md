@@ -16,21 +16,21 @@ Quittierung, Audit). Achse: **Architekt → Spec → Dev → Implementierung**, 
 
 | Skill | Usecase (konkret im Projekt) | Schwerpunkt | WP / Auslöser |
 |---|---|---|---|
-| `ecc:feature-dev` | Geführter Einstieg in eine Task (z. B. `POST /readings`, `GET /assessment/current`) mit Codebase-Verständnis & Architektur-Fokus | **OP/VO** | WP1 Task-Start |
-| `ecc:plan` | Vor **kritischen/großen** Tasks (P1 Contract, **P2.4 Bewertungslogik**): Anforderung → Schritte, Risiken, betroffene Module | **WG/OP** | WP2 Planung |
-| `ecc:api-design` | REST-Design der **Naht**: Resource-Naming, Status-Codes, Response-Envelope, Fehlerformat, Versionierung — *DRI Architekt, Devs implementieren konsistent dagegen* | **OP** | WP2/WP3 |
-| `ecc:fastapi-patterns` | Endpoints, **Dependency-Injection**, Pydantic-Request/Response-Schemas, saubere Router-Struktur | **OP** | WP3 |
-| `ecc:python-patterns` | Idiomatischer, wartbarer Python-Code (Typing, Datenklassen, Immutability) | **OP** | WP3 |
-| `ecc:error-handling` | Explizites Error-Handling + **Fail-safe**: bei Ausfall/Stale **nie GRÜN** → GELB/„unbekannt" + Warnung (NF-01) | **OP** | WP3 |
-| `ecc:tdd-workflow` | **Tests zuerst** für die Bewertungslogik; Ziel ≥ 80 % Coverage inkl. **beider Vorfälle** (−2,1 °C / +1,2 °C) | **OP** | WP3 (TDD-Schleife) |
-| `ecc:python-testing` | pytest-Unit-/Integrationstests schreiben (AAA-Struktur, sprechende Namen) | **OP** | WP3 |
-| `ecc:build-fix` | Roten Build / Type-Fehler mit minimalem Diff schnell grün bekommen | **WG** | WP4 (getriggert bei Build-Fehler) |
-| `ecc:quality-gate` | Formatter-/Lint-Quality-Gate pro Datei vor dem Commit | **CR/WG** | WP4 vor Commit |
-| `ecc:test-coverage` | Coverage analysieren + Lücken vor dem PR schließen (DoD-Nachweis ≥ 80 %) | **SR/WG** | WP5 vor PR |
-| `ecc:pr` | Feature-PR aus dem Branch erstellen (Beschreibung, Test-Plan) — **Push erst nach Genehmigung** | **WG** | WP5 PR-Erstellung |
-| `ecc:checkpoint` | Zwischenstand nach erfolgreicher Verifikation sichern | **WG** | WP4/WP5 |
-| `ecc:architecture-decision-records` | Entscheidung als ADR festhalten — liefert den **Rohstoff**; die **Konsolidierung** des fortlaufenden, deutschen **Entscheidungslogbuchs** (Stack-Wahl, K1–K9, AE-01/02; Pflichtdokument, benotet) erfolgt via `update-docs`/manuell | **CR/WG** | WP2/WP8 (bei Entscheidung) |
-| `ecc:update-docs` | **API-Doku** (Pflichtdokument) aus Routen/Schemas synchron halten + Entscheidungslogbuch konsolidieren | **WG** | WP8 (nach API-/Entscheidungs-Änderung) |
+| `uni:feature-dev` | Geführter Einstieg in eine Task (z. B. `POST /readings`, `GET /assessment/current`) mit Codebase-Verständnis & Architektur-Fokus | **OP/VO** | WP1 Task-Start |
+| `uni:plan` | Vor **kritischen/großen** Tasks (P1 Contract, **P2.4 Bewertungslogik**): Anforderung → Schritte, Risiken, betroffene Module | **WG/OP** | WP2 Planung |
+| `uni:api-design` | REST-Design der **Naht**: Resource-Naming, Status-Codes, Response-Envelope, Fehlerformat, Versionierung — *DRI Architekt, Devs implementieren konsistent dagegen* | **OP** | WP2/WP3 |
+| `uni:fastapi-patterns` | Endpoints, **Dependency-Injection**, Pydantic-Request/Response-Schemas, saubere Router-Struktur | **OP** | WP3 |
+| `uni:python-patterns` | Idiomatischer, wartbarer Python-Code (Typing, Datenklassen, Immutability) | **OP** | WP3 |
+| `uni:error-handling` | Explizites Error-Handling + **Fail-safe**: bei Ausfall/Stale **nie GRÜN** → GELB/„unbekannt" + Warnung (NF-01) | **OP** | WP3 |
+| `uni:tdd-workflow` | **Tests zuerst** für die Bewertungslogik; Ziel ≥ 80 % Coverage inkl. **beider Vorfälle** (−2,1 °C / +1,2 °C) | **OP** | WP3 (TDD-Schleife) |
+| `uni:python-testing` | pytest-Unit-/Integrationstests schreiben (AAA-Struktur, sprechende Namen) | **OP** | WP3 |
+| `uni:build-fix` | Roten Build / Type-Fehler mit minimalem Diff schnell grün bekommen | **WG** | WP4 (getriggert bei Build-Fehler) |
+| `uni:quality-gate` | Formatter-/Lint-Quality-Gate pro Datei vor dem Commit | **CR/WG** | WP4 vor Commit |
+| `uni:test-coverage` | Coverage analysieren + Lücken vor dem PR schließen (DoD-Nachweis ≥ 80 %) | **SR/WG** | WP5 vor PR |
+| `uni:pr` | Feature-PR aus dem Branch erstellen (Beschreibung, Test-Plan) — **Push erst nach Genehmigung** | **WG** | WP5 PR-Erstellung |
+| `uni:checkpoint` | Zwischenstand nach erfolgreicher Verifikation sichern | **WG** | WP4/WP5 |
+| `uni:architecture-decision-records` | Entscheidung als ADR festhalten — liefert den **Rohstoff**; die **Konsolidierung** des fortlaufenden, deutschen **Entscheidungslogbuchs** (Stack-Wahl, K1–K9, AE-01/02; Pflichtdokument, benotet) erfolgt via `update-docs`/manuell | **CR/WG** | WP2/WP8 (bei Entscheidung) |
+| `uni:update-docs` | **API-Doku** (Pflichtdokument) aus Routen/Schemas synchron halten + Entscheidungslogbuch konsolidieren | **WG** | WP8 (nach API-/Entscheidungs-Änderung) |
 
 > **Einstiegs-Set (Pflicht, Tag 1) — bewusst klein, 4 Kern-Skills:**
 > `uni:start` (Start) · `tdd-workflow` (Kern-Arbeit, Tests-first) · `quality-gate` (vor Commit) ·
@@ -39,7 +39,7 @@ Quittierung, Audit). Achse: **Architekt → Spec → Dev → Implementierung**, 
 > Alles Weitere ist **situativ** — nicht alles auf einmal lernen.
 >
 > **SQLite-Schema:** Im T0 **keine** Migrations-Toolchain nötig — Init per `CREATE TABLE` /
-> `Backend-Konzept §7`. `ecc:database-migrations` (zielt auf Postgres/MySQL + ORMs) erst bei
+> `Backend-Konzept §7`. `uni:database-migrations` (zielt auf Postgres/MySQL + ORMs) erst bei
 > begründetem **Stack-Wechsel** (T2+) — nicht im Standard-Set.
 
 ### 2.1 Geteilte Review-Skills — hier als **Selbst-Review (SR)** vor dem PR
@@ -49,10 +49,10 @@ Reviewer-Abteilung geht (entlastet WP6, hebt die Merge-Qualität):
 
 | Skill | Als SR genutzt für |
 |---|---|
-| `ecc:code-review` | Allgemeine Qualität/Bugs der eigenen Changes |
-| `ecc:python-review` | Python-Idiome, Typing, Stil |
-| `ecc:fastapi-review` | Async/DI/Pydantic/OpenAPI der eigenen Endpoints |
-| `ecc:security-review` | Ingest-Validierung, **RB-01**, keine Secrets |
+| `uni:code-review` | Allgemeine Qualität/Bugs der eigenen Changes |
+| `uni:python-review` | Python-Idiome, Typing, Stil |
+| `uni:fastapi-review` | Async/DI/Pydantic/OpenAPI der eigenen Endpoints |
+| `uni:security-review` | Ingest-Validierung, **RB-01**, keine Secrets |
 | `verify` | Eigenen Slice live gegen die API prüfen |
 
 ## 3. Standard-Ablauf einer Dev-Task (WP-gebunden)
@@ -74,4 +74,8 @@ Reviewer-Abteilung geht (entlastet WP6, hebt die Merge-Qualität):
 - **DoD vollständig** (Review + Tests grün + Anf-ID + Logbuch), sonst gilt die Task nicht als fertig.
 - **Kritischer Pfad (P2.4 Bewertungslogik):** DoD ist **nicht** nur „≥ 80 % Coverage", sondern **beide
   dokumentierten Vorfälle (−2,1 / +1,2 °C) als benannte, grüne Testfälle** + Fail-safe-Test
-  (Stale/Ausfall → nie GRÜN). Verifikation gegen `Schwellenwerte.md` (vgl. `ecc:verification-loop` bei Test).
+  (Stale/Ausfall → nie GRÜN). Verifikation gegen `Schwellenwerte.md` (vgl. `uni:verification-loop` bei Test).
+
+---
+
+*Toolkit-Version: v1.4.0*

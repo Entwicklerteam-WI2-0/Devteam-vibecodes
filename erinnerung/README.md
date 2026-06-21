@@ -42,3 +42,7 @@ ausgenommen** — sie gehen ohne Review direkt rein (kurzes Konflikt-Fenster dan
 der Branch-Protection-Hinweis: `claude-sync.md` §7.
 
 > Schreiben: Skill `erinnerung-update` · Lesen: `uni:start` · Workflow-Punkte: `claude-sync.md` §4 (WP0/WP8).
+
+---
+
+*Toolkit-Version: v1.4.0*

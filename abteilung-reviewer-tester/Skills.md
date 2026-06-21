@@ -21,20 +21,20 @@ P5.3 (Testprotokoll).
 
 | Skill | Usecase (konkret im Projekt) | Schwerpunkt | WP / Auslöser |
 |---|---|---|---|
-| `ecc:code-review` *(geteilt, hier **OP**)* | **Hauptwerkzeug:** lokalen Diff oder GitHub-PR strukturiert reviewen; Befunde nach Schweregrad | **OP** | WP6 bei jedem PR |
-| `ecc:review-pr` | Umfassendes PR-Review mit mehreren spezialisierten Agents (Mehr-Perspektiven) | **OP** | WP6 |
-| `ecc:python-review` / `ecc:fastapi-review` *(geteilt, OP)* | Fachliche Detail-Reviews (Python-Idiome / Async-DI-Pydantic-OpenAPI) | **OP** | WP6 |
-| `ecc:security-review` / `ecc:security-scan` *(geteilt, OP)* | Ingest-Validierung, Audit-Log, **RB-01** (kein Aktor-Endpoint), keine Secrets | **OP** | WP6 |
-| `ecc:test-coverage` | Coverage analysieren + **fehlende Tests generieren** (Testsuite-Pflege, DoD ≥ 80 %) | **OP** | WP6/WP7 |
-| `ecc:python-testing` | Unit-Tests schreiben/pflegen (Agent erstellt, Reviewerin versteht) | **OP** | WP6/WP7 |
-| `ecc:e2e-testing` | **API-E2E** mit pytest + httpx/`TestClient` (Ingest → Bewertung → API, P3.6); Browser-E2E (Playwright) nur bei echter G3-UI-Integration | **OP** | WP7 (optional) |
+| `uni:code-review` *(geteilt, hier **OP**)* | **Hauptwerkzeug:** lokalen Diff oder GitHub-PR strukturiert reviewen; Befunde nach Schweregrad | **OP** | WP6 bei jedem PR |
+| `uni:review-pr` | Umfassendes PR-Review mit mehreren spezialisierten Agents (Mehr-Perspektiven) | **OP** | WP6 |
+| `uni:python-review` / `uni:fastapi-review` *(geteilt, OP)* | Fachliche Detail-Reviews (Python-Idiome / Async-DI-Pydantic-OpenAPI) | **OP** | WP6 |
+| `uni:security-review` / `uni:security-scan` *(geteilt, OP)* | Ingest-Validierung, Audit-Log, **RB-01** (kein Aktor-Endpoint), keine Secrets | **OP** | WP6 |
+| `uni:test-coverage` | Coverage analysieren + **fehlende Tests generieren** (Testsuite-Pflege, DoD ≥ 80 %) | **OP** | WP6/WP7 |
+| `uni:python-testing` | Unit-Tests schreiben/pflegen (Agent erstellt, Reviewerin versteht) | **OP** | WP6/WP7 |
+| `uni:e2e-testing` | **API-E2E** mit pytest + httpx/`TestClient` (Ingest → Bewertung → API, P3.6); Browser-E2E (Playwright) nur bei echter G3-UI-Integration | **OP** | WP7 (optional) |
 | `verify` *(geteilt, OP)* | **Live-Test der laufenden App/API** — starten, Endpunkte ansprechen, Verhalten beobachten | **OP** | WP7 |
 | `run` *(Built-in)* | App/Server starten, um einen Change live zu sehen (Voraussetzung für den Live-Test) | **WG** | WP7 |
-| `ecc:code-tour` | Geführte Tour durch den **geänderten** Code — Reviewerin **versteht** den Change vor der Freigabe (stützt die 40-%-Regel) | **VO** | WP6 |
-| `ecc:verification-loop` | **Pflicht-Gate kritischer Pfad:** Bewertungslogik gegen `Schwellenwerte.md` verifizieren — beide Vorfälle (−2,1/+1,2 °C) + Fail-safe (Stale→nie GRÜN) als **benannte, grüne Testfälle** | **OP/WG** | WP6/WP7 (kritisch) |
-| `ecc:santa-loop` | **Adversariales Dual-Review** (zwei unabhängige Reviewer müssen zustimmen) für sicherheitskritische Logik: P2.4, **Fail-safe** (P3.7), **RB-01** (P4.5) | **OP** | WP6 (kritische PRs) |
-| `ecc:browser-qa` | Live-API-Verhalten prüfen (Backend liefert Daten; Browser/Playwright nur bei G3-UI-Integration) | **OP** | WP7 (optional) |
-| `ecc:checkpoint` | Stand nach einem Test-Durchlauf sichern | **WG** | WP7 |
+| `uni:code-tour` | Geführte Tour durch den **geänderten** Code — Reviewerin **versteht** den Change vor der Freigabe (stützt die 40-%-Regel) | **VO** | WP6 |
+| `uni:verification-loop` | **Pflicht-Gate kritischer Pfad:** Bewertungslogik gegen `Schwellenwerte.md` verifizieren — beide Vorfälle (−2,1/+1,2 °C) + Fail-safe (Stale→nie GRÜN) als **benannte, grüne Testfälle** | **OP/WG** | WP6/WP7 (kritisch) |
+| `uni:santa-loop` | **Adversariales Dual-Review** (zwei unabhängige Reviewer müssen zustimmen) für sicherheitskritische Logik: P2.4, **Fail-safe** (P3.7), **RB-01** (P4.5) | **OP** | WP6 (kritische PRs) |
+| `uni:browser-qa` | Live-API-Verhalten prüfen (Backend liefert Daten; Browser/Playwright nur bei G3-UI-Integration) | **OP** | WP7 (optional) |
+| `uni:checkpoint` | Stand nach einem Test-Durchlauf sichern | **WG** | WP7 |
 
 > **Ausnahme — nur durch Lucas:** `code-review ultra` (tiefes, **kostenpflichtiges** Multi-Agent-Cloud-Review)
 > bleibt dem **kritischsten** PR vorbehalten (P2.4/RB-01) und wird ausschließlich von Lucas ausgelöst —
@@ -64,3 +64,7 @@ P5.3 (Testprotokoll).
 - **RB-01-Pflichtcheck:** Kein Freigabe-/Sperr-/Aktor-Endpoint existiert (P4.5).
 - **Testmaßstab = `Schwellenwerte.md §3`** (Abnahme-Checkliste) + NFA; Werte logisch plausibilisieren (KI-generiert).
 - **Review-Befunde** nach Schweregrad (CRITICAL/HIGH/MEDIUM/LOW); CRITICAL blockt den Merge.
+
+---
+
+*Toolkit-Version: v1.4.0*

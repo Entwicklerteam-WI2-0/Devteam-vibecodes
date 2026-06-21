@@ -146,26 +146,54 @@ if (Test-Path $cmdSrc) {
 $hooksSrc = Join-Path $scriptDir ".claude/hooks"
 $hooksDst = Join-Path $claudeDir "hooks"
 $settings = Join-Path $claudeDir "settings.json"
+$settingsRepo = Join-Path $scriptDir ".claude/settings.json"
 $gateSrc  = Join-Path $hooksSrc "fact-forcing-gate.js"
 if (Test-Path $gateSrc) {
     New-Item -ItemType Directory -Force -Path $hooksDst | Out-Null
     Copy-Item $gateSrc (Join-Path $hooksDst "fact-forcing-gate.js") -Force
     $gateDst = Join-Path $hooksDst "fact-forcing-gate.js"
-    $hookCmd = 'node "' + $gateDst + '"'
     if (Test-Path $settings) { Copy-Item $settings "$settings.bak" -Force }
-    # Merge per node (korrektes JSON, kein PSCustomObject-Rekonstruktions-Risiko)
+    # Merge per node (korrektes JSON, kein PSCustomObject-Rekonstruktions-Risiko).
+    # Repo-settings.json ist die Quelle (SessionStart-Hinweis + PreToolUse-Platzhalter);
+    # __UNI_HOOKS_DIR__ wird durch das tatsaechliche Deploy-Verzeichnis ersetzt.
     $mergeJs = @'
-const fs=require("fs"), p=process.argv[1], cmd=process.argv[2];
-let s={}; try{ s=JSON.parse(fs.readFileSync(p,"utf8")); }catch(e){ s={}; }
-s.hooks=s.hooks||{}; const pre=Array.isArray(s.hooks.PreToolUse)?s.hooks.PreToolUse:[];
-const keep=pre.filter(e=>!(e&&Array.isArray(e.hooks)&&e.hooks.some(h=>h&&typeof h.command==="string"&&h.command.includes("fact-forcing-gate.js"))));
-const mk=m=>({matcher:m,hooks:[{type:"command",command:cmd,timeout:5}]});
-s.hooks.PreToolUse=keep.concat([mk("Bash"),mk("Edit|Write|MultiEdit")]);
-fs.writeFileSync(p, JSON.stringify(s,null,2));
+const fs=require("fs");
+const userPath=process.argv[1];
+const repoPath=process.argv[2];
+const hooksDir=process.argv[3];
+
+let user={}; try{ user=JSON.parse(fs.readFileSync(userPath,"utf8")); }catch(e){ user={}; }
+let repoText="{}"; try{ repoText=fs.readFileSync(repoPath,"utf8"); }catch(e){}
+const repoFixed=JSON.parse(repoText.replace(/__UNI_HOOKS_DIR__/g, hooksDir));
+
+function isUniEntry(e) {
+  if (!e || !Array.isArray(e.hooks)) return false;
+  return e.hooks.some(h => {
+    if (!h || typeof h.command !== "string") return false;
+    const c = h.command;
+    return c.includes("fact-forcing-gate.js") || c.includes("/uni:start beginnen");
+  });
+}
+
+user.hooks = user.hooks || {};
+
+// SessionStart aus Repo-Quelle uebernehmen (idempotent: alte UNI-Eintraege zuerst entfernen)
+if (Array.isArray(repoFixed.hooks.SessionStart)) {
+  const userSession = Array.isArray(user.hooks.SessionStart) ? user.hooks.SessionStart.filter(e => !isUniEntry(e)) : [];
+  user.hooks.SessionStart = userSession.concat(repoFixed.hooks.SessionStart);
+}
+
+// PreToolUse aus Repo-Quelle uebernehmen (idempotent: alte UNI-Eintraege zuerst entfernen)
+if (Array.isArray(repoFixed.hooks.PreToolUse)) {
+  const userPre = Array.isArray(user.hooks.PreToolUse) ? user.hooks.PreToolUse.filter(e => !isUniEntry(e)) : [];
+  user.hooks.PreToolUse = userPre.concat(repoFixed.hooks.PreToolUse);
+}
+
+fs.writeFileSync(userPath, JSON.stringify(user, null, 2));
 '@
     $tmpJs = Join-Path $env:TEMP "uni-merge-settings.js"
     [System.IO.File]::WriteAllText($tmpJs, $mergeJs, $utf8NoBom)
-    & node $tmpJs $settings $hookCmd
+    & node $tmpJs $settings $settingsRepo $hooksDst
     Remove-Item -Force $tmpJs -ErrorAction SilentlyContinue
     Write-Host "Fact-Forcing-Gate installiert -> $gateDst ; settings.json gemergt (Backup: $settings.bak, falls vorhanden)."
 }

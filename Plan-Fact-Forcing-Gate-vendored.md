@@ -2,7 +2,7 @@
 
 > **Ziel (3 Sätze):** Wir portieren ECCs Fact-Forcing-Gate als **ein einziges, selbst-enthaltenes Node-Skript** in dieses Repo und rollen es über die Setup-Skripte an alle Team-Mitglieder aus — **ohne jede Abhängigkeit vom fragilen `ecc@ecc`-Plugin**. Das Gate blockiert auf Claude Code (a) das **erste Bash-Kommando pro Session** und (b) den **ersten Edit/Write pro Datei**, bis konkrete Fakten genannt wurden (exit-2 + stderr-Block-Semantik bzw. JSON-`permissionDecision: deny`), und läuft unter **eigenem, ecc-unabhängigem Namespace** (`UNI_GATE_*`), sodass es nicht mit dem installierten ECC-Plugin kollidiert. Kimi/Codex erhalten — gemäß verifizierter Harness-Realität — die **ehrlich benannte, degradierte Variante**, nicht die volle Tool-Blockade.
 >
-> **Toolkit-Version-Stempel:** dieses Dokument wird mit Abschluss auf `Toolkit-Version: v1.4.0` gestempelt (Platzhalter bis VERSION-Bump in Schritt C5).
+> **Toolkit-Version-Stempel:** v1.4.0
 
 ---
 
@@ -422,4 +422,4 @@ NEUE Datei, Node built-in test runner (`node --test`). Jeder Test ruft das Skrip
 6. **Nach jeder Änderung auf Claude-Code-User-Ebene** (settings.json/Hooks): den Skill **`ecc-guard`** anwenden und prüfen, dass ECC weiterhin „GESUND" meldet (unser Hook darf ECC nicht beschädigt haben). Erst dann „fertig" melden.
 
 ---
-*Plan erstellt vom Systemarchitekten für Agent „Kimi" · Source-of-Truth für Use-Case-Fakten bleibt `Alarmsystem-Dev` · Toolkit-Version: v1.4.0 (Platzhalter bis VERSION-Bump in C5.4).*
+*Plan erstellt vom Systemarchitekten für Agent „Kimi" · Source-of-Truth für Use-Case-Fakten bleibt `Alarmsystem-Dev` · Toolkit-Version: v1.4.0.*

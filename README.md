@@ -108,9 +108,9 @@ Devteam-vibecodes/
 ├── .github/
 │   └── workflows/                  # CI: claude.yml (Issue-Trigger), claude-code-review.yml (PR-Review)
 ├── .claude/
-│   ├── settings.json               # Aktive Hooks (SessionStart-Hinweis)
+│   ├── settings.json               # Aktive Hooks (SessionStart-Hinweis + Fact-Forcing-Gate, Claude Code only)
 │   ├── commands/                   # start -> uni:start (ins uni-Plugin); /setup + /update bleiben global
-│   ├── hooks/                      # Hook-Blueprint (RB-01-Guard, Secret-Scan, Schema-Diff — geplant)
+│   ├── hooks/                      # Aktiver Fact-Forcing-Gate + Phase-2-Blueprint (RB-01-Guard, Secret-Scan, Schema-Diff)
 │   └── skills/                     # 36 SKILLS (je eine SKILL.md — via setup als uni-Plugin installiert)
 ├── erinnerung/                     # Geteiltes Projektgedächtnis (von uni:start geladen)
 │   ├── README.md                   # erklärt das Erinnerungs-System
@@ -165,9 +165,10 @@ Devteam-vibecodes/
   `setup` installiert sie **global** — Claude als `uni`-Plugin nach `~/.claude/skills/uni/` (Aufruf `uni:<name>`),
   Kimi nach `~/.kimi-code/skills/` (`/skill:<name>`), Codex nach `~/.codex/skills/` (`/prompts:<name>`) —
   damit sie in **jedem** Repo greifen, nicht nur im Tooling-Repo.
-- **Standards als Hooks (geplant):** Aktuell ist **nur ein SessionStart-Hinweis** aktiv. Die
-  Enforcement-Hooks (RB-01-Guard, Secret-Scan, OpenAPI-Schema-Diff) sind **Phase 2 — noch nicht verdrahtet**;
-  bis dahin tragen **menschliches Review + GitHub Branch Protection** die Durchsetzung.
+- **Standards als Hooks:** Aktiv sind **SessionStart-Hinweis** und das **Fact-Forcing-Gate**
+  (Claude Code only, eigener `UNI_GATE_*`-Namespace). Die weiteren Enforcement-Hooks (RB-01-Guard,
+  Secret-Scan, OpenAPI-Schema-Diff) sind **Phase 2 — noch nicht verdrahtet**; bis dahin tragen
+  **menschliches Review + GitHub Branch Protection** die Durchsetzung.
 - **CI-Workflows:** `.github/workflows/claude.yml` reagiert auf Issue-/PR-Kommentare mit `@claude`-Trigger;
   `claude-code-review.yml` löst automatische PR-Reviews aus.
 
@@ -219,3 +220,5 @@ Entscheidungslogbuch. Bei Use-Case-Fragen **immer zuerst dort** nachsehen.
 ---
 
 *Gepflegt von Lucas Vöhringer (Systemarchitekt G2). Stand: Juni 2026.*
+
+*Toolkit-Version: v1.4.0*

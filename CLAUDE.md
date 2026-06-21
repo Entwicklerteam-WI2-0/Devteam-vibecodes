@@ -20,7 +20,7 @@ sind die Setup-Skripte; „Tests" = nach dem Lauf prüfen, ob die Zielpfade ents
 
 | CLI | macOS / Linux | Windows | Deployt nach |
 |---|---|---|---|
-| Claude Code | `bash setup.sh` | `powershell -ExecutionPolicy Bypass -File .\setup.ps1` | `~/.claude/team-os-g2.md` + `@import`-Block in `~/.claude/CLAUDE.md`; Skills → `~/.claude/skills/`; Commands → `~/.claude/commands/` |
+| Claude Code | `bash setup.sh` | `powershell -ExecutionPolicy Bypass -File .\setup.ps1` | `~/.claude/team-os-g2.md` + `@import`-Block in `~/.claude/CLAUDE.md`; Skills → `~/.claude/skills/`; Commands → `~/.claude/commands/`; Hooks → `~/.claude/hooks/` + `~/.claude/settings.json` |
 | Kimi Code | `bash setup-kimi.sh` | `.\setup-kimi.ps1` | `~/.kimi-code/AGENTS.md` (additiv) + Skills → `~/.kimi-code/skills/` (Commands als Skills: `/start` → `/skill:start`) |
 | Codex CLI | `bash setup-codex.sh` | `.\setup-codex.ps1` | `~/.codex/AGENTS.md` (inline Team-Block) + Skills → `~/.codex/skills/` + Prompt-Wrapper → `~/.codex/prompts/` (`/prompts:<name>`) |
 
@@ -61,7 +61,7 @@ Tag setzen (`git tag -a vX.Y.Z … && git push origin vX.Y.Z`). Hinweis: **diese
 | **Deploy-Dateiname** `team-os-g2.md` | `setup*`-Skripte (Variable) | README · ONBOARDING · diese `CLAUDE.md` · `claude-sync.md`-Intro | Zieldatei umbenennen |
 | **Install-Pfade & Setup-Flow** | die **6** `setup*`-Skripte | README · ONBOARDING · §0-Tabelle hier | Pfad/Flow → **immer .sh + .ps1 × 3 CLIs** |
 | **VERSION / Tags** | `VERSION` + Git-Tags | README („seit v1.0.0") · ONBOARDING | Release → `VERSION` hoch + Tag |
-| **Hook-Status (aktiv vs. geplant)** | `.claude/settings.json` (real aktiv) + `.claude/hooks/README.md` | README (Architektur) · `claude-sync.md` §6.2 · diese `CLAUDE.md` | Hook scharfschalten |
+| **Hook-Status (aktiv vs. geplant)** | `.claude/settings.json` (real aktiv) + `.claude/hooks/README.md` | README (Architektur) · `claude-sync.md` §6.2 · diese `CLAUDE.md` | Hook scharfschalten; aktuell aktiv: `fact-forcing-gate` (Claude Code only) |
 | **Repo-/Org-Namen + URLs** | GitHub | README · `claude-sync.md` §2 · diese `CLAUDE.md` · Setup-Fehlermeldungen | Umbenennung |
 | **Team-Roster / Rollen** | diese `CLAUDE.md` §5 + `abteilung-*/Skills.md`-Köpfe | `claude-sync.md` §3 | Personalwechsel |
 | **Use-Case-Fakten** (Schwellen, FA/NF/RB, Vorfälle −2,1/+1,2 °C) | **extern: `Alarmsystem-Dev`** | hier nur als **Verweis** (`claude-sync.md` §7 · `abteilung-*/Skills.md` · `Skillanleitung.md`) | **nie hier** ändern — nur dort |
@@ -80,8 +80,8 @@ Tag setzen (`git tag -a vX.Y.Z … && git push origin vX.Y.Z`). Hinweis: **diese
 ### Orientierung — wo liegt was
 - `claude-sync.md` — globale Anweisung (Workflow-Gates, Conventions, Sicherheit). **Hier ändern.**
 - `.claude/skills/` — die Use-Case-Skills · `.claude/commands/` — `uni:start`, `/setup`, `/update` ·
-  `.claude/hooks/README.md` — geplante Phase-2-Enforcement-Hooks (aktiv ist nur ein SessionStart-Hinweis
-  in `.claude/settings.json`).
+  `.claude/hooks/README.md` — aktive Hooks (`fact-forcing-gate`, Claude Code only) + geplante Phase-2-Hooks
+  (verdrahtet in `.claude/settings.json`).
 - `Skill-Plan.md` — Master-Taxonomie/Begründung · `gemeinsam/Skills.md` +
   `abteilung-backend-entwickler/Skills.md` + `abteilung-reviewer-tester/Skills.md` — rollenbasierte Pläne.
 - `Entscheidungslog-Toolkit.md` — Tooling-Entscheidungen · `Seam-Sync-Fragenkatalog.md` — Contract/Naht-Fragen.
@@ -194,11 +194,12 @@ Mensch bleibt im Loop.
 > **Designprinzipien des Team-OS (entschieden — Vollbeleg: `Entscheidungslog-Toolkit.md`):**
 > 1. **Ein gemeinsamer Stack:** **Claude Code** als Standard (volle Skill-/Hook-Parität); **Kimi Code** &
 >    **Codex CLI** als **sanktionierte Varianten** (dieselbe portierte Anweisung, Skills nativ).
-> 2. **Gemeinsame Config ins Repo committen** (`.claude/` mit settings, skills, CLAUDE.md) statt globaler
+> 2. **Gemeinsame Config ins Repo committen** (`.claude/` mit settings, skills, hooks, CLAUDE.md) statt globaler
 >    Pro-Maschine-Config → `git pull` = alle identisch, zentral von Lucas gepflegt.
-> 3. **Standards als Hooks erzwingen** (Ziel): Stand jetzt ist **nur ein SessionStart-Hinweis** aktiv; die
->    Enforcement-Hooks (format/lint, RB-01-Guard, Secret-Scan, test-gate) sind **Phase 2, noch nicht verdrahtet**.
->    Bis dahin trägt **Review + GitHub Branch Protection** die Durchsetzung (PR-Pflicht, kein direkter `main`-Push).
+> 3. **Standards als Hooks erzwingen** (Ziel): Aktiv sind **SessionStart-Hinweis** und das **Fact-Forcing-Gate**
+>    (Claude Code only, eigener `UNI_GATE_*`-Namespace); die weiteren Enforcement-Hooks (format/lint,
+>    RB-01-Guard, Secret-Scan, test-gate) sind **Phase 2, noch nicht verdrahtet**. Bis dahin trägt
+>    **Review + GitHub Branch Protection** die Durchsetzung (PR-Pflicht, kein direkter `main`-Push).
 > 4. **Aus ECC kuratieren statt neu bauen** (vorhandene Skills/Agents: `python-review`, `fastapi-review`,
 >    `tdd-workflow`, `pr`, `code-review`, `security-review`, `update-codemaps` …).
 > 5. **Eine Umgebung für alle Rollen** (z. B. VSC + integriertes Terminal + Claude Code).
@@ -224,3 +225,5 @@ Belegt im `Entscheidungslog-Toolkit.md` (vgl. `claude-sync.md` §8):
 ---
 *Diese Datei pflegt Lucas (Systemarchitekt). Stand/Ergebnisse/Entscheidungen zum Use-Case selbst stehen in
 der `CLAUDE.md` des Code-Repos `Alarmsystem-Dev`.*
+
+*Toolkit-Version: v1.4.0*
