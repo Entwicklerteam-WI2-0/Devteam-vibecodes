@@ -15,6 +15,7 @@ getrennt → konfliktarm.
 | *(optional)* `offene-fragen.md` | Offene Punkte, die noch jemand klären muss. |
 
 ## Regeln
+- ES MÜSSEN BEI JEDEM UPDATE MANDATORISCH STAND.MD UND EIN EINTRAG INS JOURNAL VORGENOMMEN WERDEN.
 
 - **Append-only:** Im Journal **nur unten anhängen** — nie bestehende Blöcke/Zeilen anderer ändern oder
   löschen. Das ist die Grundlage der Konfliktfreiheit (zwei Appends an verschiedenen Stellen → Git merged
