@@ -24,7 +24,7 @@
 | **Repo-/Org-Namen + URLs** | GitHub | `README.md` · `claude-sync.md` §2 · `CLAUDE.md` · Setup-Fehlermeldungen | Umbenennung |
 | **Team-Roster / Rollen** | `CLAUDE.md` §5 + Köpfe der `abteilung-*/Skills.md` | `claude-sync.md` §3 | Personalwechsel |
 | **Use-Case-Fakten** (Schwellen, FA/NF/RB, Vorfälle −2,1/+1,2 °C) | **extern: `Alarmsystem-Dev`** | hier nur als **Verweis** (`claude-sync.md` §7 · `abteilung-*/Skills.md` · `Skillanleitung.md`) | **nie hier** ändern — nur dort |
-| **Toolkit-Version-Stempel** | `VERSION` | **alle versionierten Docs** (`README.md` · `CLAUDE.md` · `claude-sync.md` · `Skill-Plan.md` · `Skillanleitung.md` · `gemeinsam/Skills.md` · `abteilung-architekten/Skills.md` · `abteilung-backend-entwickler/Skills.md` · `abteilung-reviewer-tester/Skills.md` · `ONBOARDING.md` · `erinnerung/README.md` · `Seam-Sync-Fragenkatalog.md`) | **jeder** Doc-Edit (Versionsstempel-Pflicht) |
+| **Toolkit-Version-Stempel** | `VERSION` | **alle versionierten Docs** (`README.md` · `CLAUDE.md` · `claude-sync.md` · `Skill-Plan.md` · `Skillanleitung.md` · `gemeinsam/Skills.md` · `abteilung-architekten/Skills.md` · `abteilung-backend-entwickler/Skills.md` · `abteilung-reviewer-tester/Skills.md` · `ONBOARDING.md` · `erinnerung/README.md` · `Seam-Sync-Fragenkatalog.md` · `USERMANUAL.md`) | **jeder** Doc-Edit (Versionsstempel-Pflicht) |
 
 > **Historie nicht anfassen:** `erinnerung/stand.md`, `erinnerung/journal/`, `Entscheidungslog-Lucas/` sind
 > append-only — sie dokumentieren den Stand von **damals** und werden bei solchen Sweeps **nicht**
