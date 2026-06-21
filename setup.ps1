@@ -130,6 +130,18 @@ if (Test-Path $skillsSrc) {
     Write-Host "Skills als uni-Plugin installiert: $scount -> $uniDir\skills  (Aufruf: uni:<skill>)"
 }
 
+# 4b) DEPRECATED Skills aktiv entfernen (tot/nicht funktionierend) - auch bei Kollegen,
+#     die sie bereits installiert haben (laeuft bei jedem setup/update). Liste hier pflegen.
+$deprecatedSkills = @('ck')
+foreach ($ds in $deprecatedSkills) {
+    foreach ($p in @((Join-Path $claudeDir "skills/$ds"), (Join-Path $uniDir "skills/$ds"))) {
+        if (Test-Path $p) {
+            Remove-Item -Recurse -Force $p
+            Write-Host "  veralteten Skill entfernt: $ds ($p)"
+        }
+    }
+}
+
 # 5) Commands installieren: 'start' ins uni-Plugin (-> uni:start);
 #    setup/update bleiben GLOBAL (muessen vor dem Plugin nutzbar sein).
 $cmdSrc = Join-Path $scriptDir ".claude/commands"

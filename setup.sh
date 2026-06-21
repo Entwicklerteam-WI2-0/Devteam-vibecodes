@@ -112,6 +112,18 @@ JSON
   echo "Skills als uni-Plugin installiert: $scount -> $UNI_DIR/skills  (Aufruf: uni:<skill>)"
 fi
 
+# 4b) DEPRECATED Skills aktiv entfernen (tot/nicht funktionierend) - auch bei Kollegen,
+#     die sie bereits installiert haben (laeuft bei jedem setup/update). Liste hier pflegen.
+DEPRECATED_SKILLS="ck"
+for ds in $DEPRECATED_SKILLS; do
+  for p in "$CLAUDE_DIR/skills/$ds" "$UNI_DIR/skills/$ds"; do
+    if [ -e "$p" ]; then
+      rm -rf "$p"
+      echo "  veralteten Skill entfernt: $ds ($p)"
+    fi
+  done
+done
+
 # 5) Commands installieren: 'start' ins uni-Plugin (-> uni:start);
 #    setup/update bleiben GLOBAL (muessen vor dem Plugin nutzbar sein).
 CMD_SRC="$SCRIPT_DIR/.claude/commands"
