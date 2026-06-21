@@ -319,7 +319,7 @@ Rolle ausgeblendet, §0); **geteilte** Skills (`gemeinsam/Skills.md`) gelten fü
 
 ---
 
-*Globale Anweisung des Team-OS G2 · **v1.4.0** · Zweck: regelkonforme, nachvollziehbare Arbeit am Hauptrepo ermöglichen ·
+*Globale Anweisung des Team-OS G2 · **v1.4.1** · Zweck: regelkonforme, nachvollziehbare Arbeit am Hauptrepo ermöglichen ·
 Source-of-Truth zum Use-Case bleibt stets `Alarmsystem-Dev`.*
 
-*Toolkit-Version: v1.4.0*
+*Toolkit-Version: v1.4.1*

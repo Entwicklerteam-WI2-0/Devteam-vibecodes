@@ -31,4 +31,4 @@ portabel bleiben (z. B. nach Codex mit reiner Config-Übersetzung). Pflegt: Luca
 
 > Stand jetzt: **SessionStart-Hinweis** plus das **Fact-Forcing-Gate** (Claude Code only) in `settings.json` aktiv. Die übrigen Enforcement-Hooks werden erst verdrahtet, **nachdem** die Stack-Umgebung im Arbeitsrepo bei allen steht (sonst laufen sie ins Leere). Ergänzend serverseitig: GitHub **Branch Protection** (PR-Pflicht, kein `main`-Push).
 
-*Toolkit-Version: v1.4.0*
+*Toolkit-Version: v1.4.1*

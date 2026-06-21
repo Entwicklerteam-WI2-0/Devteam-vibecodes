@@ -20,16 +20,16 @@ doppelt gepflegt.
 | `uni:start` | Session-Start (Resume): lädt `erinnerung/stand.md` (Stand & Entscheidungen) + Regeln (`claude-sync.md`) + Git-Status → jede:r startet mit demselben Kontext (3-Wochen-Kontinuität, Personenwechsel) | **WG** | WP0 jeder Session-Start |
 | `save-session` | Stand/Entscheidungen am Ende sichern (`erinnerung/stand.md` + Logbuch) | **WG** | WP8 Session-Ende |
 | `entscheidungslog` | **Persönliches** Entscheidungslog des Devs anlegen/pflegen (eigene Entscheidungen + Begründung + Alternativen) — bewertungsrelevant (Nachvollziehbarkeit, 40 % Einzelleistung) | **CR/WG** | bei jeder eigenen Entscheidung + WP8 |
-| `ecc:coding-standards` | Gemeinsamer Maßstab: Naming, KISS/DRY/YAGNI, kleine Dateien (<800), Funktionen <50, explizites Error-Handling, keine Magic Numbers — **Devs schreiben danach, Reviewer prüfen danach** | **CR** | WP3 (Dev) / WP6 (Reviewer) |
-| `ecc:git-workflow` | Feature-Branch → Commit-Konvention (`feat/fix/...`) → PR; **kein direkter `main`-Push**; main bleibt lauffähig | **CR/WG** | WP4–WP6 |
-| `ecc:codebase-onboarding` | Heterogenes Team versteht Repo-Struktur (`Backend-Konzept §7`: `src/ingest|model|assessment|storage|api|config|forecast`) schnell | **VO** | WP1 (v. a. Onboarding) |
-| `ecc:documentation-lookup` | Aktuelle FastAPI-/Pydantic-/SQLite-Doku nachschlagen statt aus dem Gedächtnis raten | **OP/VO** | WP3 nach Bedarf |
-| `ecc:ecc-guide` | „Welcher Skill/Agent für welche Aufgabe?" — Navigation im ECC-Stack | **VO** | nach Bedarf |
-| `ecc:aside` | Schnelle Seitenfrage beantworten, ohne den laufenden Task-Kontext zu verlieren | **WG** | nach Bedarf |
-| `ecc:code-review` | **Dual-Use:** Dev prüft eigene Changes vor PR (**SR**); Reviewerin nutzt es als Hauptwerkzeug (**OP**) — lokaler Diff oder PR | **SR/OP** | WP5 (Dev) / WP6 (Reviewer) |
-| `ecc:python-review` | dito, Python-spezifisch (PEP 8, Type-Hints, Idiome, Sicherheit) | **SR/OP** | WP5 / WP6 |
-| `ecc:fastapi-review` | dito, FastAPI (Async-Korrektheit, Dependency-Injection, Pydantic-Schemas, OpenAPI-Qualität) | **SR/OP** | WP5 / WP6 |
-| `ecc:security-review` | Sicherheitskritisch: Ingest-Validierung, Audit-Log, **RB-01** (kein Freigabe-/Aktor-Endpoint), keine Secrets | **SR/OP** | WP5 / WP6 |
+| `uni:coding-standards` | Gemeinsamer Maßstab: Naming, KISS/DRY/YAGNI, kleine Dateien (<800), Funktionen <50, explizites Error-Handling, keine Magic Numbers — **Devs schreiben danach, Reviewer prüfen danach** | **CR** | WP3 (Dev) / WP6 (Reviewer) |
+| `uni:git-workflow` | Feature-Branch → Commit-Konvention (`feat/fix/...`) → PR; **kein direkter `main`-Push**; main bleibt lauffähig | **CR/WG** | WP4–WP6 |
+| `uni:codebase-onboarding` | Heterogenes Team versteht Repo-Struktur (`Backend-Konzept §7`: `src/ingest|model|assessment|storage|api|config|forecast`) schnell | **VO** | WP1 (v. a. Onboarding) |
+| `uni:documentation-lookup` | Aktuelle FastAPI-/Pydantic-/SQLite-Doku nachschlagen statt aus dem Gedächtnis raten | **OP/VO** | WP3 nach Bedarf |
+| `uni:ecc-guide` | „Welcher Skill/Agent für welche Aufgabe?" — Navigation im ECC-Stack | **VO** | nach Bedarf |
+| `uni:aside` | Schnelle Seitenfrage beantworten, ohne den laufenden Task-Kontext zu verlieren | **WG** | nach Bedarf |
+| `uni:code-review` | **Dual-Use:** Dev prüft eigene Changes vor PR (**SR**); Reviewerin nutzt es als Hauptwerkzeug (**OP**) — lokaler Diff oder PR | **SR/OP** | WP5 (Dev) / WP6 (Reviewer) |
+| `uni:python-review` | dito, Python-spezifisch (PEP 8, Type-Hints, Idiome, Sicherheit) | **SR/OP** | WP5 / WP6 |
+| `uni:fastapi-review` | dito, FastAPI (Async-Korrektheit, Dependency-Injection, Pydantic-Schemas, OpenAPI-Qualität) | **SR/OP** | WP5 / WP6 |
+| `uni:security-review` | Sicherheitskritisch: Ingest-Validierung, Audit-Log, **RB-01** (kein Freigabe-/Aktor-Endpoint), keine Secrets | **SR/OP** | WP5 / WP6 |
 | `verify` | Laufende App/API starten und **Verhalten beobachten** — Dev verifiziert den Slice, Reviewerin macht den Live-Test | **OP** | WP5 / WP7 |
 
 > **Pflicht-bei-jedem-Start/Ende (standardmäßig, nicht optional):** `uni:start` zu
@@ -73,4 +73,4 @@ Sie setzen die Designprinzipien aus `CLAUDE.md §6` um (gemeinsame Config + Stan
 - **Push/PR/Merge/destruktive Git-Aktionen** nur nach **expliziter Genehmigung** durch Lucas.
 
 ---
-*Toolkit-Version: v1.4.0 · Pflege: Lucas (Systemarchitekt) · Übergeordnet: `../Skill-Plan.md`.*
+*Toolkit-Version: v1.4.1 · Pflege: Lucas (Systemarchitekt) · Übergeordnet: `../Skill-Plan.md`.*
