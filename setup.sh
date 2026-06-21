@@ -121,6 +121,28 @@ if [ -d "$CMD_SRC" ]; then
   echo "Commands installiert: setup/update global -> $CMD_DST ; start -> uni:start"
 fi
 
+# 6) Fact-Forcing-Gate (Hook) installieren: Skript spiegeln + settings.json additiv mergen.
+HOOKS_SRC="$SCRIPT_DIR/.claude/hooks"
+HOOKS_DST="$CLAUDE_DIR/hooks"
+SETTINGS="$CLAUDE_DIR/settings.json"
+if [ -f "$HOOKS_SRC/fact-forcing-gate.js" ]; then
+  mkdir -p "$HOOKS_DST"
+  cp "$HOOKS_SRC/fact-forcing-gate.js" "$HOOKS_DST/fact-forcing-gate.js"
+  # settings.json additiv mergen (node = portables, korrektes JSON; kein jq-Zwang)
+  HOOK_CMD="node \"$HOOKS_DST/fact-forcing-gate.js\""
+  [ -f "$SETTINGS" ] && cp "$SETTINGS" "$SETTINGS.bak"
+  node -e '
+    const fs=require("fs"), p=process.argv[1], cmd=process.argv[2];
+    let s={}; try{ s=JSON.parse(fs.readFileSync(p,"utf8")); }catch(e){ s={}; }
+    s.hooks=s.hooks||{}; const pre=Array.isArray(s.hooks.PreToolUse)?s.hooks.PreToolUse:[];
+    const keep=pre.filter(e=>!(e&&Array.isArray(e.hooks)&&e.hooks.some(h=>h&&typeof h.command==="string"&&h.command.includes("fact-forcing-gate.js"))));
+    const mk=m=>({matcher:m,hooks:[{type:"command",command:cmd,timeout:5}]});
+    s.hooks.PreToolUse=keep.concat([mk("Bash"),mk("Edit|Write|MultiEdit")]);
+    fs.writeFileSync(p, JSON.stringify(s,null,2));
+  ' "$SETTINGS" "$HOOK_CMD"
+  echo "Fact-Forcing-Gate installiert -> $HOOKS_DST/fact-forcing-gate.js ; settings.json gemergt (Backup: $SETTINGS.bak, falls vorhanden)."
+fi
+
 echo ""
 echo "Fertig. Naechste Schritte:"
 echo "  1) Ordner in VS Code oeffnen"

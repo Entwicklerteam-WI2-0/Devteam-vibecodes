@@ -142,6 +142,34 @@ if (Test-Path $cmdSrc) {
     Write-Host "Commands installiert: setup/update global -> $cmdDst ; start -> uni:start"
 }
 
+# 6) Fact-Forcing-Gate (Hook) installieren: Skript spiegeln + settings.json additiv mergen.
+$hooksSrc = Join-Path $scriptDir ".claude/hooks"
+$hooksDst = Join-Path $claudeDir "hooks"
+$settings = Join-Path $claudeDir "settings.json"
+$gateSrc  = Join-Path $hooksSrc "fact-forcing-gate.js"
+if (Test-Path $gateSrc) {
+    New-Item -ItemType Directory -Force -Path $hooksDst | Out-Null
+    Copy-Item $gateSrc (Join-Path $hooksDst "fact-forcing-gate.js") -Force
+    $gateDst = Join-Path $hooksDst "fact-forcing-gate.js"
+    $hookCmd = 'node "' + $gateDst + '"'
+    if (Test-Path $settings) { Copy-Item $settings "$settings.bak" -Force }
+    # Merge per node (korrektes JSON, kein PSCustomObject-Rekonstruktions-Risiko)
+    $mergeJs = @'
+const fs=require("fs"), p=process.argv[1], cmd=process.argv[2];
+let s={}; try{ s=JSON.parse(fs.readFileSync(p,"utf8")); }catch(e){ s={}; }
+s.hooks=s.hooks||{}; const pre=Array.isArray(s.hooks.PreToolUse)?s.hooks.PreToolUse:[];
+const keep=pre.filter(e=>!(e&&Array.isArray(e.hooks)&&e.hooks.some(h=>h&&typeof h.command==="string"&&h.command.includes("fact-forcing-gate.js"))));
+const mk=m=>({matcher:m,hooks:[{type:"command",command:cmd,timeout:5}]});
+s.hooks.PreToolUse=keep.concat([mk("Bash"),mk("Edit|Write|MultiEdit")]);
+fs.writeFileSync(p, JSON.stringify(s,null,2));
+'@
+    $tmpJs = Join-Path $env:TEMP "uni-merge-settings.js"
+    [System.IO.File]::WriteAllText($tmpJs, $mergeJs, $utf8NoBom)
+    & node $tmpJs $settings $hookCmd
+    Remove-Item -Force $tmpJs -ErrorAction SilentlyContinue
+    Write-Host "Fact-Forcing-Gate installiert -> $gateDst ; settings.json gemergt (Backup: $settings.bak, falls vorhanden)."
+}
+
 Write-Host ""
 Write-Host "Fertig. Naechste Schritte:"
 Write-Host "  1) Ordner in VS Code oeffnen"

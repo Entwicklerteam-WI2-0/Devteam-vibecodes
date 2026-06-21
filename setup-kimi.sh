@@ -93,3 +93,4 @@ fi
 echo ""
 echo "Fertig. Kimi findet Skills + Anweisung automatisch (KIMI_CODE_HOME)."
 echo "Aufruf z.B.:  /skill:tdd-workflow   -   Session-Start:  /skill:start"
+echo "HINWEIS: Das Fact-Forcing-Gate (Tool-Block) ist Claude-Code-only. Kimis Hooks-System ist Beta und hier nicht als Enforcement verdrahtet; auf Kimi gilt nur die Text-Guidance aus AGENTS.md."

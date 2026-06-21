@@ -119,3 +119,4 @@ echo "  1) Ordner in VS Code oeffnen, 'codex' im Terminal starten, Projekt 'vert
 echo "  2) Skills triggern primaer AUTOMATISCH (Aufgabe beschreiben). Explizit optional: /prompts:tdd-workflow"
 echo "  3) Der globale System-Prompt (claude-sync.md) gilt jetzt in jeder Codex-Session."
 echo "  4) Fuer die Produktcode-Arbeit zusaetzlich 'Alarmsystem-Dev' klonen (hat eigene AGENTS.md)."
+echo "  5) HINWEIS: Das Fact-Forcing-Gate (Tool-Block) ist Claude-Code-only. Auf Codex gilt nur die Text-Guidance aus AGENTS.md (kein blockierender Hook)."

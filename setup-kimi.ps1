@@ -120,3 +120,4 @@ if (-not (Test-Path $kagents)) {
 Write-Host ""
 Write-Host "Fertig. Kimi findet Skills + Anweisung automatisch (KIMI_CODE_HOME)."
 Write-Host "Aufruf z.B.:  /skill:tdd-workflow   -   Session-Start:  /skill:start"
+Write-Host "HINWEIS: Das Fact-Forcing-Gate (Tool-Block) ist Claude-Code-only. Kimis Hooks-System ist Beta und hier nicht als Enforcement verdrahtet; auf Kimi gilt nur die Text-Guidance aus AGENTS.md."

@@ -142,3 +142,4 @@ Write-Host "  1) Ordner in VS Code oeffnen, 'codex' im Terminal starten, Projekt
 Write-Host "  2) Skills triggern primaer AUTOMATISCH (Aufgabe beschreiben). Explizit optional: /prompts:tdd-workflow"
 Write-Host "  3) Der globale System-Prompt (claude-sync.md) gilt jetzt in jeder Codex-Session."
 Write-Host "  4) Fuer die Produktcode-Arbeit zusaetzlich 'Alarmsystem-Dev' klonen (hat eigene AGENTS.md)."
+Write-Host "  5) HINWEIS: Das Fact-Forcing-Gate (Tool-Block) ist Claude-Code-only. Auf Codex gilt nur die Text-Guidance aus AGENTS.md (kein blockierender Hook)."
