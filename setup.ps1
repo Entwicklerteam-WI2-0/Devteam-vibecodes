@@ -168,62 +168,20 @@ $hooksSrc = Join-Path $scriptDir ".claude/hooks"
 $hooksDst = Join-Path $claudeDir "hooks"
 $settings = Join-Path $claudeDir "settings.json"
 $settingsRepo = Join-Path $scriptDir ".claude/settings.json"
+$preToolUseTemplate = Join-Path $hooksSrc "pretooluse.template.json"
+$mergeJs = Join-Path $hooksSrc "merge-settings.js"
 $gateSrc  = Join-Path $hooksSrc "fact-forcing-gate.js"
-if ((Test-Path $gateSrc) -and (Test-Path $settingsRepo)) {
+if ((Test-Path $gateSrc) -and (Test-Path $settingsRepo) -and (Test-Path $preToolUseTemplate) -and (Test-Path $mergeJs)) {
     New-Item -ItemType Directory -Force -Path $hooksDst | Out-Null
     Copy-Item $gateSrc (Join-Path $hooksDst "fact-forcing-gate.js") -Force
+    Copy-Item $mergeJs (Join-Path $hooksDst "merge-settings.js") -Force
     $gateDst = Join-Path $hooksDst "fact-forcing-gate.js"
     if (Test-Path $settings) { Copy-Item $settings "$settings.bak" -Force }
     # Merge per node (korrektes JSON, kein PSCustomObject-Rekonstruktions-Risiko).
-    # Repo-settings.json ist die Quelle (SessionStart-Hinweis + PreToolUse-Platzhalter);
+    # Repo-settings.json liefert SessionStart, pretooluse.template.json liefert PreToolUse;
     # __UNI_HOOKS_DIR__ wird durch das tatsaechliche Deploy-Verzeichnis (mit Forward-Slashes) ersetzt.
-    $mergeJs = @'
-const fs=require("fs");
-const userPath=process.argv[2];
-const repoPath=process.argv[3];
-const hooksDir=process.argv[4];
-
-try {
-  const safeDir = hooksDir.split("\\").join("/");
-  let user={}; try{ user=JSON.parse(fs.readFileSync(userPath,"utf8")); }catch(e){ user={}; }
-  let repoText="{}"; try{ repoText=fs.readFileSync(repoPath,"utf8"); }catch(e){}
-  const repoFixed=JSON.parse(repoText.replace(/__UNI_HOOKS_DIR__/g, safeDir));
-
-  function isUniEntry(e) {
-    if (!e || !Array.isArray(e.hooks)) return false;
-    return e.hooks.some(h => {
-      if (!h || typeof h.command !== "string") return false;
-      const c = h.command;
-      return c.includes("fact-forcing-gate.js") || c.includes("/uni:start beginnen");
-    });
-  }
-
-  user.hooks = user.hooks || {};
-
-  // SessionStart aus Repo-Quelle uebernehmen (idempotent: alte UNI-Eintraege zuerst entfernen)
-  if (Array.isArray(repoFixed.hooks.SessionStart)) {
-    const userSession = Array.isArray(user.hooks.SessionStart) ? user.hooks.SessionStart.filter(e => !isUniEntry(e)) : [];
-    user.hooks.SessionStart = userSession.concat(repoFixed.hooks.SessionStart);
-  }
-
-  // PreToolUse aus Repo-Quelle uebernehmen (idempotent: alte UNI-Eintraege zuerst entfernen)
-  if (Array.isArray(repoFixed.hooks.PreToolUse)) {
-    const userPre = Array.isArray(user.hooks.PreToolUse) ? user.hooks.PreToolUse.filter(e => !isUniEntry(e)) : [];
-    user.hooks.PreToolUse = userPre.concat(repoFixed.hooks.PreToolUse);
-  }
-
-  fs.writeFileSync(userPath, JSON.stringify(user, null, 2));
-} catch (err) {
-  process.stderr.write("[setup] Fehler beim Merge von settings.json: " + err.message);
-  process.exit(1);
-}
-'@
-    $tmpJs = Join-Path $env:TEMP "uni-merge-settings.js"
-    [System.IO.File]::WriteAllText($tmpJs, $mergeJs, $utf8NoBom)
-    & node $tmpJs $settings $settingsRepo $hooksDst
-    $mergeExit = $LASTEXITCODE
-    Remove-Item -Force $tmpJs -ErrorAction SilentlyContinue
-    if ($mergeExit -ne 0) {
+    & node $mergeJs $settings $preToolUseTemplate $settingsRepo $hooksDst
+    if ($LASTEXITCODE -ne 0) {
         throw "settings.json-Merge fehlgeschlagen (siehe stderr)."
     }
     Write-Host "Fact-Forcing-Gate installiert -> $gateDst ; settings.json gemergt (Backup: $settings.bak, falls vorhanden)."
