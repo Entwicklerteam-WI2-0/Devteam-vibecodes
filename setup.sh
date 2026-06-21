@@ -150,12 +150,12 @@ HOOKS_SRC="$SCRIPT_DIR/.claude/hooks"
 HOOKS_DST="$CLAUDE_DIR/hooks"
 SETTINGS="$CLAUDE_DIR/settings.json"
 SETTINGS_REPO="$SCRIPT_DIR/.claude/settings.json"
-if [ -f "$HOOKS_SRC/fact-forcing-gate.js" ]; then
+if [ -f "$HOOKS_SRC/fact-forcing-gate.js" ] && [ -f "$SETTINGS_REPO" ]; then
   mkdir -p "$HOOKS_DST"
   cp "$HOOKS_SRC/fact-forcing-gate.js" "$HOOKS_DST/fact-forcing-gate.js"
   # settings.json additiv mergen (node = portables, korrektes JSON; kein jq-Zwang).
   # Repo-settings.json ist die Quelle (SessionStart-Hinweis + PreToolUse-Platzhalter);
-  # __UNI_HOOKS_DIR__ wird durch das tatsaechliche Deploy-Verzeichnis ersetzt.
+  # __UNI_HOOKS_DIR__ wird durch das tatsaechliche Deploy-Verzeichnis (mit Forward-Slashes) ersetzt.
   [ -f "$SETTINGS" ] && cp "$SETTINGS" "$SETTINGS.bak"
   node -e '
     const fs=require("fs");
@@ -163,34 +163,41 @@ if [ -f "$HOOKS_SRC/fact-forcing-gate.js" ]; then
     const repoPath=process.argv[2];
     const hooksDir=process.argv[3];
 
-    let user={}; try{ user=JSON.parse(fs.readFileSync(userPath,"utf8")); }catch(e){ user={}; }
-    let repoText="{}"; try{ repoText=fs.readFileSync(repoPath,"utf8"); }catch(e){}
-    const repoFixed=JSON.parse(repoText.replace(/__UNI_HOOKS_DIR__/g, hooksDir));
+    try {
+      const safeDir = hooksDir.replace(/\/g, "/");
+      let user={}; try{ user=JSON.parse(fs.readFileSync(userPath,"utf8")); }catch(e){ user={}; }
+      let repoText="{}"; try{ repoText=fs.readFileSync(repoPath,"utf8"); }catch(e){}
+      const repoFixed=JSON.parse(repoText.replace(/__UNI_HOOKS_DIR__/g, safeDir));
 
-    function isUniEntry(e) {
-      if (!e || !Array.isArray(e.hooks)) return false;
-      return e.hooks.some(h => {
-        if (!h || typeof h.command !== "string") return false;
-        const c = h.command;
-        return c.includes("fact-forcing-gate.js") || c.includes("/uni:start beginnen");
-      });
+      function isUniEntry(e) {
+        if (!e || !Array.isArray(e.hooks)) return false;
+        return e.hooks.some(h => {
+          if (!h || typeof h.command !== "string") return false;
+          const c = h.command;
+          return c.includes("fact-forcing-gate.js") || c.includes("/uni:start beginnen");
+        });
+      }
+
+      user.hooks = user.hooks || {};
+
+      // SessionStart aus Repo-Quelle uebernehmen (idempotent: alte UNI-Eintraege zuerst entfernen)
+      if (Array.isArray(repoFixed.hooks.SessionStart)) {
+        const userSession = Array.isArray(user.hooks.SessionStart) ? user.hooks.SessionStart.filter(e => !isUniEntry(e)) : [];
+        user.hooks.SessionStart = userSession.concat(repoFixed.hooks.SessionStart);
+      }
+
+      // PreToolUse aus Repo-Quelle uebernehmen (idempotent: alte UNI-Eintraege zuerst entfernen)
+      if (Array.isArray(repoFixed.hooks.PreToolUse)) {
+        const userPre = Array.isArray(user.hooks.PreToolUse) ? user.hooks.PreToolUse.filter(e => !isUniEntry(e)) : [];
+        user.hooks.PreToolUse = userPre.concat(repoFixed.hooks.PreToolUse);
+      }
+
+      fs.writeFileSync(userPath, JSON.stringify(user, null, 2));
+    } catch (err) {
+      process.stderr.write("[setup] Fehler beim Merge von settings.json: " + err.message + "
+");
+      process.exit(1);
     }
-
-    user.hooks = user.hooks || {};
-
-    // SessionStart aus Repo-Quelle uebernehmen (idempotent: alte UNI-Eintraege zuerst entfernen)
-    if (Array.isArray(repoFixed.hooks.SessionStart)) {
-      const userSession = Array.isArray(user.hooks.SessionStart) ? user.hooks.SessionStart.filter(e => !isUniEntry(e)) : [];
-      user.hooks.SessionStart = userSession.concat(repoFixed.hooks.SessionStart);
-    }
-
-    // PreToolUse aus Repo-Quelle uebernehmen (idempotent: alte UNI-Eintraege zuerst entfernen)
-    if (Array.isArray(repoFixed.hooks.PreToolUse)) {
-      const userPre = Array.isArray(user.hooks.PreToolUse) ? user.hooks.PreToolUse.filter(e => !isUniEntry(e)) : [];
-      user.hooks.PreToolUse = userPre.concat(repoFixed.hooks.PreToolUse);
-    }
-
-    fs.writeFileSync(userPath, JSON.stringify(user, null, 2));
   ' "$SETTINGS" "$SETTINGS_REPO" "$HOOKS_DST"
   echo "Fact-Forcing-Gate installiert -> $HOOKS_DST/fact-forcing-gate.js ; settings.json gemergt (Backup: $SETTINGS.bak, falls vorhanden)."
 fi

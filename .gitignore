@@ -1,2 +1,4 @@
 # CLAUDE.md ist jetzt versioniert (Projekt-Guidance reist mit) — nicht mehr ignorieren.
 .DS_Store
+# Lokale Kimi-Code-CLI-Installation (wird durch setup-kimi.* ins User-Home deployt).
+.kimi-code/

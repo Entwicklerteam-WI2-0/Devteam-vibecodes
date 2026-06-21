@@ -108,10 +108,13 @@ Devteam-vibecodes/
 ├── .github/
 │   └── workflows/                  # CI: claude.yml (Issue-Trigger), claude-code-review.yml (PR-Review)
 ├── .claude/
-│   ├── settings.json               # Aktive Hooks (SessionStart-Hinweis)
+│   ├── settings.json               # SessionStart-Hinweis (Quelle fuer setup-Merge)
 │   ├── commands/                   # start -> uni:start (ins uni-Plugin); /setup + /update bleiben global
-│   ├── hooks/                      # Hook-Blueprint (RB-01-Guard, Secret-Scan, Schema-Diff — geplant)
-│   └── skills/                     # 34 SKILLS (je eine SKILL.md — via setup als uni-Plugin installiert)
+│   ├── hooks/                      # Hook-Blueprint (Fact-Forcing-Gate aktiv; RB-01-Guard, Secret-Scan, Schema-Diff geplant)
+│   ├── hooks/fact-forcing-gate.js  # PreToolUse-Hook: erzwingt Faktennennung vor Bash/Edit/Write/MultiEdit
+│   ├── hooks/merge-settings.js     # Node-Hilfsskript: additiver Merge von settings.json (von setup.* genutzt)
+│   ├── hooks/pretooluse.template.json # Deploy-Template fuer PreToolUse-Eintraege (Platzhalter __UNI_HOOKS_DIR__)
+│   └── skills/                     # 36 SKILLS (je eine SKILL.md — via setup als uni-Plugin installiert)
 ├── erinnerung/                     # Geteiltes Projektgedächtnis (von uni:start geladen)
 │   ├── README.md                   # erklärt das Erinnerungs-System
 │   ├── stand.md                    # Aktueller Stand (Session-Resumé)
@@ -128,24 +131,27 @@ Devteam-vibecodes/
 └── README.md                       # diese Datei
 ```
 
-**Skills im `.claude/skills/`** (34, aus dem ECC-Stack auf Python/FastAPI/pytest + Use-Case angepasst) — `setup` installiert sie als **`uni`-Plugin**, Aufruf **`uni:<name>`** (kollisionsfrei neben ECC):
+**Skills im `.claude/skills/`** (36, aus dem ECC-Stack auf Python/FastAPI/pytest + Use-Case angepasst) — `setup` installiert sie als **`uni`-Plugin**, Aufruf **`uni:<name>`** (kollisionsfrei neben ECC):
 
 > **Skills in Aktion** — wann welcher Skill feuert, an einem echten Ticket durchgespielt:
 > [`Skillanleitung.md`](Skillanleitung.md). Übersicht & Begründung: [`Skill-Plan.md`](Skill-Plan.md).
 
 *Geteilt — beide Rollen:*
 `aside` · `code-review` · `coding-standards` · `codebase-onboarding` · `documentation-lookup` ·
-`ecc-guide` · `fastapi-review` · `git-workflow` · `grill-me` · `python-review` ·
+`ecc-guide` · `fastapi-review` · `git-workflow` · `python-review` ·
 `save-session` · `security-review`
 
 *Backend-Entwickler:innen:*
-`api-design` · `build-fix` · `checkpoint` · `entscheidungslog` ·
-`error-handling` · `fastapi-patterns` · `feature-dev` · `plan` · `pr` ·
-`python-patterns` · `python-testing` · `quality-gate` · `test-coverage` · `tdd-workflow`
+`api-design` · `architecture-decision-records` · `build-fix` · `checkpoint` · `database-migrations` ·
+`entscheidungslog` · `error-handling` · `fastapi-patterns` · `feature-dev` · `plan` · `pr` ·
+`python-patterns` · `python-testing` · `quality-gate` · `test-coverage` · `tdd-workflow` · `update-docs`
 
 *Reviewerinnen/Testerinnen:*
 `browser-qa` · `code-tour` · `e2e-testing` · `review-pr` · `santa-loop` ·
 `security-scan` · `verification-loop`
+
+*Workflow-Gates / Journal:*
+`erinnerung-update`
 
 *Situativ (erst bei Stack-Wechsel T2+):*
 `database-migrations`
@@ -165,9 +171,10 @@ Devteam-vibecodes/
   `setup` installiert sie **global** — Claude als `uni`-Plugin nach `~/.claude/skills/uni/` (Aufruf `uni:<name>`),
   Kimi nach `~/.kimi-code/skills/` (`/skill:<name>`), Codex nach `~/.codex/skills/` (`/prompts:<name>`) —
   damit sie in **jedem** Repo greifen, nicht nur im Tooling-Repo.
-- **Standards als Hooks (geplant):** Aktuell ist **nur ein SessionStart-Hinweis** aktiv. Die
-  Enforcement-Hooks (RB-01-Guard, Secret-Scan, OpenAPI-Schema-Diff) sind **Phase 2 — noch nicht verdrahtet**;
-  bis dahin tragen **menschliches Review + GitHub Branch Protection** die Durchsetzung.
+- **Standards als Hooks (geplant):** Aktiv sind **SessionStart-Hinweis** und das **Fact-Forcing-Gate**
+  (Claude Code only). Die weiteren Enforcement-Hooks (RB-01-Guard, Secret-Scan, OpenAPI-Schema-Diff)
+  sind **Phase 2 — noch nicht verdrahtet**; bis dahin tragen **menschliches Review + GitHub Branch Protection**
+  die Durchsetzung.
 - **CI-Workflows:** `.github/workflows/claude.yml` reagiert auf Issue-/PR-Kommentare mit `@claude`-Trigger;
   `claude-code-review.yml` löst automatische PR-Reviews aus.
 
