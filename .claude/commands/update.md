@@ -7,7 +7,7 @@ Voraussetzung: im geklonten Ordner `Devteam-vibecodes` sein (sonst zuerst dorthi
 
 Gehe so vor:
 1. **OS erkennen.** macOS/Linux → `bash update.sh`. Windows → `powershell -ExecutionPolicy Bypass -File update.ps1`.
-2. **Skript ausführen.** Es holt den neuesten Stand (`git pull --autostash`) und führt anschließend das Setup erneut aus — frischt `team-os-g2.md`, die 36 Skills und die Commands in `~/.claude/` auf. Das Skript zeigt **Version alt → neu**.
+2. **Skript ausführen.** Es holt den neuesten Stand (`git pull --autostash`) und führt anschließend das Setup erneut aus — frischt `team-os-g2.md`, alle Skills und die Commands in `~/.claude/` auf. Das Skript zeigt **Version alt → neu**.
 3. **Verifizieren:** prüfen, dass die ausgegebene **neue Version** der erwarteten entspricht und Skills/Commands installiert wurden.
 4. **Knapp melden**, von welcher auf welche Version aktualisiert wurde, und darauf hinweisen: **Claude Code neu starten**, damit neue Skills/Commands geladen werden.
 

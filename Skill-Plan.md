@@ -72,6 +72,7 @@ Aus `Tasks+Projektplan.md` (P0–P6, DoD) und `Team-Organisation+Regeln.md` (Kop
 | `uni:documentation-lookup` | Aktuelle FastAPI-/Pydantic-/SQLite-Doku statt Halluzination | OP/VO | WP3 |
 | `uni:ecc-guide` | „Welcher Skill für welche Aufgabe?" — Navigation im Stack | VO | n. Bedarf |
 | `uni:aside` | Schnelle Seitenfrage ohne Verlust des Task-Kontexts | WG | n. Bedarf |
+| `uni:grill-me` | Klärendes Interview vor Arbeitsbeginn — Anforderungen/Entscheidungen abklopfen (lückenhafte Anforderungslage) | VO/WG | WP1/WP2 |
 | `uni:code-review` | **Dual-Use:** Dev = Selbst-Review vor PR / Reviewer = Hauptwerkzeug | SR/OP | WP5 / WP6 |
 | `uni:python-review` | dito, Python-spezifisch (PEP 8, Typing, Idiome) | SR/OP | WP5 / WP6 |
 | `uni:fastapi-review` | dito, FastAPI (Async, DI, Pydantic, OpenAPI) | SR/OP | WP5 / WP6 |

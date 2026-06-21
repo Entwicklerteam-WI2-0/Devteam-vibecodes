@@ -86,6 +86,10 @@ Holt den neuesten Stand (`git pull`) und führt anschließend das Setup erneut a
 alle Skills und Commands in `~/.claude/` auf und zeigt **Version alt → neu**. Danach **Claude Code neu
 starten**, damit neue Skills/Commands geladen werden. (Kimi/Codex: zusätzlich das jeweilige `setup-…` erneut ausführen.)
 
+**Komfort — globaler Terminal-Befehl `uniplugin`:** Einmal `install-cli.ps1` (Windows) bzw. `bash install-cli.sh`
+(Mac/Linux) ausführen → danach updatest du aus **jedem** Verzeichnis per **`uniplugin update`** (wie eine
+installierte CLI; weitere Befehle: `uniplugin setup`, `uniplugin version`). Intern startet er OS-richtig `update.ps1`/`update.sh`.
+
 > Nach dem ersten Setup geht das in Claude Code auch per Slash-Command **`/update`** (identischer Ablauf).
 > Erstmalig — solange `/update` noch nicht installiert ist — einmal `git pull` + Setup; danach steht `/update` bereit.
 > **Versionspflege (Lucas):** bei nennenswerten Änderungen `VERSION` hochzählen + Tag setzen
@@ -114,7 +118,7 @@ Devteam-vibecodes/
 │   ├── hooks/fact-forcing-gate.js  # PreToolUse-Hook: erzwingt Faktennennung vor Bash/Edit/Write/MultiEdit
 │   ├── hooks/merge-settings.js     # Node-Hilfsskript: additiver Merge von settings.json (von setup.* genutzt)
 │   ├── hooks/pretooluse.template.json # Deploy-Template fuer PreToolUse-Eintraege (Platzhalter __UNI_HOOKS_DIR__)
-│   └── skills/                     # 36 SKILLS (je eine SKILL.md — via setup als uni-Plugin installiert)
+│   └── skills/                     # 34 SKILLS (je eine SKILL.md — via setup als uni-Plugin installiert)
 ├── erinnerung/                     # Geteiltes Projektgedächtnis (von uni:start geladen)
 │   ├── README.md                   # erklärt das Erinnerungs-System
 │   ├── stand.md                    # Aktueller Stand (Session-Resumé)
@@ -131,27 +135,24 @@ Devteam-vibecodes/
 └── README.md                       # diese Datei
 ```
 
-**Skills im `.claude/skills/`** (36, aus dem ECC-Stack auf Python/FastAPI/pytest + Use-Case angepasst) — `setup` installiert sie als **`uni`-Plugin**, Aufruf **`uni:<name>`** (kollisionsfrei neben ECC):
+**Skills im `.claude/skills/`** (34, aus dem ECC-Stack auf Python/FastAPI/pytest + Use-Case angepasst) — `setup` installiert sie als **`uni`-Plugin**, Aufruf **`uni:<name>`** (kollisionsfrei neben ECC):
 
 > **Skills in Aktion** — wann welcher Skill feuert, an einem echten Ticket durchgespielt:
 > [`Skillanleitung.md`](Skillanleitung.md). Übersicht & Begründung: [`Skill-Plan.md`](Skill-Plan.md).
 
 *Geteilt — beide Rollen:*
 `aside` · `code-review` · `coding-standards` · `codebase-onboarding` · `documentation-lookup` ·
-`ecc-guide` · `fastapi-review` · `git-workflow` · `python-review` ·
+`ecc-guide` · `fastapi-review` · `git-workflow` · `grill-me` · `python-review` ·
 `save-session` · `security-review`
 
 *Backend-Entwickler:innen:*
-`api-design` · `architecture-decision-records` · `build-fix` · `checkpoint` · `database-migrations` ·
+`api-design` · `build-fix` · `checkpoint` ·
 `entscheidungslog` · `error-handling` · `fastapi-patterns` · `feature-dev` · `plan` · `pr` ·
-`python-patterns` · `python-testing` · `quality-gate` · `test-coverage` · `tdd-workflow` · `update-docs`
+`python-patterns` · `python-testing` · `quality-gate` · `test-coverage` · `tdd-workflow`
 
 *Reviewerinnen/Testerinnen:*
 `browser-qa` · `code-tour` · `e2e-testing` · `review-pr` · `santa-loop` ·
 `security-scan` · `verification-loop`
-
-*Workflow-Gates / Journal:*
-`erinnerung-update`
 
 *Situativ (erst bei Stack-Wechsel T2+):*
 `database-migrations`
@@ -171,10 +172,12 @@ Devteam-vibecodes/
   `setup` installiert sie **global** — Claude als `uni`-Plugin nach `~/.claude/skills/uni/` (Aufruf `uni:<name>`),
   Kimi nach `~/.kimi-code/skills/` (`/skill:<name>`), Codex nach `~/.codex/skills/` (`/prompts:<name>`) —
   damit sie in **jedem** Repo greifen, nicht nur im Tooling-Repo.
-- **Standards als Hooks (geplant):** Aktiv sind **SessionStart-Hinweis** und das **Fact-Forcing-Gate**
-  (Claude Code only). Die weiteren Enforcement-Hooks (RB-01-Guard, Secret-Scan, OpenAPI-Schema-Diff)
-  sind **Phase 2 — noch nicht verdrahtet**; bis dahin tragen **menschliches Review + GitHub Branch Protection**
-  die Durchsetzung.
+- **Standards als Hooks:** Aktiv sind der **SessionStart-Hinweis** und das **Fact-Forcing-Gate**
+  (Claude Code only) — es blockt das **erste Bash-Kommando je Session** und die **erste Berührung jeder Datei**,
+  bis du kurz die geforderten Fakten nennst (Notbremse `UNI_GATE_OFF=off`; eigener `UNI_GATE_*`-Namespace,
+  State in `~/.uni-gate/`, kollisionsfrei neben ECC). Die weiteren Enforcement-Hooks (RB-01-Guard, Secret-Scan,
+  OpenAPI-Schema-Diff) sind **Phase 2 — noch nicht verdrahtet**; bis dahin tragen **menschliches Review +
+  GitHub Branch Protection** die Durchsetzung.
 - **CI-Workflows:** `.github/workflows/claude.yml` reagiert auf Issue-/PR-Kommentare mit `@claude`-Trigger;
   `claude-code-review.yml` löst automatische PR-Reviews aus.
 
