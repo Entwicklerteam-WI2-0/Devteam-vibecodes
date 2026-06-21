@@ -43,4 +43,4 @@ Diese Kopplungs-Karte wird in den folgenden zentralen Dokumenten erwähnt bzw. s
 
 ---
 
-*Gepflegt im Repo `Devteam-vibecodes` · Toolkit-Version: v1.5.0 · Stand: 2026-06-21*
+*Gepflegt im Repo `Devteam-vibecodes` · Toolkit-Version: v1.5.1 · Stand: 2026-06-21*

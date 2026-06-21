@@ -338,7 +338,7 @@ betroffenen Einzel-Skills anhand von `Abhaengigkeiten.md` nach.
 
 ---
 
-*Globale Anweisung des Team-OS G2 · **v1.5.0** · Zweck: regelkonforme, nachvollziehbare Arbeit am Hauptrepo ermöglichen ·
+*Globale Anweisung des Team-OS G2 · **v1.5.1** · Zweck: regelkonforme, nachvollziehbare Arbeit am Hauptrepo ermöglichen ·
 Source-of-Truth zum Use-Case bleibt stets `Alarmsystem-Dev`.*
 
-*Toolkit-Version: v1.5.0*
+*Toolkit-Version: v1.5.1*

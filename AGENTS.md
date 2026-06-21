@@ -43,4 +43,4 @@ davon **ausgenommen** — sie bleiben append-only.
 
 ---
 
-*Gepflegt im Repo `Devteam-vibecodes` · Toolkit-Version: v1.5.0 · Stand: 2026-06-21.*
+*Gepflegt im Repo `Devteam-vibecodes` · Toolkit-Version: v1.5.1 · Stand: 2026-06-21.*

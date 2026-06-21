@@ -117,4 +117,4 @@ Merksatz: **scan = schnell am Gate, review = strukturiert & verantwortet.**
 `abteilung-reviewer-tester/Skills.md` (Rollen-Kanon), `Abhaengigkeiten.md` +
 `.claude/skills/coupling-map/SKILL.md` (Spiegel-Check).*
 
-*Toolkit-Version: v1.5.0 · Stand: 2026-06-21.*
+*Toolkit-Version: v1.5.1 · Stand: 2026-06-21.*

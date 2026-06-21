@@ -1,7 +1,7 @@
 # User Manual — Devteam-Vibecodes (Team-OS G2)
 
 > **Ein Satz vorab:** Dieses Repository ist **kein Programm, das du startest**, sondern der **Werkzeugkasten**, mit dem das Backend-Team G2 KI-gestützt arbeitet. Es bringt deiner KI-CLI (Claude Code, Kimi Code oder Codex) bei, wie das Team arbeiten will — Schritt für Schritt, regelkonform und ohne dass jemand alles auswendig lernen muss.
-> Toolkit-Version: **v1.5.0**
+> Toolkit-Version: **v1.5.1**
 
 ---
 
@@ -293,10 +293,10 @@ Lucas ändert das Setup-Skript. Bevor das Update an alle geht, laufen die Tests 
 ### 2.15 `VERSION` und Git-Tags
 
 **Was ist das?**  
-`VERSION` enthält die aktuelle Version des Toolkits (z. B. `1.5.0`). Git-Tags wie `v1.5.0` markieren Releases.
+`VERSION` enthält die aktuelle Version des Toolkits (z. B. `1.5.1`). Git-Tags wie `v1.5.1` markieren Releases.
 
 **Warum ist das nützlich?**  
-Wenn bei einem Teammitglied etwas komisch läuft, kannst du schnell vergleichen: „Bei dir steht noch v1.4.1, aber aktuell ist v1.5.0 — bitte einmal `/update` laufen lassen."
+Wenn bei einem Teammitglied etwas komisch läuft, kannst du schnell vergleichen: „Bei dir steht noch v1.5.0, aber aktuell ist v1.5.1 — bitte einmal `/update` laufen lassen."
 
 **Beispiel:**  
 Jemand meldet: „Der Skill fehlt bei mir." Die erste Frage lautet: „Welche VERSION zeigt `uniplugin version`?" Damit lässt sich viel eingrenzen.
@@ -395,4 +395,4 @@ G3 möchte eine Anzeige für den Vereisungsstatus. Der Fragenkatalog hilft, klä
 
 ---
 
-*Gepflegt im Repo `Devteam-vibecodes` · Toolkit-Version: v1.5.0 · Stand: 2026-06-21*
+*Gepflegt im Repo `Devteam-vibecodes` · Toolkit-Version: v1.5.1 · Stand: 2026-06-21*

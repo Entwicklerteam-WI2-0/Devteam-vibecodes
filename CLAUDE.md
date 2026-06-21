@@ -217,7 +217,7 @@ Belegt im `Entscheidungslog-Toolkit.md` (vgl. `claude-sync.md` §8):
 3. **Backend-Stack — empfohlen, noch zu begründen:** Python/FastAPI/SQLite (T0); die formale Begründung gehört ins Entscheidungslogbuch des Code-Repos und bestimmt, welche Reviewer-/Test-Skills greifen.
 
 ---
-*Diese Datei pflegt Lucas (Systemarchitekt) · Toolkit-Version: v1.5.0 · Stand: 2026-06-21. Stand/Ergebnisse/Entscheidungen zum Use-Case selbst stehen in
+*Diese Datei pflegt Lucas (Systemarchitekt) · Toolkit-Version: v1.5.1 · Stand: 2026-06-21. Stand/Ergebnisse/Entscheidungen zum Use-Case selbst stehen in
 der `CLAUDE.md` des Code-Repos `Alarmsystem-Dev`.*
 
-*Toolkit-Version: v1.5.0*
+*Toolkit-Version: v1.5.1*

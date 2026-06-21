@@ -66,4 +66,4 @@ P5.3 (Testprotokoll).
 - **Review-Befunde** nach Schweregrad (CRITICAL/HIGH/MEDIUM/LOW); CRITICAL blockt den Merge.
 
 ---
-*Toolkit-Version: v1.5.0 · Pflege: Lucas (Systemarchitekt) · Übergeordnet: `../Skill-Plan.md`, `../gemeinsam/Skills.md`.*
+*Toolkit-Version: v1.5.1 · Pflege: Lucas (Systemarchitekt) · Übergeordnet: `../Skill-Plan.md`, `../gemeinsam/Skills.md`.*
