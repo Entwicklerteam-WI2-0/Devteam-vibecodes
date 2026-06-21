@@ -1,5 +1,10 @@
 # Zeilenenden-Normalisierung (Team-OS)
 # Verhindert, dass Shell-Skripte unter Windows CRLF bekommen (bash-Footgun: \r).
+# Markdown und Config bleiben LF, damit alle Agenten/CLIs identisch lesen.
 * text=auto
-*.sh   text eol=lf
-*.ps1  text eol=crlf
+*.sh    text eol=lf
+*.ps1   text eol=crlf
+*.md    text eol=lf
+*.json  text eol=lf
+*.yaml  text eol=lf
+*.yml   text eol=lf
