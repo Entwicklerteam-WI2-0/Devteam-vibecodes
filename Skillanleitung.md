@@ -12,6 +12,9 @@
 - `/uni:start`, `/setup`, `/update` sind **Commands** (mit `/`). Skills ruft man **ohne** `/` auf.
 - Du musst die Liste **nicht** auswendig können: im Zweifel `ecc-guide` fragen („welcher Skill jetzt?").
 - Der Agent macht die Arbeit — **du verstehst, entscheidest und verantwortest** (40 %-Einzelleistung).
+- **Tooling-Änderungen synchron halten:** Wird ein Skill, Command, WP-Punkt oder eine zentrale
+  Convention geändert, `uni:coupling-map` aufrufen — er liest `Abhaengigkeiten.md` und aktualisiert
+  alle betroffenen Spiegel.
 
 ---
 
@@ -104,10 +107,14 @@ Merksatz: **scan = schnell am Gate, review = strukturiert & verantwortet.**
 ## Wenn du nicht weiterweißt
 - **Welcher Skill jetzt?** → `ecc-guide` fragen.
 - **Fachfrage zum Use-Case** (Schwelle, Regel, Anforderung) → Quelle in `Alarmsystem-Dev`, **nie raten**.
+- **Tooling-Änderungen** (neuer Skill, neuer WP, geänderte §-Nummer) → `coupling-map` aufrufen, damit alle
+  Spiegel in `Abhaengigkeiten.md` mitgezogen werden.
 - **Skill fehlt / Command unbekannt?** → falscher Ordner oder `setup` nicht gelaufen; sonst Lucas fragen.
 
 ---
 *Ergänzt: `Skill-Plan.md` (Übersicht & Begründung), `gemeinsam/Skills.md` (Fundament),
-`abteilung-backend-entwickler/Skills.md`, `abteilung-reviewer-tester/Skills.md` (Rollen-Kanon).*
+`abteilung-architekten/Skills.md`, `abteilung-backend-entwickler/Skills.md`,
+`abteilung-reviewer-tester/Skills.md` (Rollen-Kanon), `Abhaengigkeiten.md` +
+`.claude/skills/coupling-map/SKILL.md` (Spiegel-Check).*
 
-*Toolkit-Version: v1.4.1 · Stand: 2026-06-21.*
+*Toolkit-Version: v1.5.0 · Stand: 2026-06-21.*

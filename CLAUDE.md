@@ -52,28 +52,12 @@ veraltete Versionsangabe in einem Dokument gilt als Bug. Source of Truth ist die
 - Beim Ändern eines Setup-Skripts **alle Varianten konsistent halten**: je `.sh` **und** `.ps1`, über
   alle drei CLIs (Claude/Kimi/Codex).
 
-### Kopplungs-Karte (Drift-Hotspots — bei jeder Änderung die Spiegel mit-aktualisieren)
+### Kopplungs-Karte (Drift-Hotspots)
 
 > **Gegen das wiederkehrende „README/Doku ist falsch"-Problem.** Änderst du einen dieser Fakten, sind
-> **alle Spiegel** mitzuziehen. Source of Truth = **hier ändern**; Spiegel = **nachziehen**.
-
-| Fakt | Source of Truth (hier ändern) | Spiegel (mit-aktualisieren) | Auslöser |
-|---|---|---|---|
-| **Start-Command** `uni:start` | `.claude/commands/start.md` (+ `setup*` baut ihn) | README · ONBOARDING · `claude-sync.md` §0/§4/§9/§10 · `Skill-Plan.md` · `gemeinsam/Skills.md` · beide `abteilung-*/Skills.md` · `Skillanleitung.md` · Skills `ecc-guide`/`feature-dev`/`save-session` · `erinnerung/README.md` · `.claude/settings.json` · `commands/setup.md` | Command umbenennen |
-| **Skill-Set** (Anzahl **34**, Namen, Rollen-Zuordnung) | die echten Ordner `.claude/skills/<name>/` | README (Zahl ×2 + Liste) · `Skill-Plan.md` · `gemeinsam/Skills.md` · beide `abteilung-*/Skills.md` · `ecc-guide` (WP-Tabelle + Kanon) | Skill add/remove/rename |
-| **uni-Namespace / Plugin** | `setup.sh` + `setup.ps1` (bauen `plugin.json`) | README · ONBOARDING · `claude-sync.md` §10 · diese `CLAUDE.md` | Namespace/Plugin-Mechanik ändern |
-| **§-Nummern (§0–§10) + WP-Punkte (WP0–WP8)** | `claude-sync.md` | viele Skills (Verweise „§X"/„WPX") · `Skill-Plan.md` · `abteilung-*/Skills.md` | Sektion/WP umnummerieren |
-| **Deploy-Dateiname** `team-os-g2.md` | `setup*`-Skripte (Variable) | README · ONBOARDING · diese `CLAUDE.md` · `claude-sync.md`-Intro | Zieldatei umbenennen |
-| **Install-Pfade & Setup-Flow** | die **6** `setup*`-Skripte | README · ONBOARDING · §0-Tabelle hier | Pfad/Flow → **immer .sh + .ps1 × 3 CLIs** |
-| **VERSION / Tags** | `VERSION` + Git-Tags | README („seit v1.0.0") · ONBOARDING | Release → `VERSION` hoch + Tag |
-| **Hook-Status (aktiv vs. geplant)** | `.claude/settings.json` (real aktiv) + `.claude/hooks/README.md` | README (Architektur) · `claude-sync.md` §6.2 · diese `CLAUDE.md` | Hook scharfschalten; aktuell aktiv: `fact-forcing-gate` (Claude Code only) |
-| **Repo-/Org-Namen + URLs** | GitHub | README · `claude-sync.md` §2 · diese `CLAUDE.md` · Setup-Fehlermeldungen | Umbenennung |
-| **Team-Roster / Rollen** | diese `CLAUDE.md` §5 + `abteilung-*/Skills.md`-Köpfe | `claude-sync.md` §3 | Personalwechsel |
-| **Use-Case-Fakten** (Schwellen, FA/NF/RB, Vorfälle −2,1/+1,2 °C) | **extern: `Alarmsystem-Dev`** | hier nur als **Verweis** (`claude-sync.md` §7 · `abteilung-*/Skills.md` · `Skillanleitung.md`) | **nie hier** ändern — nur dort |
-| **Toolkit-Version-Stempel** | `VERSION` | **alle versionierten Docs** (README · diese `CLAUDE.md` · `claude-sync.md` · `Skill-Plan.md` · `Skillanleitung.md` · `gemeinsam/`+`abteilung-*/Skills.md` · `ONBOARDING.md` · `erinnerung/README.md` · `Seam-Sync-Fragenkatalog.md`) | **jeder** Doc-Edit (Versionsstempel-Pflicht) |
-
-> **Historie nicht anfassen:** `erinnerung/stand.md`, `erinnerung/journal/`, `Entscheidungslog-Lucas/` sind
-> append-only — sie dokumentieren den Stand von **damals** und werden bei solchen Sweeps **nicht** rückwirkend korrigiert.
+> **alle Spiegel** mitzuziehen. Die vollständige Kopplungs-Karte lebt jetzt in **`Abhaengigkeiten.md`**
+> (Fakt → Source of Truth → Spiegel → Auslöser). Dieser Skill bzw. das Tooling-Repo aktualisiert sie dort
+> zentral; bei Bedarf kann der Skill `coupling-map` die Spiegel automatisch nachziehen.
 
 ### Nicht-offensichtliche Stolpersteine
 - **`CLAUDE.md` ist jetzt versioniert** (im Repo getrackt): **diese Projekt-Guidance reist mit `git pull`.**
@@ -92,7 +76,8 @@ veraltete Versionsangabe in einem Dokument gilt als Bug. Source of Truth ist die
   `.claude/hooks/README.md` — aktive Hooks (`fact-forcing-gate`, Claude Code only) + geplante Phase-2-Hooks
   (verdrahtet in `.claude/settings.json`).
 - `Skill-Plan.md` — Master-Taxonomie/Begründung · `gemeinsam/Skills.md` +
-  `abteilung-backend-entwickler/Skills.md` + `abteilung-reviewer-tester/Skills.md` — rollenbasierte Pläne.
+  `abteilung-architekten/Skills.md` + `abteilung-backend-entwickler/Skills.md` +
+  `abteilung-reviewer-tester/Skills.md` — rollenbasierte Pläne.
 - `Entscheidungslog-Toolkit.md` — Tooling-Entscheidungen · `Seam-Sync-Fragenkatalog.md` — Contract/Naht-Fragen.
 - `erinnerung/` — geteiltes Projektgedächtnis (`stand.md` + `journal/`), von `uni:start` gelesen, **append-only**.
 - `.github/workflows/` — `claude.yml` (@claude-PR-Assistent) + `claude-code-review.yml` (Auto-PR-Review);
@@ -232,7 +217,7 @@ Belegt im `Entscheidungslog-Toolkit.md` (vgl. `claude-sync.md` §8):
 3. **Backend-Stack — empfohlen, noch zu begründen:** Python/FastAPI/SQLite (T0); die formale Begründung gehört ins Entscheidungslogbuch des Code-Repos und bestimmt, welche Reviewer-/Test-Skills greifen.
 
 ---
-*Diese Datei pflegt Lucas (Systemarchitekt) · Toolkit-Version: v1.4.1 · Stand: 2026-06-21. Stand/Ergebnisse/Entscheidungen zum Use-Case selbst stehen in
+*Diese Datei pflegt Lucas (Systemarchitekt) · Toolkit-Version: v1.5.0 · Stand: 2026-06-21. Stand/Ergebnisse/Entscheidungen zum Use-Case selbst stehen in
 der `CLAUDE.md` des Code-Repos `Alarmsystem-Dev`.*
 
-*Toolkit-Version: v1.4.1*
+*Toolkit-Version: v1.5.0*

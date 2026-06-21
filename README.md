@@ -118,7 +118,7 @@ Devteam-vibecodes/
 │   ├── hooks/fact-forcing-gate.js  # PreToolUse-Hook: erzwingt Faktennennung vor Bash/Edit/Write/MultiEdit
 │   ├── hooks/merge-settings.js     # Node-Hilfsskript: additiver Merge von settings.json (von setup.* genutzt)
 │   ├── hooks/pretooluse.template.json # Deploy-Template fuer PreToolUse-Eintraege (Platzhalter __UNI_HOOKS_DIR__)
-│   └── skills/                     # 34 SKILLS (je eine SKILL.md — via setup als uni-Plugin installiert)
+│   └── skills/                     # 42 SKILLS (je eine SKILL.md — via setup als uni-Plugin installiert)
 ├── erinnerung/                     # Geteiltes Projektgedächtnis (von uni:start geladen)
 │   ├── README.md                   # erklärt das Erinnerungs-System
 │   ├── stand.md                    # Aktueller Stand (Session-Resumé)
@@ -130,20 +130,25 @@ Devteam-vibecodes/
 │   └── Lucas-Entscheidungslog.md        # Aufbau Team-OS, Organisationsstruktur, Workflows
 ├── Seam-Sync-Fragenkatalog.md       # Naht-Fragen (Contract G1↔G2↔G3)
 ├── gemeinsam/Skills.md             # Geteilte Skills (beide Abteilungen)
+├── abteilung-architekten/Skills.md       # Toolkit Architekten (Naht, Spec, Design)
 ├── abteilung-backend-entwickler/Skills.md   # Toolkit Backend-Dev
 ├── abteilung-reviewer-tester/Skills.md      # Toolkit Reviewer/Test
 └── README.md                       # diese Datei
 ```
 
-**Skills im `.claude/skills/`** (34, aus dem ECC-Stack auf Python/FastAPI/pytest + Use-Case angepasst) — `setup` installiert sie als **`uni`-Plugin**, Aufruf **`uni:<name>`** (kollisionsfrei neben ECC):
+**Skills im `.claude/skills/`** (42, aus dem ECC-Stack auf Python/FastAPI/pytest + Use-Case angepasst) — `setup` installiert sie als **`uni`-Plugin**, Aufruf **`uni:<name>`** (kollisionsfrei neben ECC):
 
 > **Skills in Aktion** — wann welcher Skill feuert, an einem echten Ticket durchgespielt:
 > [`Skillanleitung.md`](Skillanleitung.md). Übersicht & Begründung: [`Skill-Plan.md`](Skill-Plan.md).
 
 *Geteilt — beide Rollen:*
-`aside` · `code-review` · `coding-standards` · `codebase-onboarding` · `documentation-lookup` ·
-`ecc-guide` · `fastapi-review` · `git-workflow` · `grill-me` · `python-review` ·
-`save-session` · `security-review`
+`aside` · `code-review` · `coding-standards` · `codebase-onboarding` · `coupling-map` ·
+`documentation-lookup` · `ecc-guide` · `fastapi-review` · `git-workflow` · `grill-me` ·
+`python-review` · `save-session` · `security-review`
+
+*Architekten:*
+`blueprint-backprop` · `blueprint-build` · `blueprint-spec` · `citypaul-planning` ·
+`mp-codebase-design` · `pmai-shaping` · `spec-driven-dev`
 
 *Backend-Entwickler:innen:*
 `api-design` · `build-fix` · `checkpoint` ·
@@ -228,4 +233,4 @@ Entscheidungslogbuch. Bei Use-Case-Fragen **immer zuerst dort** nachsehen.
 
 ---
 
-*Gepflegt von Lucas Vöhringer (Systemarchitekt G2) · Toolkit-Version: v1.4.1 · Stand: 2026-06-21.*
+*Gepflegt von Lucas Vöhringer (Systemarchitekt G2) · Toolkit-Version: v1.5.0 · Stand: 2026-06-21.*

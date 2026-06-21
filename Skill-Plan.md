@@ -44,10 +44,10 @@ Aus `Tasks+Projektplan.md` (P0–P6, DoD) und `Team-Organisation+Regeln.md` (Kop
 |---|---|---|
 | **WP0** | **Session-Start** | `uni:start` — Kontext laden (`erinnerung/stand.md` + Regeln + Git-Status) |
 | **WP1** | Task-Start / Verständnis | `codebase-onboarding`, `feature-dev`, `code-tour` |
-| **WP2** | Planung (kritische/große Tasks: P1 Contract, P2.4 Logik) | `plan`, `api-design` |
+| **WP2** | Planung (kritische/große Tasks: P1 Contract, P2.4 Logik) | `plan`, `api-design` (Dev); `spec-driven-dev`, `blueprint-spec`, `citypaul-planning`, `pmai-shaping`, `mp-codebase-design` (Architekt) |
 | **WP3** | Implementierung | `fastapi-patterns`, `python-patterns`, `tdd-workflow`, `error-handling` |
-| **WP4** | **Vor Commit** | `quality-gate`, `build-fix` (bei rotem Build) |
-| **WP5** | **Vor PR** (Dev: Selbst-Review) | `code-review`/`python-review`/`fastapi-review`/`security-review` (SR), `test-coverage`, `pr` |
+| **WP4** | **Vor Commit** | `quality-gate`, `build-fix` (bei rotem Build); bei Tooling-Änderungen zusätzlich `coupling-map` (Spiegel-Check gegen `Abhaengigkeiten.md`) |
+| **WP5** | **Vor PR** (Dev: Selbst-Review) | `code-review`/`python-review`/`fastapi-review`/`security-review` (SR), `test-coverage`, `pr`; bei Tooling-Änderungen `coupling-map` vor `pr` |
 | **WP6** | **PR-Review** (Reviewer-Abteilung) | `code-review`/`review-pr` (OP), `code-tour`, `santa-loop` |
 | **WP7** | Integration / **Live-Test** (P3.6, P5) | `verify`, `run`, `e2e-testing`, `browser-qa` |
 | **WP8** | **Session-Ende / Doku** | `save-session`, `checkpoint`, `entscheidungslog`, Entscheidungslogbuch |
@@ -78,6 +78,7 @@ Aus `Tasks+Projektplan.md` (P0–P6, DoD) und `Team-Organisation+Regeln.md` (Kop
 | `uni:fastapi-review` | dito, FastAPI (Async, DI, Pydantic, OpenAPI) | SR/OP | WP5 / WP6 |
 | `uni:security-review` | Ingest-Validierung, Audit, **RB-01** (kein Aktor-Endpoint), keine Secrets | SR/OP | WP5 / WP6 |
 | `verify` | Laufende App/API starten + Verhalten beobachten | OP | WP5 / WP7 |
+| `uni:coupling-map` | Bei Änderung eines zentralen Fakts (neuer Skill, WP, §-Nummer, Hook-Status, `VERSION`) alle abhängigen **Spiegel** in `Abhaengigkeiten.md` identifizieren und aktualisieren | **CR/WG** | bei jedem Fakt-Edit in `Abhaengigkeiten.md`; optional vor Commit/PR |
 
 **Team-Infrastruktur (zentral von Lucas/Architekt gepflegt — kein Alltags-Skill der Mitglieder):**
 `ecc:configure-ecc` · `ecc:hookify` (+`hookify-list`/`hookify-configure`) · `update-config` · `init`
@@ -122,6 +123,18 @@ Konkrete Pflicht-Hooks (Details `gemeinsam/Skills.md §3`): **RB-01-Guard** (blo
 | `uni:santa-loop` | Adversariales Dual-Review (2 unabhängige Reviewer müssen zustimmen) — sicherheitskritische Logik (P2.4, Fail-safe, RB-01) | OP | WP6 (kritische PRs) |
 | `uni:browser-qa` | Live-API-Verhalten prüfen (Backend liefert Daten; Browser/Playwright nur bei G3-UI-Integration) | OP | WP7 (optional) |
 | `uni:checkpoint` | Test-Durchlauf-Stand sichern | WG | WP7 |
+
+### 3.4 ARCHITEKTEN → `abteilung-architekten/Skills.md`
+
+| Skill | Usecase (projektbezogen) | Schwerpunkt | WP / Auslöser |
+|---|---|---|---|
+| `uni:spec-driven-dev` | Feature in strukturierte Doku vor dem Codieren verwandeln | OP/WG | WP1 / WP2 |
+| `uni:pmai-shaping` | Problemdefinition + Lösungsoptionen iterativ mit User erarbeiten | VO/WG | WP1 / WP2 |
+| `uni:blueprint-spec` | `SPEC.md` anlegen/ändern — alleiniger Mutator der Spezifikation | OP | WP2 |
+| `uni:citypaul-planning` | Arbeit in vertikale, PR-große Slices planen | OP/WG | WP2 |
+| `uni:mp-codebase-design` | Deep modules designen — kleine Interfaces, saubere Seams | VO/OP | WP2 / WP3 |
+| `uni:blueprint-build` | Gegen `SPEC.md` implementieren; bei Fail → `blueprint-backprop` | OP | WP3 |
+| `uni:blueprint-backprop` | Bug/Test-Fail → `SPEC.md` protokollieren (`§B` + Invariante) | SR/WG | bei Bug / Fail |
 
 **Verbindliche Regel (bewertungsrelevant, 40 % Einzelleistung) — `CR`:**
 > **Agent erstellt Review-/Test-Entwurf → Reviewerin liest, versteht, hinterfragt, gibt frei → erst dann
@@ -204,4 +217,4 @@ SR/OP-Schwerpunkt) · 40-%-Human-in-the-loop-Regel · Frontend-/Fremdstack-Aussc
 > nicht nur Reviews) und reale Nutzer (~2. Sem.: schlanker Pflicht-Kanon, Rest situativ) ausgerichtet.
 
 ---
-*Toolkit-Version: v1.4.1 · Stand: 2026-06-21 (urspr. 2026-06-17) · Pflege: Lucas (Systemarchitekt) · Use-Case-Fakten stets aus `Alarmsystem-Dev` lesen.*
+*Toolkit-Version: v1.5.0 · Stand: 2026-06-21 (urspr. 2026-06-17) · Pflege: Lucas (Systemarchitekt) · Use-Case-Fakten stets aus `Alarmsystem-Dev` lesen.*

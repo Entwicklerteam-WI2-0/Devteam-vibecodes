@@ -75,4 +75,4 @@ Reviewer-Abteilung geht (entlastet WP6, hebt die Merge-Qualität):
   (Stale/Ausfall → nie GRÜN). Verifikation gegen `Schwellenwerte.md` (vgl. `uni:verification-loop` bei Test).
 
 ---
-*Toolkit-Version: v1.4.1 · Pflege: Lucas (Systemarchitekt) · Übergeordnet: `../Skill-Plan.md`, `../gemeinsam/Skills.md`.*
+*Toolkit-Version: v1.5.0 · Pflege: Lucas (Systemarchitekt) · Übergeordnet: `../Skill-Plan.md`, `../gemeinsam/Skills.md`.*

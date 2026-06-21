@@ -22,6 +22,7 @@ doppelt gepflegt.
 | `entscheidungslog` | **Persönliches** Entscheidungslog des Devs anlegen/pflegen (eigene Entscheidungen + Begründung + Alternativen) — bewertungsrelevant (Nachvollziehbarkeit, 40 % Einzelleistung) | **CR/WG** | bei jeder eigenen Entscheidung + WP8 |
 | `uni:coding-standards` | Gemeinsamer Maßstab: Naming, KISS/DRY/YAGNI, kleine Dateien (<800), Funktionen <50, explizites Error-Handling, keine Magic Numbers — **Devs schreiben danach, Reviewer prüfen danach** | **CR** | WP3 (Dev) / WP6 (Reviewer) |
 | `uni:git-workflow` | Feature-Branch → Commit-Konvention (`feat/fix/...`) → PR; **kein direkter `main`-Push**; main bleibt lauffähig | **CR/WG** | WP4–WP6 |
+| `uni:coupling-map` | Bei Änderung eines zentralen Fakts (neuer Skill, neuer WP, neuer Hook-Status) alle abhängigen **Spiegel** in `Abhaengigkeiten.md` identifizieren und aktualisieren | **CR/WG** | bei jedem Fakt-Edit in `Abhaengigkeiten.md`; optional vor Commit/PR |
 | `uni:codebase-onboarding` | Heterogenes Team versteht Repo-Struktur (`Backend-Konzept §7`: `src/ingest|model|assessment|storage|api|config|forecast`) schnell | **VO** | WP1 (v. a. Onboarding) |
 | `uni:documentation-lookup` | Aktuelle FastAPI-/Pydantic-/SQLite-Doku nachschlagen statt aus dem Gedächtnis raten | **OP/VO** | WP3 nach Bedarf |
 | `uni:ecc-guide` | „Welcher Skill/Agent für welche Aufgabe?" — Navigation im ECC-Stack | **VO** | nach Bedarf |
@@ -73,4 +74,4 @@ Sie setzen die Designprinzipien aus `CLAUDE.md §6` um (gemeinsame Config + Stan
 - **Push/PR/Merge/destruktive Git-Aktionen** nur nach **expliziter Genehmigung** durch Lucas.
 
 ---
-*Toolkit-Version: v1.4.1 · Pflege: Lucas (Systemarchitekt) · Übergeordnet: `../Skill-Plan.md`.*
+*Toolkit-Version: v1.5.0 · Pflege: Lucas (Systemarchitekt) · Übergeordnet: `../Skill-Plan.md`.*

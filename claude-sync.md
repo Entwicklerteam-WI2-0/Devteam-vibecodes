@@ -36,10 +36,10 @@
 2. **Save-Signatur dauerhaft etablieren:** Ab jetzt hängst du an **jeden** Eintrag, den `save-session`
    in `erinnerung/` schreibt, die festgelegte **Signatur** an (z. B. `… —backenddev`).
    So bleibt nachvollziehbar, **wer** welchen Stand gesichert hat.
-3. **Fremd-Abteilung ausblenden (rein rollenbasiert — KEINE Datei-Löschung):** Halte in der Rollen-Note
-   fest, dass ab jetzt **nur** Workflow + Skills der **eigenen** Abteilung (§10) gelten. Den Block der
-   **anderen** Abteilung in §10 **liest und nutzt du nicht**, ihre **exklusiven** Skills schlägst du nicht
-   vor. **Geteilte** Skills (`gemeinsam/Skills.md`) bleiben für beide. Es werden **keine** Skill-Dateien
+3. **Fremd-Abteilungen ausblenden (rein rollenbasiert — KEINE Datei-Löschung):** Halte in der Rollen-Note
+   fest, dass ab jetzt **nur** Workflow + Skills der **eigenen** Abteilung (§10) gelten. Die Blöcke der
+   **anderen** Abteilungen in §10 **liest und nutzt du nicht**, ihre **exklusiven** Skills schlägst du nicht
+   vor. **Geteilte** Skills (`gemeinsam/Skills.md`) bleiben für alle. Es werden **keine** Skill-Dateien
    entfernt — das Ausblenden ist reine Laufzeit-Filterung per Rolle und **überlebt jedes `/update`**.
 4. **Standing-Instruktion (dauerhaft, jeder Session-Start):** Ergänze die Rollen-Note um:
    *„Bei **jedem Session-Start** lese ich den Workflow meiner Abteilung (§10), ziehe die abgerufenen
@@ -267,16 +267,20 @@ Beschlossen, Stand 2026-06-17 (Details, Alternativen, Quellen:
 
 **Welcher Skill/Agent wann** steht im gepflegten Kanon — eine Quelle, damit nichts driftet:
 - **Übersicht & Begründung:** `Skill-Plan.md` · **Geteiltes Fundament:** `gemeinsam/Skills.md`
-- **Backend-Devs:** `abteilung-backend-entwickler/Skills.md` · **Reviewer/Test:** `abteilung-reviewer-tester/Skills.md`
+- **Architekten:** `abteilung-architekten/Skills.md` · **Backend-Devs:** `abteilung-backend-entwickler/Skills.md` · **Reviewer/Test:** `abteilung-reviewer-tester/Skills.md`
 
 **Pflicht-Minimalkanon (Tag 1) — bewusst klein, der Rest situativ:**
+- **Architekt:** `uni:start` · `spec-driven-dev` / `blueprint-spec` · `citypaul-planning` · `mp-codebase-design` · `save-session`
 - **Backend-Dev:** `uni:start` · `tdd-workflow` · `quality-gate` · `pr` (+ `code-review` als Selbst-Review) · `save-session`
 - **Reviewer/Test:** `uni:start` · `code-tour` · `code-review` · `test-coverage` · `run`/`verify` · `save-session`
-- **Beide:** bei jeder **eigenen** Entscheidung → `entscheidungslog` (sichert die 40 %-Einzelleistung, §1).
+- **Alle:** bei jeder **eigenen** Entscheidung → `entscheidungslog` (sichert die 40 %-Einzelleistung, §1).
 
 **Dein Umgang damit:**
 - Du **wendest die passenden Skills proaktiv** an den Workflow-Punkten an (§4) — der User muss sie nicht von
   Hand kennen; du führst. Überfordere Einsteiger nicht mit der vollen Liste.
+- **Tooling-Änderungen (Skills, Commands, Setup, Version, Hook-Status, §-/WP-Nummern):** Rufe danach
+  **`uni:coupling-map`** auf, um alle betroffenen **Spiegel** laut `Abhaengigkeiten.md` zu identifizieren
+  und nachzuziehen. Das verhindert, dass `README.md`, `Skill-Plan.md` oder Skill-Kanon auseinanderdriften.
 - Ist ein referenzierter Skill/Hook bei diesem Member **nicht verfügbar**, ist das ein **Config-Problem**
   (§6.1) → melden, nicht umgehen.
 - **Kostenpflichtige/Cloud-Spezialwerkzeuge** (z. B. tiefes Cloud-Review) löst **nur Lucas** aus — du
@@ -289,8 +293,18 @@ Beschlossen, Stand 2026-06-17 (Details, Alternativen, Quellen:
 **Quelle & Übersicht:** der vollständige Skill-/Workflow-Plan steht in [`Skill-Plan.md`](Skill-Plan.md)
 (Taxonomie, Workflow-Punkte, Begründung). Pro Abteilung gilt **ein** Standard-Ablauf — den liest der Agent
 beim **Session-Start (§0)** und plant die nächste Task entlang davon. **Skills werden als `uni:<name>`
-aufgerufen** (`uni:start` → `uni:start`). Für dich gilt **nur der Block deiner Abteilung** (der andere ist per
-Rolle ausgeblendet, §0); **geteilte** Skills (`gemeinsam/Skills.md`) gelten für beide.
+aufgerufen** (`uni:start` → `uni:start`). Für dich gilt **nur der Block deiner Abteilung** (die anderen sind per
+Rolle ausgeblendet, §0); **geteilte** Skills (`gemeinsam/Skills.md`) gelten für alle.
+
+### Workflow — Architekten
+*(aus `abteilung-architekten/Skills.md` §3 — Standard-Ablauf einer Architektur-Task, WP-gebunden)*
+1. **WP0** `uni:start` → Kontext. **WP1** `pmai-shaping`/`grill-me` → Anforderungen schärfen.
+2. **WP2 Spezifikation & Planung:** `spec-driven-dev` / `blueprint-spec` für die Spec,
+   `citypaul-planning` für vertikale Slices, `mp-codebase-design` für Module/Seams.
+3. **WP3 Begleitung:** Bei Schnittstellen-Fragen unterstützen; `blueprint-build` für kleine
+   Proof-of-Slices. Bug offenbart Invariantenlücke → `blueprint-backprop`.
+4. **WP5/WP6 Review:** Für Naht-/Contract-Fragen bereitstehen.
+5. **WP8** `save-session`; Entscheidungen ins **Entscheidungslogbuch**.
 
 ### Workflow — Backend-Entwickler:innen
 *(aus `abteilung-backend-entwickler/Skills.md` §3 — Standard-Ablauf einer Dev-Task, WP-gebunden)*
@@ -317,9 +331,14 @@ Rolle ausgeblendet, §0); **geteilte** Skills (`gemeinsam/Skills.md`) gelten fü
 > „fremde" Skills ergeben sich aus den Abteilungs-`Skills.md` (exklusive Skills der jeweils anderen
 > Abteilung werden nicht vorgeschlagen; geteilte bleiben).
 
+**Tooling-Änderungen abschließen:** Werden in diesen Workflows Skills, Commands, §-/WP-Bezeichnungen
+oder andere zentrale Fakten geändert, muss abschließend **`uni:coupling-map`** laufen — es zieht die
+Spiegel in `README.md`, `Skill-Plan.md`, `gemeinsam/Skills.md`, den Abteilungs-`Skills.md` und den
+betroffenen Einzel-Skills anhand von `Abhaengigkeiten.md` nach.
+
 ---
 
-*Globale Anweisung des Team-OS G2 · **v1.4.1** · Zweck: regelkonforme, nachvollziehbare Arbeit am Hauptrepo ermöglichen ·
+*Globale Anweisung des Team-OS G2 · **v1.5.0** · Zweck: regelkonforme, nachvollziehbare Arbeit am Hauptrepo ermöglichen ·
 Source-of-Truth zum Use-Case bleibt stets `Alarmsystem-Dev`.*
 
-*Toolkit-Version: v1.4.1*
+*Toolkit-Version: v1.5.0*

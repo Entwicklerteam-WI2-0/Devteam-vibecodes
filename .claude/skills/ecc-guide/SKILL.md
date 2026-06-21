@@ -2,6 +2,7 @@
 name: ecc-guide
 description: Navigationshilfe für den ECC-Skill-Stack im G2-Backend — „Welcher Skill wann?". Nutze diesen Skill, wenn du/der User unsicher ist, welchen Skill der nächste Schritt braucht.
 origin: ECC (ecc-guide), neu geschrieben für G2 — Use-Case
+version: v1.5.0
 ---
 
 # ecc-guide — Welcher Skill wann? (G2-Backend)
@@ -47,6 +48,8 @@ kurz und praxisnah.
 - **Kritischer Pfad:** `verification-loop` + `santa-loop` (adversariales Dual-Review).
 - **Sicherheit:** `security-review` (Rahmen) + `security-scan` (fokussierter Quick-Scan).
 - **Review-Tiefe:** `code-review` (inhaltlicher Prüf-Baustein / Dev-Selbst-Review) vs. `review-pr` (vollständiges PR-Review mit DoD-Gate & Freigabe).
+- **Tooling-Wartung / Spiegel-Check:** `coupling-map` — bei Änderungen an Skills, Commands, WP-/§-Nummern
+  oder anderen zentralen Fakten die abhängigen Spiegel laut `Abhaengigkeiten.md` aktualisieren.
 - **Navigation / Seitenfrage:** `ecc-guide`, `aside`.
 
 ## Nicht tun
@@ -54,4 +57,4 @@ kurz und praxisnah.
 - Use-Case-Fakten raten; bei fachlichen Fragen auf `Alarmsystem-Dev` verweisen.
 
 ---
-*Quellen: `Skill-Plan.md`, `gemeinsam/Skills.md`, `abteilung-backend-entwickler/Skills.md`, `abteilung-reviewer-tester/Skills.md`.*
+*Quellen: `Skill-Plan.md`, `gemeinsam/Skills.md`, `abteilung-architekten/Skills.md`, `abteilung-backend-entwickler/Skills.md`, `abteilung-reviewer-tester/Skills.md`, `Abhaengigkeiten.md`, `.claude/skills/coupling-map/SKILL.md`.*
