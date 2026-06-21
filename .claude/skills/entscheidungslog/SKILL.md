@@ -61,8 +61,8 @@ Log, optional in **Teile** gliedern (z. B. Bau / Organisation / Workflows) — w
 - **Persönliches** Log (deine Beiträge) ≠ **zentrales** Entscheidungslogbuch des Teams.
 - Diese Datei ist **kein** append-only-Journal (≠ `erinnerung/journal/`) — frühere Einträge darfst du
   präzisieren/korrigieren.
-- `architecture-decision-records` liefert die ADR-Struktur als Rohstoff; **dieser** Skill ist das laufende
-  persönliche Log. Konsolidierung/Doku-Sync über `update-docs`.
+- **Dieser** Skill ist das laufende **persönliche** Log; den zentralen Team-Logbuch-Eintrag + das Journal
+  sichert `save-session` am Session-Ende (WP8).
 
 ## Leitplanken
 - **Die Person entscheidet & formuliert die Begründung selbst** — du strukturierst und lieferst Belege,
@@ -77,4 +77,4 @@ Log, optional in **Teile** gliedern (z. B. Bau / Organisation / Workflows) — w
   vorhandenen `*-Entscheidungslog/`-Ordner zu nutzen.
 
 ---
-*ADR-Struktur: `architecture-decision-records`. Doku-Sync: `update-docs`. Session-Ende: `save-session`. Fakten: `Alarmsystem-Dev`.*
+*Session-Ende: `save-session`. Fakten: `Alarmsystem-Dev`.*

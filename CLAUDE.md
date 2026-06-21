@@ -35,6 +35,11 @@ in Claude Code nach dem ersten Setup auch via **`/update`**. Bei Tooling-Änderu
 Tag setzen (`git tag -a vX.Y.Z … && git push origin vX.Y.Z`). Hinweis: **diese `CLAUDE.md` ist jetzt versioniert** (im Repo getrackt, reist mit)
 — die menschenlesbare Gesamtübersicht für die Kollegen bleibt das `README.md`.
 
+**Versionsstempel-Pflicht (verbindlich, seit v1.3.0).** Jedes Dokument mit einer Versionsangabe trägt
+**immer die aktuelle `VERSION`**. Bei **jedem** Edit an einem solchen Dokument wird der Stempel auf den
+Stand von `VERSION` gebracht (Footer `Toolkit-Version: vX.Y.Z`). **Kein Edit ohne Versions-Sync** — eine
+veraltete Versionsangabe in einem Dokument gilt als Bug. Source of Truth ist die `VERSION`-Datei.
+
 ### Deployment-Architektur (Source of Truth)
 - **`claude-sync.md` ist die EINZIGE Quelle der globalen Agenten-Anweisung.** Setup kopiert sie an die
   deployten Ziele oben. → **Immer `claude-sync.md` editieren (per PR), NIE die deployten Kopien**
@@ -54,8 +59,8 @@ Tag setzen (`git tag -a vX.Y.Z … && git push origin vX.Y.Z`). Hinweis: **diese
 
 | Fakt | Source of Truth (hier ändern) | Spiegel (mit-aktualisieren) | Auslöser |
 |---|---|---|---|
-| **Start-Command** `uni:start` | `.claude/commands/start.md` (+ `setup*` baut ihn) | README · ONBOARDING · `claude-sync.md` §0/§4/§9/§10 · `Skill-Plan.md` · `gemeinsam/Skills.md` · beide `abteilung-*/Skills.md` · `Skillanleitung.md` · Skills `ecc-guide`/`feature-dev`/`save-session`/`erinnerung-update` · `erinnerung/README.md` · `.claude/settings.json` · `commands/setup.md` | Command umbenennen |
-| **Skill-Set** (Anzahl **36**, Namen, Rollen-Zuordnung) | die echten Ordner `.claude/skills/<name>/` | README (Zahl ×2 + Liste) · `Skill-Plan.md` · `gemeinsam/Skills.md` · beide `abteilung-*/Skills.md` · `ecc-guide` (WP-Tabelle + Kanon) | Skill add/remove/rename |
+| **Start-Command** `uni:start` | `.claude/commands/start.md` (+ `setup*` baut ihn) | README · ONBOARDING · `claude-sync.md` §0/§4/§9/§10 · `Skill-Plan.md` · `gemeinsam/Skills.md` · beide `abteilung-*/Skills.md` · `Skillanleitung.md` · Skills `ecc-guide`/`feature-dev`/`save-session` · `erinnerung/README.md` · `.claude/settings.json` · `commands/setup.md` | Command umbenennen |
+| **Skill-Set** (Anzahl **34**, Namen, Rollen-Zuordnung) | die echten Ordner `.claude/skills/<name>/` | README (Zahl ×2 + Liste) · `Skill-Plan.md` · `gemeinsam/Skills.md` · beide `abteilung-*/Skills.md` · `ecc-guide` (WP-Tabelle + Kanon) | Skill add/remove/rename |
 | **uni-Namespace / Plugin** | `setup.sh` + `setup.ps1` (bauen `plugin.json`) | README · ONBOARDING · `claude-sync.md` §10 · diese `CLAUDE.md` | Namespace/Plugin-Mechanik ändern |
 | **§-Nummern (§0–§10) + WP-Punkte (WP0–WP8)** | `claude-sync.md` | viele Skills (Verweise „§X"/„WPX") · `Skill-Plan.md` · `abteilung-*/Skills.md` | Sektion/WP umnummerieren |
 | **Deploy-Dateiname** `team-os-g2.md` | `setup*`-Skripte (Variable) | README · ONBOARDING · diese `CLAUDE.md` · `claude-sync.md`-Intro | Zieldatei umbenennen |
@@ -65,6 +70,7 @@ Tag setzen (`git tag -a vX.Y.Z … && git push origin vX.Y.Z`). Hinweis: **diese
 | **Repo-/Org-Namen + URLs** | GitHub | README · `claude-sync.md` §2 · diese `CLAUDE.md` · Setup-Fehlermeldungen | Umbenennung |
 | **Team-Roster / Rollen** | diese `CLAUDE.md` §5 + `abteilung-*/Skills.md`-Köpfe | `claude-sync.md` §3 | Personalwechsel |
 | **Use-Case-Fakten** (Schwellen, FA/NF/RB, Vorfälle −2,1/+1,2 °C) | **extern: `Alarmsystem-Dev`** | hier nur als **Verweis** (`claude-sync.md` §7 · `abteilung-*/Skills.md` · `Skillanleitung.md`) | **nie hier** ändern — nur dort |
+| **Toolkit-Version-Stempel** | `VERSION` | **alle versionierten Docs** (README · diese `CLAUDE.md` · `claude-sync.md` · `Skill-Plan.md` · `Skillanleitung.md` · `gemeinsam/`+`abteilung-*/Skills.md` · `ONBOARDING.md` · `erinnerung/README.md` · `Seam-Sync-Fragenkatalog.md`) | **jeder** Doc-Edit (Versionsstempel-Pflicht) |
 
 > **Historie nicht anfassen:** `erinnerung/stand.md`, `erinnerung/journal/`, `Entscheidungslog-Lucas/` sind
 > append-only — sie dokumentieren den Stand von **damals** und werden bei solchen Sweeps **nicht** rückwirkend korrigiert.
@@ -74,7 +80,10 @@ Tag setzen (`git tag -a vX.Y.Z … && git push origin vX.Y.Z`). Hinweis: **diese
   Die Quelle der **globalen** Agenten-Anweisung bleibt dennoch `claude-sync.md`; diese Datei ist die
   **projekt-spezifische** Guidance fürs Arbeiten *in* diesem Repo (anderer Zweck, andere Datei).
 - Setup ist **additiv & idempotent** — überschreibt **nie** eine vorhandene persönliche `CLAUDE.md`/
-  `AGENTS.md`; legt bei Bedarf ein `.bak`-Backup an.
+  `AGENTS.md`; legt bei Bedarf ein `.bak`-Backup an. **Die uni-Skills werden hingegen gespiegelt:** aus der
+  Quelle gelöschte Skills verschwinden beim nächsten `setup`/`update` auch bei bereits Installierten
+  (Claude: dedizierter `uni`-Ordner; Kimi/Codex: manifest-gestützt via `.team-os-installed`, damit eigene
+  Skills des Users erhalten bleiben — greift dort ab dem übernächsten Update, da das Manifest erst angelegt wird).
 - **Deutsch** für alle erzeugten Artefakte (Skills, Commands, Doku).
 
 ### Orientierung — wo liegt was
@@ -223,7 +232,7 @@ Belegt im `Entscheidungslog-Toolkit.md` (vgl. `claude-sync.md` §8):
 3. **Backend-Stack — empfohlen, noch zu begründen:** Python/FastAPI/SQLite (T0); die formale Begründung gehört ins Entscheidungslogbuch des Code-Repos und bestimmt, welche Reviewer-/Test-Skills greifen.
 
 ---
-*Diese Datei pflegt Lucas (Systemarchitekt). Stand/Ergebnisse/Entscheidungen zum Use-Case selbst stehen in
+*Diese Datei pflegt Lucas (Systemarchitekt) · Toolkit-Version: v1.4.0 · Stand: 2026-06-21. Stand/Ergebnisse/Entscheidungen zum Use-Case selbst stehen in
 der `CLAUDE.md` des Code-Repos `Alarmsystem-Dev`.*
 
 *Toolkit-Version: v1.4.0*

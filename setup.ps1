@@ -104,6 +104,15 @@ if (Test-Path $skillsSrc) {
 }
 '@
     [System.IO.File]::WriteAllText((Join-Path $uniDir ".claude-plugin/plugin.json"), $pluginJson, $utf8NoBom)
+    # Mirror statt additiv: deployte uni-Skills entfernen, die es in der Quelle NICHT MEHR gibt
+    # (so verschwinden geloeschte Skills auch bei Kollegen, die bereits installiert haben - via update/.update).
+    $uniSkillsDir = Join-Path $uniDir "skills"
+    Get-ChildItem -Path $uniSkillsDir -Directory -ErrorAction SilentlyContinue | ForEach-Object {
+        if (-not (Test-Path (Join-Path $skillsSrc (Join-Path $_.Name "SKILL.md")))) {
+            Remove-Item -Recurse -Force $_.FullName
+            Write-Host "  entfernt (nicht mehr in der Quelle): $($_.Name)"
+        }
+    }
     $scount = 0
     Get-ChildItem -Path $skillsSrc -Directory | ForEach-Object {
         $skillFile = Join-Path $_.FullName "SKILL.md"
@@ -119,6 +128,18 @@ if (Test-Path $skillsSrc) {
         }
     }
     Write-Host "Skills als uni-Plugin installiert: $scount -> $uniDir\skills  (Aufruf: uni:<skill>)"
+}
+
+# 4b) DEPRECATED Skills aktiv entfernen (tot/nicht funktionierend) - auch bei Kollegen,
+#     die sie bereits installiert haben (laeuft bei jedem setup/update). Liste hier pflegen.
+$deprecatedSkills = @('ck')
+foreach ($ds in $deprecatedSkills) {
+    foreach ($p in @((Join-Path $claudeDir "skills/$ds"), (Join-Path $uniDir "skills/$ds"))) {
+        if (Test-Path $p) {
+            Remove-Item -Recurse -Force $p
+            Write-Host "  veralteten Skill entfernt: $ds ($p)"
+        }
+    }
 }
 
 # 5) Commands installieren: 'start' ins uni-Plugin (-> uni:start);

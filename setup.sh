@@ -84,6 +84,18 @@ if [ -d "$SKILLS_SRC" ]; then
   "commands": ["./commands/"]
 }
 JSON
+  # Mirror statt additiv: deployte uni-Skills entfernen, die es in der Quelle NICHT MEHR gibt
+  # (so verschwinden geloeschte Skills auch bei Kollegen, die bereits installiert haben - via update/.update).
+  if [ -d "$UNI_DIR/skills" ]; then
+    for dd in "$UNI_DIR/skills"/*/; do
+      [ -d "$dd" ] || continue
+      nm="$(basename "$dd")"
+      if [ ! -f "$SKILLS_SRC/$nm/SKILL.md" ]; then
+        rm -rf "$dd"
+        echo "  entfernt (nicht mehr in der Quelle): $nm"
+      fi
+    done
+  fi
   scount=0
   for d in "$SKILLS_SRC"/*/; do
     [ -d "$d" ] || continue
@@ -99,6 +111,18 @@ JSON
   done
   echo "Skills als uni-Plugin installiert: $scount -> $UNI_DIR/skills  (Aufruf: uni:<skill>)"
 fi
+
+# 4b) DEPRECATED Skills aktiv entfernen (tot/nicht funktionierend) - auch bei Kollegen,
+#     die sie bereits installiert haben (laeuft bei jedem setup/update). Liste hier pflegen.
+DEPRECATED_SKILLS="ck"
+for ds in $DEPRECATED_SKILLS; do
+  for p in "$CLAUDE_DIR/skills/$ds" "$UNI_DIR/skills/$ds"; do
+    if [ -e "$p" ]; then
+      rm -rf "$p"
+      echo "  veralteten Skill entfernt: $ds ($p)"
+    fi
+  done
+done
 
 # 5) Commands installieren: 'start' ins uni-Plugin (-> uni:start);
 #    setup/update bleiben GLOBAL (muessen vor dem Plugin nutzbar sein).

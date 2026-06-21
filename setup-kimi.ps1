@@ -40,6 +40,22 @@ New-Item -ItemType Directory -Force -Path $kskills | Out-Null
 $utf8NoBom = New-Object System.Text.UTF8Encoding($false)
 Write-Host "Team-OS-Setup fuer Kimi Code -> $kimiHome"
 
+# Mirror statt additiv: zuvor vom Team installierte Skills entfernen, die es in der Quelle NICHT MEHR gibt.
+# Manifest-gestuetzt -> persoenliche Kimi-Skills des Users bleiben unangetastet.
+$kmanifest = Join-Path $kskills ".team-os-installed"
+$teamSet = @()
+Get-ChildItem -Path $src -Directory -ErrorAction SilentlyContinue | ForEach-Object { if (Test-Path (Join-Path $_.FullName "SKILL.md")) { $teamSet += $_.Name } }
+if (Test-Path $cmdSrc) { Get-ChildItem -Path $cmdSrc -Filter *.md -File | ForEach-Object { $teamSet += $_.BaseName } }
+if (Test-Path $kmanifest) {
+    Get-Content -LiteralPath $kmanifest | ForEach-Object {
+        $old = $_.Trim()
+        if ($old -and ($teamSet -notcontains $old)) {
+            Remove-Item -Recurse -Force (Join-Path $kskills $old) -ErrorAction SilentlyContinue
+            Write-Host "  entfernt (nicht mehr in der Quelle): $old"
+        }
+    }
+}
+
 # 1) Skills nativ
 $count = 0
 Get-ChildItem -Path $src -Directory | ForEach-Object {
@@ -77,6 +93,7 @@ if (Test-Path $cmdSrc) {
         $ccount++
     }
 }
+[System.IO.File]::WriteAllText($kmanifest, (($teamSet | Sort-Object -Unique) -join "`n") + "`n", $utf8NoBom)
 Write-Host "[2/3] $ccount Commands als Skills installiert  (Aufruf: /skill:start, /skill:setup)"
 
 # 3) Globale Anweisung -> AGENTS.md, 4 Faelle (idempotent, Kimi inline; kein @import):

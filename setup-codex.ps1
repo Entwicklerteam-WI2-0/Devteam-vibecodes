@@ -79,6 +79,22 @@ if (-not (Test-Path $agents)) {
     }
 }
 
+# Mirror statt additiv: zuvor vom Team installierte Skills/Prompts entfernen, die es in der Quelle NICHT MEHR gibt.
+# Manifest-gestuetzt -> persoenliche Codex-Skills/Prompts des Users bleiben unangetastet.
+$cmanifest = Join-Path $skillsDir ".team-os-installed"
+$teamSet = @()
+Get-ChildItem -Path $src -Directory -ErrorAction SilentlyContinue | ForEach-Object { if (Test-Path (Join-Path $_.FullName "SKILL.md")) { $teamSet += $_.Name } }
+if (Test-Path $cmanifest) {
+    Get-Content -LiteralPath $cmanifest | ForEach-Object {
+        $old = $_.Trim()
+        if ($old -and ($teamSet -notcontains $old)) {
+            Remove-Item -Recurse -Force (Join-Path $skillsDir $old) -ErrorAction SilentlyContinue
+            Remove-Item -Force (Join-Path $promptsDir ($old + ".md")) -ErrorAction SilentlyContinue
+            Write-Host "  entfernt (nicht mehr in der Quelle): $old"
+        }
+    }
+}
+
 # --- 2) + 3) Skills nativ kopieren + Command-Wrapper erzeugen -----------------
 $count = 0
 Get-ChildItem -Path $src -Directory | ForEach-Object {
@@ -119,6 +135,7 @@ Get-ChildItem -Path $src -Directory | ForEach-Object {
     }
 }
 Write-Host "[2/3] $count Skills nativ installiert -> $skillsDir"
+[System.IO.File]::WriteAllText($cmanifest, (($teamSet | Sort-Object -Unique) -join "`n") + "`n", $utf8NoBom)
 Write-Host "[3/3] $count Commands erzeugt        -> $promptsDir  (Aufruf: /prompts:<name>  oder / tippen und auswaehlen)"
 Write-Host ""
 

@@ -2,7 +2,7 @@
 
 Dies ist das **gemeinsame Gedächtnis** des Teams: der **allgemeine Repo-Fortschritt, den alle pflegen**.
 `uni:start` **liest** es beim Sitzungsbeginn (damit jede:r mit demselben Stand startet — auch nach Tages-/
-Personenwechsel), der Skill **`erinnerung-update`** **schreibt** am Session-Ende. Lesen und Schreiben sind
+Personenwechsel), der Skill **`save-session`** **schreibt** am Session-Ende. Lesen und Schreiben sind
 getrennt → konfliktarm.
 
 ## Struktur
@@ -22,7 +22,7 @@ getrennt → konfliktarm.
 - **Ein Tages-Dokument:** pro Tag genau eine Datei `journal/<YYYY-MM-DD>.md`. Kein Ordner pro Rolle.
 - **Rolle als Tag** im Block-Kopf: `tester | architekt | backend-db | backend-dev`.
 - **Keine Secrets/Tokens.** **Keine personenbezogenen Bewertungen** über Teammitglieder.
-- **Daten nicht erfinden:** Datum/Uhrzeit/Commit-Hash aus `git`/System ziehen (siehe Skill `erinnerung-update`).
+- **Daten nicht erfinden:** Datum/Uhrzeit/Commit-Hash aus `git`/System ziehen (siehe Skill `save-session`).
 - **Use-Case-/Produktstand gehört NICHT hierher**, sondern ins Arbeitsrepo `Alarmsystem-Dev`. Hier nur der
   **Arbeits-/Repo-Fortschritt** am Team-OS bzw. an der Entwicklung.
 
@@ -41,8 +41,6 @@ Erinnerungsdateien (`erinnerung/`) sind **Nicht-Code** und von der **inhaltliche
 ausgenommen** — sie gehen ohne Review direkt rein (kurzes Konflikt-Fenster dank append-only). Details und
 der Branch-Protection-Hinweis: `claude-sync.md` §7.
 
-> Schreiben: Skill `erinnerung-update` · Lesen: `uni:start` · Workflow-Punkte: `claude-sync.md` §4 (WP0/WP8).
-
----
+> Schreiben: Skill `save-session` · Lesen: `uni:start` · Workflow-Punkte: `claude-sync.md` §4 (WP0/WP8).
 
 *Toolkit-Version: v1.4.0*

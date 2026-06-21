@@ -28,7 +28,7 @@ versteht & verantwortet — du machst die Mechanik.
 
 ## Ausnahme: `erinnerung/` (geteilter Repo-Fortschritt)
 Dateien unter `erinnerung/` sind **Nicht-Code** und von der **inhaltlichen Review-Pflicht ausgenommen** —
-kein prüfender Reviewer nötig (Konfliktarmut kommt aus **append-only**, siehe Skill `erinnerung-update`).
+kein prüfender Reviewer nötig (Konfliktarmut kommt aus **append-only**, siehe Skill `save-session`).
 Der **Branch → PR → Merge-Weg bleibt** (`main` ist geschützt, Branch Protection ist nicht pfad-granular):
 kleiner PR, **Self-/Auto-Merge ohne Review**. Details: `claude-sync.md` §7.
 
