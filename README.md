@@ -6,6 +6,8 @@
 > das Team produktiv und regelkonform im **echten Code-Repo** arbeitet.
 > Self-contained: **ein Klon + ein Setup-Befehl**, kein Marketplace-Plugin nötig (das Setup baut lokal ein `uni`-Plugin). Sprache aller Artefakte: **Deutsch**.
 
+> **Neu im Team oder nicht technisch?** → [`USERMANUAL.md`](USERMANUAL.md) erklärt alle Komponenten auf Deutsch, ohne Vorkenntnisse vorauszusetzen. Für die 3-Schritte-Ersteinrichtung: [`ONBOARDING.md`](ONBOARDING.md).
+
 ---
 
 ## Was ist das hier — und was nicht?
@@ -39,7 +41,8 @@ powershell -ExecutionPolicy Bypass -File .\setup.ps1 # Windows (als Datei starte
 Legt `claude-sync.md` als eigene Datei `~/.claude/team-os-g2.md` ab und ergänzt die globale `~/.claude/CLAUDE.md`
 **additiv** um einen `@import`-Block — eine vorhandene persönliche `CLAUDE.md` bleibt erhalten (Backup wird angelegt).
 Installiert außerdem die **Skills als `uni`-Plugin** (`~/.claude/skills/uni/` → Aufruf **`uni:<skill>`**,
-kollisionsfrei neben einem evtl. installierten **ECC**-Stack) plus die globalen Commands `/setup` + `/update`.
+kollisionsfrei neben einem evtl. installierten **ECC**-Stack) plus die globalen Commands `/setup` + `/update`
+und verdrahtet das **Fact-Forcing-Gate** als aktiven PreToolUse-Hook.
 Sie greifen in **jedem** Repo (auch im Code-Repo `Alarmsystem-Dev`), nicht nur in diesem Tooling-Repo.
 Danach: Ordner in **VS Code** öffnen → `claude` starten → „Projekt vertrauen" → **`/uni:start`** tippen.
 **Beim allerersten Lauf** startet ein kurzes **Rollen-Bootstrap** (Abteilung? bei Backend: Dev oder
@@ -68,7 +71,7 @@ Skills-Feature (`codex --enable skills`). Danach: `codex` starten → „Projekt
 *Ist `codex` beim Setup noch nicht installiert, legt das Skript alles korrekt ab und nennt den einen
 Befehl (`codex --enable skills`), den du danach einmal ausführst.*
 
-> Details & Troubleshooting: [`ONBOARDING.md`](ONBOARDING.md).
+> Details & Troubleshooting: [`ONBOARDING.md`](ONBOARDING.md) · Vollständige Komponenten-Erklärung: [`USERMANUAL.md`](USERMANUAL.md).
 
 ---
 
@@ -102,22 +105,32 @@ installierte CLI; weitere Befehle: `uniplugin setup`, `uniplugin version`). Inte
 ```text
 Devteam-vibecodes/
 ├── claude-sync.md                  # GLOBALE Agenten-Anweisung → ~/.claude/team-os-g2.md (via setup)
-├── setup.ps1 / setup.sh            # Setup Claude Code: team-os-g2.md + @import-Block in ~/.claude/CLAUDE.md
+├── AGENTS.md                       # Kurzanweisung für Agenten, die in DIESEM Repo arbeiten
+├── CLAUDE.md                       # Projekt-Guidance (Git-getrackt, reist mit git pull)
+├── USERMANUAL.md                   # Vollständiges Benutzerhandbuch (alle Komponenten, für Nicht-Techies)
+├── ONBOARDING.md                   # 3-Schritte-Ersteinrichtung (alle CLIs, Kurzversion)
+├── setup.ps1 / setup.sh            # Setup Claude Code: team-os-g2.md + @import-Block + Fact-Forcing-Gate
 ├── setup-kimi.ps1 / setup-kimi.sh  # Setup Kimi Code: Skills + Anweisung → ~/.kimi-code/
 ├── setup-codex.ps1 / setup-codex.sh# Setup Codex CLI: AGENTS.md + Skills + Commands → ~/.codex/
 ├── update.ps1 / update.sh          # Update: git pull + Setup erneut (Version alt → neu); auch via /update
+├── install-cli.ps1 / install-cli.sh# Installiert globalen Terminal-Befehl `uniplugin`
+├── uniplugin.ps1 / uniplugin.sh    # Das `uniplugin`-Wrapper-Skript (setup / update / version)
 ├── VERSION                         # Tooling-Version (SemVer) — plus Git-Tags vX.Y.Z
+├── Abhaengigkeiten.md              # Kopplungs-Karte: Fakt → Source of Truth → Spiegel → Auslöser
 ├── .gitattributes / .gitignore     # EOL-Normalisierung (sh=LF, ps1=CRLF) bzw. Ignore-Regeln
-├── ONBOARDING.md                   # 3-Schritte-Startanleitung (alle CLIs)
+├── tests/
+│   ├── fact-forcing-gate.test.js   # Akzeptanztests für das Fact-Forcing-Gate
+│   └── setup-wiring.test.js        # Prüft korrekte Hook-Verdrahtung durch Setup-Skripte
 ├── .github/
 │   └── workflows/                  # CI: claude.yml (Issue-Trigger), claude-code-review.yml (PR-Review)
 ├── .claude/
-│   ├── settings.json               # SessionStart-Hinweis (Quelle fuer setup-Merge)
-│   ├── commands/                   # start -> uni:start (ins uni-Plugin); /setup + /update bleiben global
-│   ├── hooks/                      # Hook-Blueprint (Fact-Forcing-Gate aktiv; RB-01-Guard, Secret-Scan, Schema-Diff geplant)
-│   ├── hooks/fact-forcing-gate.js  # PreToolUse-Hook: erzwingt Faktennennung vor Bash/Edit/Write/MultiEdit
-│   ├── hooks/merge-settings.js     # Node-Hilfsskript: additiver Merge von settings.json (von setup.* genutzt)
-│   ├── hooks/pretooluse.template.json # Deploy-Template fuer PreToolUse-Eintraege (Platzhalter __UNI_HOOKS_DIR__)
+│   ├── settings.json               # SessionStart-Hinweis (Quelle für setup-Merge)
+│   ├── commands/                   # start → uni:start (ins uni-Plugin); /setup + /update bleiben global
+│   ├── hooks/
+│   │   ├── README.md               # Hook-Blueprint: aktive + geplante Hooks, Begründungen
+│   │   ├── fact-forcing-gate.js    # PreToolUse-Hook: erzwingt Faktennennung vor Bash/Edit/Write/MultiEdit
+│   │   ├── merge-settings.js       # Hilfsskript: additiver Merge von settings.json (von setup.* genutzt)
+│   │   └── pretooluse.template.json# Deploy-Template für PreToolUse-Einträge (Platzhalter __UNI_HOOKS_DIR__)
 │   └── skills/                     # 42 SKILLS (je eine SKILL.md — via setup als uni-Plugin installiert)
 ├── erinnerung/                     # Geteiltes Projektgedächtnis (von uni:start geladen)
 │   ├── README.md                   # erklärt das Erinnerungs-System
@@ -125,14 +138,15 @@ Devteam-vibecodes/
 │   └── journal/                    # Tageseinträge (append-only)
 ├── Skill-Plan.md                   # Master-Plan: Taxonomie, Workflow-Punkte, Begründung
 ├── Skillanleitung.md               # Skills in Aktion: realistischer Durchlauf an einem Ticket (Dev + Reviewer)
-├── Entscheidungslog-Lucas/         # Architekten-Log; je Person legt der `entscheidungslog`-Skill `<Name>-Entscheidungslog/` an (datierte .md)
+├── Plan-Fact-Forcing-Gate-vendored.md # Implementierungsplan des Fact-Forcing-Gates (Archiv/Design-Doc)
+├── Entscheidungslog-Lucas/         # Architekten-Log; je Person legt der `entscheidungslog`-Skill `<Name>-Entscheidungslog/` an
 │   ├── Entscheidungslog-Toolkit.md      # Tool-/Modell-/Lizenz-Entscheidungen
 │   └── Lucas-Entscheidungslog.md        # Aufbau Team-OS, Organisationsstruktur, Workflows
-├── Seam-Sync-Fragenkatalog.md       # Naht-Fragen (Contract G1↔G2↔G3)
+├── Seam-Sync-Fragenkatalog.md      # Naht-Fragen (Contract G1↔G2↔G3)
 ├── gemeinsam/Skills.md             # Geteilte Skills (beide Abteilungen)
-├── abteilung-architekten/Skills.md       # Toolkit Architekten (Naht, Spec, Design)
-├── abteilung-backend-entwickler/Skills.md   # Toolkit Backend-Dev
-├── abteilung-reviewer-tester/Skills.md      # Toolkit Reviewer/Test
+├── abteilung-architekten/Skills.md      # Toolkit Architekten (Naht, Spec, Design)
+├── abteilung-backend-entwickler/Skills.md  # Toolkit Backend-Dev
+├── abteilung-reviewer-tester/Skills.md     # Toolkit Reviewer/Test
 └── README.md                       # diese Datei
 ```
 
@@ -173,16 +187,26 @@ Devteam-vibecodes/
 - **Global vs. Projekt:** `claude-sync.md` (global) trägt Operating Mode, Workflow-Gates, Conventions,
   Sicherheit — **projektneutral**. Use-Case-Fakten (Schwellenwerte, RB-01-Werte, Phasen) bleiben im
   Code-Repo `Alarmsystem-Dev` und werden von dort gelesen, nicht hier dupliziert.
+- **`AGENTS.md`** ergänzt `claude-sync.md` für Agenten, die **in diesem Tooling-Repo selbst** arbeiten:
+  Kopplungs-Karte beachten, Spiegel synchron halten, keine Produktfakten erfinden.
 - **Skills reisen mit dem Repo:** echte `SKILL.md` unter `.claude/skills/` — kein ECC-Plugin nötig.
   `setup` installiert sie **global** — Claude als `uni`-Plugin nach `~/.claude/skills/uni/` (Aufruf `uni:<name>`),
   Kimi nach `~/.kimi-code/skills/` (`/skill:<name>`), Codex nach `~/.codex/skills/` (`/prompts:<name>`) —
   damit sie in **jedem** Repo greifen, nicht nur im Tooling-Repo.
-- **Standards als Hooks:** Aktiv sind der **SessionStart-Hinweis** und das **Fact-Forcing-Gate**
-  (Claude Code only) — es blockt das **erste Bash-Kommando je Session** und die **erste Berührung jeder Datei**,
-  bis du kurz die geforderten Fakten nennst (Notbremse `UNI_GATE_OFF=off`; eigener `UNI_GATE_*`-Namespace,
-  State in `~/.uni-gate/`, kollisionsfrei neben ECC). Die weiteren Enforcement-Hooks (RB-01-Guard, Secret-Scan,
-  OpenAPI-Schema-Diff) sind **Phase 2 — noch nicht verdrahtet**; bis dahin tragen **menschliches Review +
-  GitHub Branch Protection** die Durchsetzung.
+- **Fact-Forcing-Gate (Claude Code, aktiv):** `setup` verdrahtet `fact-forcing-gate.js` als PreToolUse-Hook.
+  Es blockiert (a) das **erste Bash-Kommando je Session** und (b) die **erste Berührung jeder Datei**, bis
+  konkrete Fakten genannt werden. Bei destruktiven Befehlen (`rm -rf`, `git push --force`) verlangt das Gate
+  **Betroffene Dateien, Rollback-Plan und wörtliches Zitat der Anweisung** — kein Escape außer erneutem
+  Tippen desselben Befehls. Eigener Namespace `UNI_GATE_*`, State in `~/.uni-gate/`, kollisionsfrei neben ECC.
+  Notbremse: `UNI_GATE_OFF=off`. Bei **Kimi/Codex** gilt dieselbe Regel als Text-Anweisung — ohne
+  technische Blockade.
+- **Kopplungs-Karte:** `Abhaengigkeiten.md` listet pro Fakt, welche Dateien synchron gehalten werden müssen.
+  Wer einen zentralen Fakt ändert (Skill-Name, Workflow-Punkt, Version), ruft `uni:coupling-map` auf —
+  der Skill liest die Karte und zieht alle Spiegel nach.
+- **Team-Gedächtnis:** `erinnerung/` — `stand.md` (konsolidierter Stand) + `journal/<Datum>.md`
+  (append-only, rollenbasiert signiert) — wird von `/uni:start` geladen, von `uni:save-session` beschrieben.
+- **Selbst-Tests:** `tests/` — prüft, ob Setup-Skripte das Gate korrekt verdrahten und ob das Gate
+  wie spezifiziert blockt und durchlässt. Läuft lokal mit Node.
 - **CI-Workflows:** `.github/workflows/claude.yml` reagiert auf Issue-/PR-Kommentare mit `@claude`-Trigger;
   `claude-code-review.yml` löst automatische PR-Reviews aus.
 
@@ -218,6 +242,8 @@ Alles Weitere ist **situativ** — bei Bedarf aus den Abteilungs-`Skills.md` daz
 - **Use-Case-Fakten** nie aus dem Gedächtnis — immer aus `Alarmsystem-Dev` lesen.
 - **Sicherheitskritisch:** Das Zielsystem darf die Startbahn **nie automatisch freigeben/sperren**
   (RB-01); bei Ausfall/veralteten Daten **nie GRÜN** (Fail-safe).
+- **Kopplungs-Karte:** Wer zentrale Fakten ändert (Skills, Docs, Version), ruft `uni:coupling-map` auf
+  und zieht alle Spiegel nach (Quelle: `Abhaengigkeiten.md`).
 
 ---
 
