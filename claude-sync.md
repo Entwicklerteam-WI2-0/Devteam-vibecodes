@@ -33,8 +33,8 @@
    lesbare Zeile:
    `<!-- TEAM-OS-ROLLE: Abteilung=<Backend|Reviewer>; Rolle=<Dev|Database-Engineer|Reviewer>; Signatur=<-backenddev|-database-engineer|-reviewer> -->`
    `**Team-OS-Rolle:** Abteilung … · Rolle … · Signatur …`
-2. **Save-Signatur dauerhaft etablieren:** Ab jetzt hängst du an **jeden** Eintrag, den `save-session` /
-   `erinnerung-update` in `erinnerung/` schreibt, die festgelegte **Signatur** an (z. B. `… —backenddev`).
+2. **Save-Signatur dauerhaft etablieren:** Ab jetzt hängst du an **jeden** Eintrag, den `save-session`
+   in `erinnerung/` schreibt, die festgelegte **Signatur** an (z. B. `… —backenddev`).
    So bleibt nachvollziehbar, **wer** welchen Stand gesichert hat.
 3. **Fremd-Abteilung ausblenden (rein rollenbasiert — KEINE Datei-Löschung):** Halte in der Rollen-Note
    fest, dass ab jetzt **nur** Workflow + Skills der **eigenen** Abteilung (§10) gelten. Den Block der
@@ -317,5 +317,5 @@ Rolle ausgeblendet, §0); **geteilte** Skills (`gemeinsam/Skills.md`) gelten fü
 
 ---
 
-*Globale Anweisung des Team-OS G2 · Zweck: regelkonforme, nachvollziehbare Arbeit am Hauptrepo ermöglichen ·
+*Globale Anweisung des Team-OS G2 · **v1.3.0** · Zweck: regelkonforme, nachvollziehbare Arbeit am Hauptrepo ermöglichen ·
 Source-of-Truth zum Use-Case bleibt stets `Alarmsystem-Dev`.*

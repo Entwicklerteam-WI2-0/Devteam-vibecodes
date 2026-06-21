@@ -71,3 +71,6 @@ Sie setzen die Designprinzipien aus `CLAUDE.md §6` um (gemeinsame Config + Stan
 - **Use-Case-Fakten** nie aus dem Gedächtnis — immer aus `Alarmsystem-Dev` lesen (`CLAUDE.md §2`).
 - **Schwellenwerte/Bewertungslogik** ausschließlich aus `Schwellenwerte.md`, danach **logisch plausibilisieren** (KI-generiert).
 - **Push/PR/Merge/destruktive Git-Aktionen** nur nach **expliziter Genehmigung** durch Lucas.
+
+---
+*Toolkit-Version: v1.3.0 · Pflege: Lucas (Systemarchitekt) · Übergeordnet: `../Skill-Plan.md`.*

@@ -31,6 +31,17 @@ KAGENTS="$KIMI_HOME/AGENTS.md"
 mkdir -p "$KSKILLS"
 echo "Team-OS-Setup fuer Kimi Code -> $KIMI_HOME"
 
+# Mirror statt additiv: zuvor vom Team installierte Skills entfernen, die es in der Quelle NICHT MEHR gibt.
+# Manifest-gestuetzt -> persoenliche Kimi-Skills des Users bleiben unangetastet.
+KMANIFEST="$KSKILLS/.team-os-installed"
+TEAM_SET="$( { for d in "$SRC"/*/; do [ -f "${d}SKILL.md" ] && basename "$d"; done; for f in "$CMD_SRC"/*.md; do [ -f "$f" ] && basename "$f" .md; done; } | sort -u )"
+if [ -f "$KMANIFEST" ]; then
+  while IFS= read -r old; do
+    [ -n "$old" ] || continue
+    printf '%s\n' "$TEAM_SET" | grep -qxF "$old" || { rm -rf "$KSKILLS/$old"; echo "  entfernt (nicht mehr in der Quelle): $old"; }
+  done < "$KMANIFEST"
+fi
+
 # 1) Skills nativ
 count=0
 for d in "$SRC"/*/; do
@@ -57,6 +68,7 @@ if [ -d "$CMD_SRC" ]; then
     ccount=$((ccount + 1))
   done
 fi
+printf '%s\n' "$TEAM_SET" > "$KMANIFEST"
 echo "[2/3] $ccount Commands als Skills installiert  (Aufruf: /skill:start, /skill:setup)"
 
 # 3) Globale Anweisung -> AGENTS.md, 4 Faelle (idempotent, Kimi inline; kein @import):

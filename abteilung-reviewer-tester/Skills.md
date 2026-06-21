@@ -64,3 +64,6 @@ P5.3 (Testprotokoll).
 - **RB-01-Pflichtcheck:** Kein Freigabe-/Sperr-/Aktor-Endpoint existiert (P4.5).
 - **Testmaßstab = `Schwellenwerte.md §3`** (Abnahme-Checkliste) + NFA; Werte logisch plausibilisieren (KI-generiert).
 - **Review-Befunde** nach Schweregrad (CRITICAL/HIGH/MEDIUM/LOW); CRITICAL blockt den Merge.
+
+---
+*Toolkit-Version: v1.3.0 · Pflege: Lucas (Systemarchitekt) · Übergeordnet: `../Skill-Plan.md`, `../gemeinsam/Skills.md`.*

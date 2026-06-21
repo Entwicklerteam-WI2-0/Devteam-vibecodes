@@ -109,3 +109,5 @@ Merksatz: **scan = schnell am Gate, review = strukturiert & verantwortet.**
 ---
 *Ergänzt: `Skill-Plan.md` (Übersicht & Begründung), `gemeinsam/Skills.md` (Fundament),
 `abteilung-backend-entwickler/Skills.md`, `abteilung-reviewer-tester/Skills.md` (Rollen-Kanon).*
+
+*Toolkit-Version: v1.3.0 · Stand: 2026-06-21.*

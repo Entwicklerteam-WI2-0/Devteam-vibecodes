@@ -78,6 +78,20 @@ write_prompt() {
   } > "$out"
 }
 
+# Mirror statt additiv: zuvor vom Team installierte Skills/Prompts entfernen, die es in der Quelle NICHT MEHR gibt.
+# Manifest-gestuetzt -> persoenliche Codex-Skills/Prompts des Users bleiben unangetastet.
+CMANIFEST="$SKILLS_DIR/.team-os-installed"
+TEAM_SET="$( for d in "$SRC"/*/; do [ -f "${d}SKILL.md" ] && basename "$d"; done | sort -u )"
+if [ -f "$CMANIFEST" ]; then
+  while IFS= read -r old; do
+    [ -n "$old" ] || continue
+    if ! printf '%s\n' "$TEAM_SET" | grep -qxF "$old"; then
+      rm -rf "$SKILLS_DIR/$old"; rm -f "$PROMPTS_DIR/$old.md"
+      echo "  entfernt (nicht mehr in der Quelle): $old"
+    fi
+  done < "$CMANIFEST"
+fi
+
 # --- 2) + 3) Skills nativ kopieren + Command-Wrapper erzeugen -----------------
 count=0
 for d in "$SRC"/*/; do
@@ -98,6 +112,7 @@ for d in "$SRC"/*/; do
   count=$((count + 1))
 done
 echo "[2/3] $count Skills nativ installiert -> $SKILLS_DIR"
+printf '%s\n' "$TEAM_SET" > "$CMANIFEST"
 echo "[3/3] $count Commands erzeugt        -> $PROMPTS_DIR  (Aufruf: /prompts:<name>  oder / tippen und auswaehlen)"
 echo ""
 

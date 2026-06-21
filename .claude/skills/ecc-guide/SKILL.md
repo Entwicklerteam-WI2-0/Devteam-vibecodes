@@ -38,7 +38,7 @@ kurz und praxisnah.
 | WP5 | Vor PR (Dev) | `code-review`, `python-review`, `fastapi-review`, `security-review`, `test-coverage`, `pr` |
 | WP6 | PR-Review (Reviewer) | `code-tour`, `code-review`, `review-pr`, `python-review`, `fastapi-review`, `security-review` |
 | WP7 | Live-Test / Integration | `run`, `verify`, `e2e-testing`, `browser-qa`, `verification-loop` |
-| WP8 | Ende / Doku | `save-session`, `update-docs`, `architecture-decision-records` |
+| WP8 | Ende / Doku | `save-session`, `entscheidungslog` |
 
 > **Hinweis (Einsteiger):** `uni:start` ist ein **Command**, `run`/`verify` sind **globale** ECC-Skills —
 > sie gehören **nicht** zum Team-Skill-Set (den Skills hier), sind aber trotzdem verfügbar. Dort nicht danach suchen.

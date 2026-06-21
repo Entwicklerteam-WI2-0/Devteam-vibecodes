@@ -29,8 +29,6 @@ Quittierung, Audit). Achse: **Architekt → Spec → Dev → Implementierung**, 
 | `ecc:test-coverage` | Coverage analysieren + Lücken vor dem PR schließen (DoD-Nachweis ≥ 80 %) | **SR/WG** | WP5 vor PR |
 | `ecc:pr` | Feature-PR aus dem Branch erstellen (Beschreibung, Test-Plan) — **Push erst nach Genehmigung** | **WG** | WP5 PR-Erstellung |
 | `ecc:checkpoint` | Zwischenstand nach erfolgreicher Verifikation sichern | **WG** | WP4/WP5 |
-| `ecc:architecture-decision-records` | Entscheidung als ADR festhalten — liefert den **Rohstoff**; die **Konsolidierung** des fortlaufenden, deutschen **Entscheidungslogbuchs** (Stack-Wahl, K1–K9, AE-01/02; Pflichtdokument, benotet) erfolgt via `update-docs`/manuell | **CR/WG** | WP2/WP8 (bei Entscheidung) |
-| `ecc:update-docs` | **API-Doku** (Pflichtdokument) aus Routen/Schemas synchron halten + Entscheidungslogbuch konsolidieren | **WG** | WP8 (nach API-/Entscheidungs-Änderung) |
 
 > **Einstiegs-Set (Pflicht, Tag 1) — bewusst klein, 4 Kern-Skills:**
 > `uni:start` (Start) · `tdd-workflow` (Kern-Arbeit, Tests-first) · `quality-gate` (vor Commit) ·
@@ -75,3 +73,6 @@ Reviewer-Abteilung geht (entlastet WP6, hebt die Merge-Qualität):
 - **Kritischer Pfad (P2.4 Bewertungslogik):** DoD ist **nicht** nur „≥ 80 % Coverage", sondern **beide
   dokumentierten Vorfälle (−2,1 / +1,2 °C) als benannte, grüne Testfälle** + Fail-safe-Test
   (Stale/Ausfall → nie GRÜN). Verifikation gegen `Schwellenwerte.md` (vgl. `ecc:verification-loop` bei Test).
+
+---
+*Toolkit-Version: v1.3.0 · Pflege: Lucas (Systemarchitekt) · Übergeordnet: `../Skill-Plan.md`, `../gemeinsam/Skills.md`.*

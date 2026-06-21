@@ -90,3 +90,6 @@ geladen werden. In Claude Code geht das nach dem ersten Setup auch per Slash-Com
 - **Globale CLAUDE.md kam nicht an** → prüfen, ob `~/.claude/CLAUDE.md` existiert; ggf. `claude-sync.md`
   manuell dorthin kopieren (siehe Skript-Ausgabe).
 - **Sonst:** Lucas fragen — nicht raten.
+
+---
+*Toolkit-Version: v1.3.0 · Stand: 2026-06-21 · Pflege: Lucas (Systemarchitekt).*

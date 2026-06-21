@@ -111,7 +111,7 @@ Devteam-vibecodes/
 │   ├── settings.json               # Aktive Hooks (SessionStart-Hinweis)
 │   ├── commands/                   # start -> uni:start (ins uni-Plugin); /setup + /update bleiben global
 │   ├── hooks/                      # Hook-Blueprint (RB-01-Guard, Secret-Scan, Schema-Diff — geplant)
-│   └── skills/                     # 36 SKILLS (je eine SKILL.md — via setup als uni-Plugin installiert)
+│   └── skills/                     # 34 SKILLS (je eine SKILL.md — via setup als uni-Plugin installiert)
 ├── erinnerung/                     # Geteiltes Projektgedächtnis (von uni:start geladen)
 │   ├── README.md                   # erklärt das Erinnerungs-System
 │   ├── stand.md                    # Aktueller Stand (Session-Resumé)
@@ -128,20 +128,20 @@ Devteam-vibecodes/
 └── README.md                       # diese Datei
 ```
 
-**Skills im `.claude/skills/`** (36, aus dem ECC-Stack auf Python/FastAPI/pytest + Use-Case angepasst) — `setup` installiert sie als **`uni`-Plugin**, Aufruf **`uni:<name>`** (kollisionsfrei neben ECC):
+**Skills im `.claude/skills/`** (34, aus dem ECC-Stack auf Python/FastAPI/pytest + Use-Case angepasst) — `setup` installiert sie als **`uni`-Plugin**, Aufruf **`uni:<name>`** (kollisionsfrei neben ECC):
 
 > **Skills in Aktion** — wann welcher Skill feuert, an einem echten Ticket durchgespielt:
 > [`Skillanleitung.md`](Skillanleitung.md). Übersicht & Begründung: [`Skill-Plan.md`](Skill-Plan.md).
 
 *Geteilt — beide Rollen:*
 `aside` · `code-review` · `coding-standards` · `codebase-onboarding` · `documentation-lookup` ·
-`ecc-guide` · `erinnerung-update` · `fastapi-review` · `git-workflow` · `python-review` ·
+`ecc-guide` · `fastapi-review` · `git-workflow` · `grill-me` · `python-review` ·
 `save-session` · `security-review`
 
 *Backend-Entwickler:innen:*
-`api-design` · `architecture-decision-records` · `build-fix` · `checkpoint` · `entscheidungslog` ·
+`api-design` · `build-fix` · `checkpoint` · `entscheidungslog` ·
 `error-handling` · `fastapi-patterns` · `feature-dev` · `plan` · `pr` ·
-`python-patterns` · `python-testing` · `quality-gate` · `test-coverage` · `tdd-workflow` · `update-docs`
+`python-patterns` · `python-testing` · `quality-gate` · `test-coverage` · `tdd-workflow`
 
 *Reviewerinnen/Testerinnen:*
 `browser-qa` · `code-tour` · `e2e-testing` · `review-pr` · `santa-loop` ·
@@ -218,4 +218,4 @@ Entscheidungslogbuch. Bei Use-Case-Fragen **immer zuerst dort** nachsehen.
 
 ---
 
-*Gepflegt von Lucas Vöhringer (Systemarchitekt G2). Stand: Juni 2026.*
+*Gepflegt von Lucas Vöhringer (Systemarchitekt G2) · Toolkit-Version: v1.3.0 · Stand: 2026-06-21.*

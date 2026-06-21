@@ -14,7 +14,7 @@ Du planst sichere Schema-Migrationen, falls/sobald ein Migrations-Toolchain eing
 auf **Deutsch**.
 
 ## Wann aktivieren
-Erst nach **dokumentierter Entscheidung** (ADR) für Stack-Wechsel auf Postgres/MySQL + ORM/Migrationstool.
+Erst nach **dokumentierter Entscheidung** für Stack-Wechsel auf Postgres/MySQL + ORM/Migrationstool.
 
 ## Prinzipien (falls relevant)
 - **Vorwärts + rückwärts:** jede Migration mit Rollback-Pfad; nie destruktiv ohne Backup.
@@ -27,4 +27,4 @@ Erst nach **dokumentierter Entscheidung** (ADR) für Stack-Wechsel auf Postgres/
 - Migrations-Komplexität ohne Stack-Wechsel einführen (YAGNI). Destruktive Migration ohne Backup/Rollback.
 
 ---
-*Entscheidung zuerst: `architecture-decision-records`. Persistenz-Pattern: `Backend-Konzept` (`Alarmsystem-Dev`).*
+*Entscheidung zuerst dokumentieren (`entscheidungslog`). Persistenz-Pattern: `Backend-Konzept` (`Alarmsystem-Dev`).*

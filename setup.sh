@@ -84,6 +84,18 @@ if [ -d "$SKILLS_SRC" ]; then
   "commands": ["./commands/"]
 }
 JSON
+  # Mirror statt additiv: deployte uni-Skills entfernen, die es in der Quelle NICHT MEHR gibt
+  # (so verschwinden geloeschte Skills auch bei Kollegen, die bereits installiert haben - via update/.update).
+  if [ -d "$UNI_DIR/skills" ]; then
+    for dd in "$UNI_DIR/skills"/*/; do
+      [ -d "$dd" ] || continue
+      nm="$(basename "$dd")"
+      if [ ! -f "$SKILLS_SRC/$nm/SKILL.md" ]; then
+        rm -rf "$dd"
+        echo "  entfernt (nicht mehr in der Quelle): $nm"
+      fi
+    done
+  fi
   scount=0
   for d in "$SKILLS_SRC"/*/; do
     [ -d "$d" ] || continue
