@@ -225,4 +225,4 @@ Entscheidungslogbuch. Bei Use-Case-Fragen **immer zuerst dort** nachsehen.
 
 ---
 
-*Gepflegt von Lucas Vöhringer (Systemarchitekt G2) · Toolkit-Version: v1.4.0 · Stand: 2026-06-21.*
+*Gepflegt von Lucas Vöhringer (Systemarchitekt G2) · Toolkit-Version: v1.4.1 · Stand: 2026-06-21.*

@@ -73,4 +73,4 @@ Sie setzen die Designprinzipien aus `CLAUDE.md §6` um (gemeinsame Config + Stan
 - **Push/PR/Merge/destruktive Git-Aktionen** nur nach **expliziter Genehmigung** durch Lucas.
 
 ---
-*Toolkit-Version: v1.4.0 · Pflege: Lucas (Systemarchitekt) · Übergeordnet: `../Skill-Plan.md`.*
+*Toolkit-Version: v1.4.1 · Pflege: Lucas (Systemarchitekt) · Übergeordnet: `../Skill-Plan.md`.*

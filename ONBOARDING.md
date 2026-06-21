@@ -92,4 +92,4 @@ geladen werden. In Claude Code geht das nach dem ersten Setup auch per Slash-Com
 - **Sonst:** Lucas fragen — nicht raten.
 
 ---
-*Toolkit-Version: v1.4.0 · Stand: 2026-06-21 · Pflege: Lucas (Systemarchitekt).*
+*Toolkit-Version: v1.4.1 · Stand: 2026-06-21 · Pflege: Lucas (Systemarchitekt).*

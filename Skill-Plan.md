@@ -203,4 +203,4 @@ SR/OP-Schwerpunkt) · 40-%-Human-in-the-loop-Regel · Frontend-/Fremdstack-Aussc
 > nicht nur Reviews) und reale Nutzer (~2. Sem.: schlanker Pflicht-Kanon, Rest situativ) ausgerichtet.
 
 ---
-*Toolkit-Version: v1.4.0 · Stand: 2026-06-21 (urspr. 2026-06-17) · Pflege: Lucas (Systemarchitekt) · Use-Case-Fakten stets aus `Alarmsystem-Dev` lesen.*
+*Toolkit-Version: v1.4.1 · Stand: 2026-06-21 (urspr. 2026-06-17) · Pflege: Lucas (Systemarchitekt) · Use-Case-Fakten stets aus `Alarmsystem-Dev` lesen.*
