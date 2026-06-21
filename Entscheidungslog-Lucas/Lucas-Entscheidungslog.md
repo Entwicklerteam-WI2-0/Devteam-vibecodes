@@ -16,6 +16,18 @@
 
 ## Teil A — Bau des Team-OS (Architektur der Werkzeug-Heimat)
 
+### 2026-06-21 — USERMANUAL.md + ausführbare Skills + LF-Normalisierung
+- **Kontext/Task:** Team-OS wächst; Skills wie `santa-loop`, `review-pr`, `verification-loop`, `pmai-shaping` waren reine Methodik-Beschreibungen ohne konkrete Ablaufsteuerung. Zudem fehlte eine einfache Einstiegs-Doku für Nicht-Techies.
+- **Entscheidung:**
+  1. `USERMANUAL.md` im Repo-Root anlegen — deutsches Manual mit Intro, Komponenten-Erklärungen für Nicht-Techies und Glossar.
+  2. `santa-loop` zu einem **ausführbaren** adversarialen Dual-Review umbauen: zwei unabhängige Subagenten (Korrektheit + Adversarial) plus Konvergenz-Moderator.
+  3. `review-pr`, `verification-loop`, `pmai-shaping` mit konkreten Tool-Calls, Schritt-für-Schritt-Abläufen und Report-Templates versehen.
+  4. Release **v1.5.1**: Versionsstempel-Sync in allen versionierten Docs, Git-Tag gesetzt und gepusht.
+  5. `.gitattributes` erweitern: `.md`, `.json`, `.yaml`, `.yml` explizit auf LF normalisieren, um LF/CRLF-Warnungen unter Windows zu vermeiden.
+- **Begründung:** Das Toolkit muss nicht nur Regeln nennen, sondern **steuern** — sonst überspringen Einsteiger Schritte. Ein User Manual senkt die Einstiegshürde; LF-Normalisierung verhindert Plattform-Drift.
+- **Alternativen:** Skills nur als Text-Referenzen belassen (verworfen — keine aktive Unterstützung); Release verschieben (verworfen — inhaltlich abgeschlossen); `.gitattributes` nicht anfassen (verworfen — Warnungen würden wiederkehren).
+- **Ergebnis/Status:** umgesetzt und gepusht (`master`: `414eb3d` + `29ddebc`; Tag: `v1.5.1`).
+
 ### 2026-06-17 — Eigenständiges Werkzeug-Repo, getrennt vom Code-Repo
 - **Kontext/Task:** Team-OS für G2 (7 Pers., ~2. Sem.); Tooling lag zuvor im Code-Repo.
 - **Entscheidung:** Team-OS in eigenem Repo `Devteam-vibecodes`; `Alarmsystem-Dev` bleibt reine Code-/Use-Case-Source. Kein Skill/Hook/Command wandert ins Code-Repo.
