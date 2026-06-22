@@ -24,14 +24,14 @@
 **bevor** du irgendeine Aufgabe beginnst. Ist der Header schon vorhanden, **überspringe §0 vollständig**.
 
 **Schritt 1 — Kurz-Interview (eine Frage nach der anderen, freundlich):**
-1. „Welcher Abteilung gehörst du an — **(a) Backend-Entwicklung** oder **(b) Reviewer/Test**?"
+1. „Welcher Abteilung gehörst du an — **(a) Backend-Entwicklung**, **(b) Reviewer/Test** oder **(c) Orga-Management**?"
 2. **Nur falls Backend:** „Welche Funktion — **(a) Entwickler:in (Dev)** oder **(b) Database-Engineer**?"
 
 **Schritt 2 — `~/.claude/CLAUDE.md` (bzw. Pendant) dauerhaft anpassen** — *persönliche* Datei, die `/update`
 **nicht** überschreibt (im Gegensatz zu `team-os-g2.md`):
 1. **Ganz oben** einen **dauerhaften** Eintrag setzen — zuerst der maschinenlesbare Header, dann eine
    lesbare Zeile:
-   `<!-- TEAM-OS-ROLLE: Abteilung=<Backend|Reviewer>; Rolle=<Dev|Database-Engineer|Reviewer>; Signatur=<-backenddev|-database-engineer|-reviewer> -->`
+   `<!-- TEAM-OS-ROLLE: Abteilung=<Backend|Reviewer|Orga>; Rolle=<Dev|Database-Engineer|Reviewer|Orga-Manager|Doku>; Signatur=<-backenddev|-database-engineer|-reviewer|-orga|-doku> -->`
    `**Team-OS-Rolle:** Abteilung … · Rolle … · Signatur …`
 2. **Save-Signatur dauerhaft etablieren:** Ab jetzt hängst du an **jeden** Eintrag, den `save-session`
    in `erinnerung/` schreibt, die festgelegte **Signatur** an (z. B. `… —backenddev`).
@@ -273,12 +273,13 @@ Beschlossen, Stand 2026-06-17 (Details, Alternativen, Quellen:
 
 **Welcher Skill/Agent wann** steht im gepflegten Kanon — eine Quelle, damit nichts driftet:
 - **Übersicht & Begründung:** `Skill-Plan.md` · **Geteiltes Fundament:** `gemeinsam/Skills.md`
-- **Architekten:** `abteilung-architekten/Skills.md` · **Backend-Devs:** `abteilung-backend-entwickler/Skills.md` · **Reviewer/Test:** `abteilung-reviewer-tester/Skills.md`
+- **Architekten:** `abteilung-architekten/Skills.md` · **Backend-Devs:** `abteilung-backend-entwickler/Skills.md` · **Reviewer/Test:** `abteilung-reviewer-tester/Skills.md` · **Orga-Management:** `abteilung-orga-management/Skills.md`
 
 **Pflicht-Minimalkanon (Tag 1) — bewusst klein, der Rest situativ:**
 - **Architekt:** `uni:start` · `spec-driven-dev` / `blueprint-spec` · `citypaul-planning` · `mp-codebase-design` · `save-session`
 - **Backend-Dev:** `uni:start` · `tdd-workflow` · `quality-gate` · `pr` (+ `code-review` als Selbst-Review) · `save-session`
 - **Reviewer/Test:** `uni:start` · `code-tour` · `code-review` · `test-coverage` · `run`/`verify` · `save-session`
+- **Orga-Management:** `uni:start` · `uni:standup-moderator` · `uni:fortschritts-board` · `uni:dev-reviewer-koordinator` · `save-session`
 - **Alle:** bei jeder **eigenen** Entscheidung → `entscheidungslog` (sichert die 40 %-Einzelleistung, §1).
 
 **Dein Umgang damit:**
@@ -333,14 +334,28 @@ Rolle ausgeblendet, §0); **geteilte** Skills (`gemeinsam/Skills.md`) gelten fü
 5. **Freigabe (40-%-Regel):** Entwurf lesen, verstehen, **selbst verantworten**, dann erst Kommentare im
    PR posten / Merge freigeben. **WP8** `save-session`; Befunde ins Testprotokoll (P5.3).
 
+### Workflow — Orga-Management
+*(aus `abteilung-orga-management/Skills.md` §3 — Standard-Ablauf einer Orga-Woche, WP-gebunden)*
+1. **WP0** `uni:start` → Kontext. **Täglich:** `uni:standup-moderator` führt Standup + Protokoll.
+2. **Täglich / vor Standup:** `uni:fortschritts-board` aktualisiert Projektstatus.
+3. **Bei PR-Übergabe:** `uni:dev-reviewer-koordinator` steuert Dev → Reviewer.
+4. **Bei Blockern > 24h:** `uni:blocker-escalation` erfasst und eskaliert.
+5. **Wochenstart:** `uni:meilenstein-tracker` prüft Meilensteine.
+6. **Wöchentlich:** `uni:konventions-healthcheck` prüft Conventions.
+7. **Bei Neuzugang:** `uni:onboarding-orchestrator`; bei Personalwechsel: `uni:roster-tracker`.
+8. **Vor Release / viertelwöchentlich:** `uni:doku-qualitaets-review` (Doku-Gruppe).
+9. **Vor koordiniertem Merge:** `uni:release-merge-koordinator` plant Reihenfolge + Risiken.
+10. **WP8** `save-session`; wichtige Orga-Entscheidungen ins **Entscheidungslogbuch**.
+
 > **Hinweis:** Dieser §10 ist die **Source-of-Truth fürs rollenbasierte Ausblenden** (§0). „Eigene" vs.
 > „fremde" Skills ergeben sich aus den Abteilungs-`Skills.md` (exklusive Skills der jeweils anderen
 > Abteilung werden nicht vorgeschlagen; geteilte bleiben).
 
 **Tooling-Änderungen abschließen:** Werden in diesen Workflows Skills, Commands, §-/WP-Bezeichnungen
 oder andere zentrale Fakten geändert, muss abschließend **`uni:coupling-map`** laufen — es zieht die
-Spiegel in `README.md`, `Skill-Plan.md`, `gemeinsam/Skills.md`, den Abteilungs-`Skills.md` und den
-betroffenen Einzel-Skills anhand von `Abhaengigkeiten.md` nach.
+Spiegel in `README.md`, `Skill-Plan.md`, `gemeinsam/Skills.md`, den Abteilungs-`Skills.md`
+(einschließlich `abteilung-orga-management/Skills.md`) und den betroffenen Einzel-Skills anhand von
+`Abhaengigkeiten.md` nach.
 
 ---
 

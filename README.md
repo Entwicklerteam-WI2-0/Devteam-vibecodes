@@ -131,7 +131,7 @@ Devteam-vibecodes/
 │   │   ├── fact-forcing-gate.js    # PreToolUse-Hook: erzwingt Faktennennung vor Bash/Edit/Write/MultiEdit
 │   │   ├── merge-settings.js       # Hilfsskript: additiver Merge von settings.json (von setup.* genutzt)
 │   │   └── pretooluse.template.json# Deploy-Template für PreToolUse-Einträge (Platzhalter __UNI_HOOKS_DIR__)
-│   └── skills/                     # 42 SKILLS (je eine SKILL.md — via setup als uni-Plugin installiert)
+│   └── skills/                     # 52 SKILLS (je eine SKILL.md — via setup als uni-Plugin installiert)
 ├── erinnerung/                     # Geteiltes Projektgedächtnis (von uni:start geladen)
 │   ├── README.md                   # erklärt das Erinnerungs-System
 │   ├── stand.md                    # Aktueller Stand (Session-Resumé)
@@ -144,13 +144,14 @@ Devteam-vibecodes/
 │   └── Lucas-Entscheidungslog.md        # Aufbau Team-OS, Organisationsstruktur, Workflows
 ├── Seam-Sync-Fragenkatalog.md      # Naht-Fragen (Contract G1↔G2↔G3)
 ├── gemeinsam/Skills.md             # Geteilte Skills (beide Abteilungen)
-├── abteilung-architekten/Skills.md      # Toolkit Architekten (Naht, Spec, Design)
+├── abteilung-architekten/Skills.md         # Toolkit Architekten (Naht, Spec, Design)
 ├── abteilung-backend-entwickler/Skills.md  # Toolkit Backend-Dev
 ├── abteilung-reviewer-tester/Skills.md     # Toolkit Reviewer/Test
+├── abteilung-orga-management/Skills.md     # Toolkit Orga-Management (inkl. Doku-Gruppe)
 └── README.md                       # diese Datei
 ```
 
-**Skills im `.claude/skills/`** (42, aus dem ECC-Stack auf Python/FastAPI/pytest + Use-Case angepasst) — `setup` installiert sie als **`uni`-Plugin**, Aufruf **`uni:<name>`** (kollisionsfrei neben ECC):
+**Skills im `.claude/skills/`** (52, aus dem ECC-Stack auf Python/FastAPI/pytest + Use-Case angepasst) — `setup` installiert sie als **`uni`-Plugin**, Aufruf **`uni:<name>`** (kollisionsfrei neben ECC):
 
 > **Skills in Aktion** — wann welcher Skill feuert, an einem echten Ticket durchgespielt:
 > [`Skillanleitung.md`](Skillanleitung.md). Übersicht & Begründung: [`Skill-Plan.md`](Skill-Plan.md).
@@ -172,6 +173,12 @@ Devteam-vibecodes/
 *Reviewerinnen/Testerinnen:*
 `browser-qa` · `code-tour` · `e2e-testing` · `review-pr` · `santa-loop` ·
 `security-scan` · `verification-loop`
+
+*Orga-Management (inkl. Doku-Gruppe):*
+`standup-moderator` · `fortschritts-board` · `dev-reviewer-koordinator` ·
+`onboarding-orchestrator` · `roster-tracker` · `doku-qualitaets-review` ·
+`konventions-healthcheck` · `blocker-escalation` · `meilenstein-tracker` ·
+`release-merge-koordinator`
 
 *Situativ (erst bei Stack-Wechsel T2+):*
 `database-migrations`
@@ -214,7 +221,7 @@ Devteam-vibecodes/
 
 ---
 
-## Die zwei Werkzeugkästen (Abteilungen)
+## Die Abteilungen (Werkzeugkästen)
 
 Eingeteilt nach **Systemverständnis & Output**, nicht nach reinem Coding-Skill — operative
 Standardarbeit (Format, Lint, Tests, Repo-Hygiene) übernimmt der Agent.
@@ -223,12 +230,15 @@ Standardarbeit (Format, Lint, Tests, Repo-Hygiene) übernimmt der Agent.
   **Vereisungs-Bewertungslogik**, API. Tests-first (TDD), Selbst-Review vor dem PR.
 - **B) Reviewerinnen/Testerinnen** — der Agent erstellt Review-/Test-Entwürfe, der **Mensch prüft und
   gibt frei** (bewertungsrelevant: 40 % Einzelleistung). Live-Test der laufenden API, Testsuite-Pflege.
+- **C) Orga-Management** — führt Team-Organisation, Koordination und die **Doku-Gruppe**. Sichtbarkeit,
+  Continuity, Onboarding, Eskalationen, Merge-Planung.
 
 **Einstiegs-Set (Pflicht, Tag 1) — bewusst klein:**
 - **Backend-Dev (4 Kern-Skills):** `uni:start` · `tdd-workflow` · `quality-gate` · `pr` + `code-review` (Selbst-Review) · `save-session`
   Woche 1, sobald TDD sitzt: `feature-dev` · `python-testing` · `fastapi-patterns`
 - **Reviewer/Test:** `uni:start` · `code-tour` · `code-review` · `test-coverage` · `run`/`verify` · `save-session`
   Situativ: `santa-loop` + `verification-loop` (kritischer Pfad) · `browser-qa` (G3-Integration)
+- **Orga-Management:** `uni:start` · `uni:standup-moderator` · `uni:fortschritts-board` · `uni:dev-reviewer-koordinator` · `save-session`
 
 Alles Weitere ist **situativ** — bei Bedarf aus den Abteilungs-`Skills.md` dazunehmen.
 

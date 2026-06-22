@@ -21,7 +21,7 @@ getrennt → konfliktarm.
   löschen. Das ist die Grundlage der Konfliktfreiheit (zwei Appends an verschiedenen Stellen → Git merged
   automatisch, kein Konflikt).
 - **Ein Tages-Dokument:** pro Tag genau eine Datei `journal/<YYYY-MM-DD>.md`. Kein Ordner pro Rolle.
-- **Rolle als Tag** im Block-Kopf: `tester | architekt | backend-db | backend-dev`.
+- **Rolle als Tag** im Block-Kopf: `tester | architekt | backend-db | backend-dev | orga | doku`.
 - **Keine Secrets/Tokens.** **Keine personenbezogenen Bewertungen** über Teammitglieder.
 - **Daten nicht erfinden:** Datum/Uhrzeit/Commit-Hash aus `git`/System ziehen (siehe Skill `save-session`).
 - **Use-Case-/Produktstand gehört NICHT hierher**, sondern ins Arbeitsrepo `Alarmsystem-Dev`. Hier nur der

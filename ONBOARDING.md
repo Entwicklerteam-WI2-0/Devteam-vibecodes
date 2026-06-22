@@ -57,9 +57,9 @@ primär automatisch (Aufgabe beschreiben) oder explizit per `/prompts:<name>`.
 3. Beim ersten Mal **„Projekt vertrauen"** bestätigen.
 4. **`/uni:start`** tippen → Stand, Regeln und Git-Status werden geladen.
    **Beim allerersten Mal** läuft ein kurzes **Rollen-Bootstrap**: du wählst deine Abteilung
-   (Backend-Entwicklung / Reviewer-Test; bei Backend zusätzlich: **Dev** oder **Database-Engineer**).
-   Danach plant der Agent jede Session entlang deines Abteilungs-Workflows und signiert deine
-   Erinnerungs-Einträge mit deiner Rolle.
+   (Backend-Entwicklung / Reviewer-Test / Orga-Management; bei Backend zusätzlich: **Dev** oder
+   **Database-Engineer**). Danach plant der Agent jede Session entlang deines Abteilungs-Workflows und
+   signiert deine Erinnerungs-Einträge mit deiner Rolle.
 
 Das Setup installiert die Skills als **`uni`-Plugin** (`~/.claude/skills/uni/` → Aufruf **`uni:<skill>`**,
 kollisionsfrei neben einem evtl. installierten ECC-Stack) und die Commands `/setup` + `/update` global — sie
