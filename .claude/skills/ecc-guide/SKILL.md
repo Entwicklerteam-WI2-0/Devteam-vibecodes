@@ -27,6 +27,13 @@ kurz und praxisnah.
 5. `run` + `verify` — Live-Test.
 6. `save-session` — am Ende.
 
+### Orga-Management (Tag 1)
+1. `uni:start` — Session-Start & Kontext.
+2. `uni:standup-moderator` — Tägliches Standup + Protokoll.
+3. `uni:fortschritts-board` — Projektstatus sichtbar machen.
+4. `uni:dev-reviewer-koordinator` — Dev ⇄ Reviewer-Übergabe steuern.
+5. `save-session` — am Ende.
+
 ## Nach Workflow-Punkt (WP)
 
 | WP | Situation | Passende Skills |
@@ -40,6 +47,7 @@ kurz und praxisnah.
 | WP6 | PR-Review (Reviewer) | `code-tour`, `code-review`, `review-pr`, `python-review`, `fastapi-review`, `security-review` |
 | WP7 | Live-Test / Integration | `run`, `verify`, `e2e-testing`, `browser-qa`, `verification-loop` |
 | WP8 | Ende / Doku | `save-session`, `entscheidungslog` |
+| *(kontinuierlich)* | Orga / Koordination | `uni:standup-moderator`, `uni:fortschritts-board`, `uni:dev-reviewer-koordinator`, `uni:blocker-escalation`, `uni:meilenstein-tracker`, `uni:release-merge-koordinator` |
 
 > **Hinweis (Einsteiger):** `uni:start` ist ein **Command**, `run`/`verify` sind **globale** ECC-Skills —
 > sie gehören **nicht** zum Team-Skill-Set (den Skills hier), sind aber trotzdem verfügbar. Dort nicht danach suchen.
@@ -50,6 +58,7 @@ kurz und praxisnah.
 - **Review-Tiefe:** `code-review` (inhaltlicher Prüf-Baustein / Dev-Selbst-Review) vs. `review-pr` (vollständiges PR-Review mit DoD-Gate & Freigabe).
 - **Tooling-Wartung / Spiegel-Check:** `coupling-map` — bei Änderungen an Skills, Commands, WP-/§-Nummern
   oder anderen zentralen Fakten die abhängigen Spiegel laut `Abhaengigkeiten.md` aktualisieren.
+- **Orga-Management / Doku-Gruppe:** `standup-moderator`, `fortschritts-board`, `dev-reviewer-koordinator`, `onboarding-orchestrator`, `roster-tracker`, `doku-qualitaets-review`, `konventions-healthcheck`, `blocker-escalation`, `meilenstein-tracker`, `release-merge-koordinator`.
 - **Navigation / Seitenfrage:** `ecc-guide`, `aside`.
 
 ## Nicht tun
@@ -57,4 +66,4 @@ kurz und praxisnah.
 - Use-Case-Fakten raten; bei fachlichen Fragen auf `Alarmsystem-Dev` verweisen.
 
 ---
-*Quellen: `Skill-Plan.md`, `gemeinsam/Skills.md`, `abteilung-architekten/Skills.md`, `abteilung-backend-entwickler/Skills.md`, `abteilung-reviewer-tester/Skills.md`, `Abhaengigkeiten.md`, `.claude/skills/coupling-map/SKILL.md`.*
+*Quellen: `Skill-Plan.md`, `gemeinsam/Skills.md`, `abteilung-architekten/Skills.md`, `abteilung-backend-entwickler/Skills.md`, `abteilung-reviewer-tester/Skills.md`, `abteilung-orga-management/Skills.md`, `Abhaengigkeiten.md`, `.claude/skills/coupling-map/SKILL.md`.*

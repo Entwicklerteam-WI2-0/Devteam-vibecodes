@@ -57,7 +57,7 @@ Du kannst damit wirklich Folgendes tun — ohne Programmierkenntnisse:
 Die zentrale Anweisungsdatei für alle KI-Agenten im Team. Sie gilt global, also in jedem Repo, sobald das Setup einmal gelaufen ist.
 
 **Was steht drin?**  
-- Wer das Team ist und welche Rollen es gibt (Backend-Entwickler:in, Reviewer:in/Test, Architekt).
+- Wer das Team ist und welche Rollen es gibt (Backend-Entwickler:in, Reviewer:in/Test, Architekt, Orga-Management/Doku-Gruppe).
 - Der Arbeitsablauf in 9 Workflow-Punkten (WP0 bis WP8): von „Sitzung starten" bis „Sitzung beenden".
 - Sicherheitsregeln, z. B. dass die Startbahn nie automatisch freigegeben werden darf (RB-01) und dass das System bei Ausfall oder veralteten Daten nie „GRÜN" anzeigen darf (Fail-safe).
 - Sprache, Namenskonventionen und Genehmigungspflichten.
@@ -91,7 +91,7 @@ Die Haupt-Lese-Datei des Repos. Sie erklärt Menschen (nicht der KI), was hier p
 - Schnellstart für Claude Code, Kimi Code und Codex CLI.
 - Update-Mechanismus und Versionierung.
 - Eine vollständige Repo-Struktur mit allen Ordnern.
-- Die Liste aller 42 Skills, aufgeteilt nach Rollen.
+- Die Liste aller 52 Skills, aufgeteilt nach Rollen.
 - Regeln und der Bezug zum Code-Repo `Alarmsystem-Dev`.
 
 **Beispiel:**  
@@ -153,7 +153,7 @@ Du öffnest Claude Code am Morgen und tippst `/uni:start`. Die KI sagt dir: „W
 ### 2.7 Skills — die eigentlichen Arbeitsanleitungen
 
 **Was ist das?**  
-Unter `.claude/skills/` liegen 42 fertige Anleitungen für konkrete Arbeitssituationen. Jede Anleitung heißt `SKILL.md` und erklärt der KI, wie sie bei einer bestimmten Aufgabe vorgehen soll.
+Unter `.claude/skills/` liegen 52 fertige Anleitungen für konkrete Arbeitssituationen. Jede Anleitung heißt `SKILL.md` und erklärt der KI, wie sie bei einer bestimmten Aufgabe vorgehen soll.
 
 **Wer ruft sie auf?**  
 Du kannst sie namentlich aufrufen (z. B. `uni:tdd-workflow` in Claude, `/skill:tdd-workflow` in Kimi, `/prompts:tdd-workflow` in Codex). Wenn du nicht weißt, welcher Skill passt, fragst du `ecc-guide`: „Welcher Skill passt zu meiner Aufgabe?"
@@ -183,12 +183,14 @@ Das Team-OS unterscheidet zwischen **wählbaren Rollen** für Teammitglieder und
 | **Backend-Entwickler:in (Dev)** | Baut die eigentliche Funktionalität im Code-Repo. | `tdd-workflow`, `fastapi-patterns`, `quality-gate`, `pr` |
 | **Backend-Datenbank-Engineer** | Spezialrolle innerhalb der Backend-Abteilung für Datenbank-/Persistenz-Themen. | `tdd-workflow`, `python-patterns`, `quality-gate` |
 | **Reviewer:in / Tester:in** | Prüft Änderungen anderer und führt Live-Tests durch. | `code-tour`, `review-pr`, `test-coverage`, `verification-loop` |
+| **Orga-Management / Doku-Gruppe** | Koordiniert Team, Status, Onboarding, Roster, Doku-Qualität, Eskalationen, Merge-Planung. | `standup-moderator`, `fortschritts-board`, `dev-reviewer-koordinator`, `doku-qualitaets-review` |
 
 **Feste Teamrolle (nicht wählbar):**
 
 | Rolle | Aufgabe | Typische Skills |
 |---|---|---|
 | **Systemarchitekt (Lucas)** | Verantwortet Contract/Naht, Tooling, Genehmigungen, kritischen Pfad. | `spec-driven-dev`, `blueprint-spec`, `citypaul-planning`, `mp-codebase-design`, `save-session` |
+| **Orga-Manager (LucasL)** | Führt Orga-Management und Doku-Gruppe, sorgt für Sichtbarkeit und Continuity. | `standup-moderator`, `fortschritts-board`, `meilenstein-tracker`, `release-merge-koordinator`, `save-session` |
 
 > **Hinweis:** Live-Test-Skills wie `run` und `verify` sind besonders wichtig für Reviewer, können aber grundsätzlich auch von Backend-Entwickler:innen genutzt werden.
 
