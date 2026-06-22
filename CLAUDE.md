@@ -73,7 +73,7 @@ veraltete Versionsangabe in einem Dokument gilt als Bug. Source of Truth ist die
 ### Orientierung — wo liegt was
 - `claude-sync.md` — globale Anweisung (Workflow-Gates, Conventions, Sicherheit). **Hier ändern.**
 - `.claude/skills/` — die Use-Case-Skills · `.claude/commands/` — `uni:start`, `/setup`, `/update` ·
-  `.claude/hooks/README.md` — aktive Hooks (`fact-forcing-gate`, Claude Code only) + geplante Phase-2-Hooks
+  `.claude/hooks/README.md` — aktive Hooks (`fact-forcing-gate`, Claude Code + Kimi Code) + geplante Phase-2-Hooks
   (verdrahtet in `.claude/settings.json`).
 - `Skill-Plan.md` — Master-Taxonomie/Begründung · `gemeinsam/Skills.md` +
   `abteilung-architekten/Skills.md` + `abteilung-backend-entwickler/Skills.md` +
@@ -167,7 +167,8 @@ Code-Struktur s. `Backend-Konzept.md §7` (`src/ingest|model|assessment|storage|
 | Systemarchitekt | **Vöhringer, Lucas** (ArchiDox, DRI für API/Datenmodell-Naht) · Petzold, Johannes |
 | Backend-Entwickler | Hartling, Leon · Ganter, Luca · Moritz, Andreas · Sarkhab, Arash · (Vöhringer, Lucas) |
 | Test / Review | Mohammadi, Azezoo · Berger, Amelie |
-| Dokumentation | Reisi, Maryam · Ilchyshyn, Vladyslav |
+| Orga-Management | **Landmann, Lucas** (Orga-Manager, führt auch die Doku-Gruppe) |
+| Doku-Gruppe (unter Orga-Management) | Reisi, Maryam · Ilchyshyn, Vladyslav |
 
 **Kontext für die Toolkit-Gestaltung:** Hochschulprojekt, echter Use-Case, Skill-Niveau ~2. Semester.
 Ziel der Werkzeugkästen: Einteilung nach **Systemverständnis & Output** statt nach reinem Coding-Skill;
@@ -191,9 +192,10 @@ Mensch bleibt im Loop.
 > 2. **Gemeinsame Config ins Repo committen** (`.claude/` mit settings, skills, hooks, CLAUDE.md) statt globaler
 >    Pro-Maschine-Config → `git pull` = alle identisch, zentral von Lucas gepflegt.
 > 3. **Standards als Hooks erzwingen** (Ziel): Aktiv sind **SessionStart-Hinweis** und das **Fact-Forcing-Gate**
->    (Claude Code only, eigener `UNI_GATE_*`-Namespace); die weiteren Enforcement-Hooks (format/lint,
->    RB-01-Guard, Secret-Scan, test-gate) sind **Phase 2, noch nicht verdrahtet**. Bis dahin trägt
->    **Review + GitHub Branch Protection** die Durchsetzung (PR-Pflicht, kein direkter `main`-Push).
+>    (**Claude Code** + **Kimi Code**, eigener `UNI_GATE_*`-Namespace; auf Kimi via `~/.kimi-code/config.toml`,
+>    seit v1.6.0); die weiteren Enforcement-Hooks (format/lint, RB-01-Guard, Secret-Scan, test-gate) sind
+>    **Phase 2, noch nicht verdrahtet**. Bis dahin trägt **Review + GitHub Branch Protection** die Durchsetzung
+>    (PR-Pflicht, kein direkter `main`-Push).
 > 4. **Aus ECC kuratieren statt neu bauen** (vorhandene Skills/Agents: `python-review`, `fastapi-review`,
 >    `tdd-workflow`, `pr`, `code-review`, `security-review`, `update-codemaps` …).
 > 5. **Eine Umgebung für alle Rollen** (z. B. VSC + integriertes Terminal + Claude Code).
@@ -217,7 +219,7 @@ Belegt im `Entscheidungslog-Toolkit.md` (vgl. `claude-sync.md` §8):
 3. **Backend-Stack — empfohlen, noch zu begründen:** Python/FastAPI/SQLite (T0); die formale Begründung gehört ins Entscheidungslogbuch des Code-Repos und bestimmt, welche Reviewer-/Test-Skills greifen.
 
 ---
-*Diese Datei pflegt Lucas (Systemarchitekt) · Toolkit-Version: v1.5.1 · Stand: 2026-06-21. Stand/Ergebnisse/Entscheidungen zum Use-Case selbst stehen in
+*Diese Datei pflegt Lucas (Systemarchitekt) · Toolkit-Version: v1.6.0 · Stand: 2026-06-21. Stand/Ergebnisse/Entscheidungen zum Use-Case selbst stehen in
 der `CLAUDE.md` des Code-Repos `Alarmsystem-Dev`.*
 
-*Toolkit-Version: v1.5.1*
+*Toolkit-Version: v1.6.0*

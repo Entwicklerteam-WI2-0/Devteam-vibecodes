@@ -11,12 +11,12 @@ portabel bleiben (z. B. nach Codex mit reiner Config-Übersetzung). Pflegt: Luca
 
 | Hook | Typ | Matcher | Zweck | Harness |
 |---|---|---|---|---|
-| `fact-forcing-gate` | PreToolUse | `Bash` / `Edit\|Write\|MultiEdit` | Erzwingt Faktennennung vor dem ersten Bash-Kommando (pro Session) und vor der ersten Berührung einer Datei; Deny via `permissionDecision: deny` (exit 0). | **Claude Code only** |
+| `fact-forcing-gate` | PreToolUse | `Bash` / `Edit\|Write\|MultiEdit` | Erzwingt Faktennennung vor dem ersten Bash-Kommando (pro Session) und vor der ersten Berührung einer Datei; Deny via `permissionDecision: deny` (exit 0). | **Claude Code + Kimi Code** |
 
 **Details zum `fact-forcing-gate`:**
 - Eigener Namespace `UNI_GATE_*` und eigener State-Pfad `~/.uni-gate/` — kollisionsfrei neben ECCs `~/.gateguard/`.
 - Escape-Hatches: `UNI_GATE_OFF=off` (komplett aus) oder `uni:pre:bash:fact-force` / `uni:pre:edit-write:fact-force` in `UNI_DISABLED_HOOKS`.
-- Auf **Kimi Code** und **Codex CLI** läuft kein Tool-Hook-Enforcement — dort gilt nur die Text-Guidance aus `AGENTS.md`/`claude-sync.md`.
+- Auf **Kimi Code** läuft das Fact-Forcing-Gate per `~/.kimi-code/config.toml` (seit v1.6.0; Kimi-Hooks sind Claude-kompatibel: `PreToolUse` blockbar, deny via stdout-JSON). Auf **Codex CLI** läuft noch kein Tool-Hook-Enforcement — dort gilt nur die Text-Guidance aus `AGENTS.md`/`claude-sync.md`.
 
 ## Geplante Pflicht-Hooks (Phase 2 — noch zu bauen)
 | Hook | Typ | Zweck |
@@ -29,6 +29,6 @@ portabel bleiben (z. B. nach Codex mit reiner Config-Übersetzung). Pflegt: Luca
 | `openapi-diff` | Stop / CI | meldet Änderungen am eingefrorenen Contract |
 | `test-gate` | Stop | Testlauf des jeweiligen Stacks muss grün sein |
 
-> Stand jetzt: **SessionStart-Hinweis** plus das **Fact-Forcing-Gate** (Claude Code only) in `settings.json` aktiv. Die übrigen Enforcement-Hooks werden erst verdrahtet, **nachdem** die Stack-Umgebung im Arbeitsrepo bei allen steht (sonst laufen sie ins Leere). Ergänzend serverseitig: GitHub **Branch Protection** (PR-Pflicht, kein `main`-Push).
+> Stand jetzt: **SessionStart-Hinweis** plus das **Fact-Forcing-Gate** (**Claude Code** via `~/.claude/settings.json` + **Kimi Code** via `~/.kimi-code/config.toml`, seit v1.6.0) aktiv. Die übrigen Enforcement-Hooks werden erst verdrahtet, **nachdem** die Stack-Umgebung im Arbeitsrepo bei allen steht (sonst laufen sie ins Leere). Ergänzend serverseitig: GitHub **Branch Protection** (PR-Pflicht, kein `main`-Push).
 
-*Toolkit-Version: v1.5.1*
+*Toolkit-Version: v1.6.0*

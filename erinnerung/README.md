@@ -44,4 +44,4 @@ der Branch-Protection-Hinweis: `claude-sync.md` §7.
 
 > Schreiben: Skill `save-session` · Lesen: `uni:start` · Workflow-Punkte: `claude-sync.md` §4 (WP0/WP8).
 
-*Toolkit-Version: v1.5.1*
+*Toolkit-Version: v1.6.0*

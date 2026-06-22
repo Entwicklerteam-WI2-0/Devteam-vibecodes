@@ -4,7 +4,7 @@ description: Bei Änderung eines Fakts alle abhängigen Spiegel in Abhaengigkeit
 metadata:
   scope: team-os-maintenance
   author: Lucas (Systemarchitekt)
-  version: v1.5.1
+  version: v1.6.0
 ---
 
 # coupling-map
@@ -21,7 +21,7 @@ metadata:
 
 **1. Fakt vom User erfragen**
 - User nennt den geänderten Fakt (z. B. „Skill `database-migrations` entfernt", „WP8 umbenannt",
-  „Hook `fact-forcing-gate` deaktiviert", „VERSION auf v1.5.1").
+  „Hook `fact-forcing-gate` deaktiviert", „VERSION auf v1.6.0").
 - Falls unklar: kurz nachfragen, welche Source-of-Truth-Datei sich geändert hat.
 
 **2. `Abhaengigkeiten.md` lesen**
@@ -102,7 +102,7 @@ metadata:
 
 ### Beispiel C: VERSION / Tag geändert
 
-> „VERSION ist jetzt v1.5.1; Git-Tag folgt."
+> „VERSION ist jetzt v1.6.0; Git-Tag folgt."
 
 **Source of Truth:** `VERSION`-Datei + Git-Tag.
 
@@ -110,7 +110,7 @@ metadata:
 
 | Spiegel | Was ändern |
 |---|---|
-| `README.md` | Footer `Toolkit-Version: v1.5.0` → `v1.5.1` |
+| `README.md` | Footer `Toolkit-Version: v1.5.0` → `v1.6.0` |
 | `ONBOARDING.md` | Footer / Versionshinweis |
 | `CLAUDE.md` | Footer / Versionshinweis |
 | `claude-sync.md` | Footer / Versionshinweis |
@@ -138,4 +138,4 @@ metadata:
 
 ---
 
-*Gepflegt im Repo `Devteam-vibecodes` · Toolkit-Version: v1.5.1 · Stand: 2026-06-21*
+*Gepflegt im Repo `Devteam-vibecodes` · Toolkit-Version: v1.6.0 · Stand: 2026-06-21*

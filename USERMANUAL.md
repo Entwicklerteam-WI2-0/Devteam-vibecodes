@@ -1,7 +1,7 @@
 # User Manual — Devteam-Vibecodes (Team-OS G2)
 
 > **Ein Satz vorab:** Dieses Repository ist **kein Programm, das du startest**, sondern der **Werkzeugkasten**, mit dem das Backend-Team G2 KI-gestützt arbeitet. Es bringt deiner KI-CLI (Claude Code, Kimi Code oder Codex) bei, wie das Team arbeiten will — Schritt für Schritt, regelkonform und ohne dass jemand alles auswendig lernen muss.
-> Toolkit-Version: **v1.5.1**
+> Toolkit-Version: **v1.6.0**
 
 ---
 
@@ -39,11 +39,11 @@ Du kannst damit wirklich Folgendes tun — ohne Programmierkenntnisse:
 |---|---|
 | Das Projekt starten | Je nach KI-CLI ein Setup-Befehl: `setup.sh`/`setup.ps1` (Claude), `setup-kimi.sh`/`setup-kimi.ps1` (Kimi) oder `setup-codex.sh`/`setup-codex.ps1` (Codex). |
 | Eine Aufgabe angehen | Du tippst `/uni:start` (Claude), `/skill:start` (Kimi) oder `/prompts:start` (Codex) — die KI lädt den aktuellen Projektstand. |
-| Sicherstellen, dass alle gleich arbeiten | Jeder bekommt dieselben Regeln und Skills. Bei **Claude Code** zusätzlich automatische Sicherheits-Hooks wie das Fact-Forcing-Gate. Bei Kimi/Codex gelten dieselben Regeln als Text-Anweisung. |
+| Sicherstellen, dass alle gleich arbeiten | Jeder bekommt dieselben Regeln und Skills. Bei **Claude Code** und **Kimi Code** zusätzlich das automatische Sicherheits-Hook **Fact-Forcing-Gate**. Bei Codex gelten dieselben Regeln als Text-Anweisung. |
 | Eine Sitzung beenden | `save-session` schreibt, was du gemacht hast, damit der Nächste nahtlos weitermacht. |
 | Eigene Entscheidungen dokumentieren | `entscheidungslog` hilft dir, deine Begründung festzuhalten — relevant für die benotete Einzelleistung. |
 | Einen Kolleg:innen-Change prüfen | `code-review` und `review-pr` führen dich Schritt für Schritt durch ein Review. |
-| Automatisch an Regeln erinnert werden | Bei **Claude Code** hält das **Fact-Forcing-Gate** kurz inne, bevor die KI etwas ändert, und fragt nach dem Warum. Bei Kimi/Codex musst du die Regeln selbst bewusst anwenden. |
+| Automatisch an Regeln erinnert werden | Bei **Claude Code** und **Kimi Code** hält das **Fact-Forcing-Gate** kurz inne, bevor die KI etwas ändert, und fragt nach dem Warum. Bei Codex musst du die Regeln selbst bewusst anwenden. |
 
 > **Kurz gesagt:** Dieses Repo verwandelt deine KI-CLI von einem allgemeinen Chat-Tool in einen **teamkonformen Arbeitsbegleiter**, der die Regeln des G2-Projekts kennt und einhält.
 
@@ -203,7 +203,7 @@ Wenn du als Backend-Dev `/uni:start` tippst, schlägt die KI dir den nächsten I
 Kleine Programme, die bestimmte Aktionen der KI kurz unterbrechen und prüfen, bevor sie passieren.
 
 **Was läuft aktuell?**  
-Das **Fact-Forcing-Gate** ist aktiv — **aber nur in Claude Code**. Es verlangt, dass du kurz erklärst, welche Fakten für eine Aktion gelten, bevor die KI das erste Bash-Kommando ausführt oder die erste Datei bearbeitet. Bei **Kimi Code** und **Codex CLI** gibt es diese automatische Bremse technisch nicht; dort musst du die Regeln selbst bewusst anwenden.
+Das **Fact-Forcing-Gate** ist aktiv — **in Claude Code und Kimi Code**. Es verlangt, dass du kurz erklärst, welche Fakten für eine Aktion gelten, bevor die KI das erste Bash-Kommando ausführt oder die erste Datei bearbeitet. Bei **Codex CLI** gibt es diese automatische Bremse technisch (noch) nicht; dort musst du die Regeln selbst bewusst anwenden.
 
 **Was ist geplant?**  
 - **RB-01-Guard:** blockt automatisch Routen, die die Startbahn freigeben/sperren.
@@ -293,10 +293,10 @@ Lucas ändert das Setup-Skript. Bevor das Update an alle geht, laufen die Tests 
 ### 2.15 `VERSION` und Git-Tags
 
 **Was ist das?**  
-`VERSION` enthält die aktuelle Version des Toolkits (z. B. `1.5.1`). Git-Tags wie `v1.5.1` markieren Releases.
+`VERSION` enthält die aktuelle Version des Toolkits (z. B. `1.5.1`). Git-Tags wie `v1.6.0` markieren Releases.
 
 **Warum ist das nützlich?**  
-Wenn bei einem Teammitglied etwas komisch läuft, kannst du schnell vergleichen: „Bei dir steht noch v1.5.0, aber aktuell ist v1.5.1 — bitte einmal `/update` laufen lassen."
+Wenn bei einem Teammitglied etwas komisch läuft, kannst du schnell vergleichen: „Bei dir steht noch v1.5.0, aber aktuell ist v1.6.0 — bitte einmal `/update` laufen lassen."
 
 **Beispiel:**  
 Jemand meldet: „Der Skill fehlt bei mir." Die erste Frage lautet: „Welche VERSION zeigt `uniplugin version`?" Damit lässt sich viel eingrenzen.
@@ -395,4 +395,4 @@ G3 möchte eine Anzeige für den Vereisungsstatus. Der Fragenkatalog hilft, klä
 
 ---
 
-*Gepflegt im Repo `Devteam-vibecodes` · Toolkit-Version: v1.5.1 · Stand: 2026-06-21*
+*Gepflegt im Repo `Devteam-vibecodes` · Toolkit-Version: v1.6.0 · Stand: 2026-06-21*

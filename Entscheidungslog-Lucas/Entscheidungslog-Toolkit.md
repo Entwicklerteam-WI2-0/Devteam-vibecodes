@@ -38,7 +38,9 @@ Zahlung gezwungen werden.
   Tasks ein (50 % @1–4 h, 33 % @>4 h). Sonnet 4.6 liegt nur ~1 Punkt hinter Opus bei Bruchteil von Kosten/Latenz → idealer Default.
 - **Toolkit-Kohärenz:** Das kuratierte ECC-Toolkit (Skills/Hooks/Agents/`.claude/`) ist Claude-Code-nativ;
   die „Standards-per-Hook"-Säule (PostToolUse format/lint, PreToolUse-Block, Stop-Gate) ist hier am reifsten.
-  Command-Hooks portieren auf Codex; für **Kimi keine Hook-Parität belegt**.
+  Command-Hooks portieren auf Codex; für **Kimi Hook-Parität inzwischen belegt** (offizielle Doku
+  `customization/hooks`, abgerufen 2026-06-22: `PreToolUse` blockbar, deny via stdout-JSON, Claude-kompatible
+  Payload) → Fact-Forcing-Gate per `~/.kimi-code/config.toml` deployed (seit v1.6.0). Für Codex weiter kein Tool-Hook-Enforcement.
 - **Kosten realistisch klein:** 3-Wochen-Projekt = 1 Abo-Monat. Eigen-Investment ≈ €20–72
   → Optimierung auf Qualität/Kohärenz statt €17-vs-€20.
 - **wrapper=model + kein API:** erfüllt (alle Abos, kein Token-Billing im Normalbetrieb).
@@ -48,7 +50,7 @@ Zahlung gezwungen werden.
 | Alternative | Warum verworfen |
 |---|---|
 | **Codex CLI + ChatGPT als Standard** | Billig-Einstieg (Go ~€8) untauglich („lightweight/limited", mit Werbung); verlässliches Codex erst ab Plus ≈ €22 inkl. DE-MwSt = **Preisparität** mit Claude Pro, aber ohne ECC-Toolkit. → nur Fallback. |
-| **Kimi Code als Standard** | Bestes Kontingent/€ (Moderato ~$19/≈€17), aber Qualitätsabfall auf harten Tasks (schlecht für Lernende), keine Hook-Parität, CN-Provider. → nur Fallback-Netz. |
+| **Kimi Code als Standard** | Bestes Kontingent/€ (Moderato ~$19/≈€17), aber Qualitätsabfall auf harten Tasks (schlecht für Lernende), keine vollständige Hook-Parität (seit v1.6.0 Fact-Forcing-Gate via `config.toml`; Phase-2-Hooks fehlen weiter), CN-Provider. → nur Fallback-Netz. |
 | **Gemini Pro** | Trotz vorhandenem Zugang: schwächstes Coding, 4. Ökosystem, füllt keine Deckungslücke. |
 | **API statt Abo** | Per Randbedingung ausgeschlossen („lohnt nie mehr als Abos"). |
 

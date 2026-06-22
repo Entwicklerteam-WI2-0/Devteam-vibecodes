@@ -144,4 +144,4 @@ Präsentiere dem User ein übersichtliches Ergebnis:
 
 ---
 *Verifikation: `verification-loop`. Tests: `tdd-workflow`/`test-coverage`. Regeln: `claude-sync.md` §7.*
-*Toolkit-Version: v1.5.1 · Stand: 2026-06-21*
+*Toolkit-Version: v1.6.0 · Stand: 2026-06-21*

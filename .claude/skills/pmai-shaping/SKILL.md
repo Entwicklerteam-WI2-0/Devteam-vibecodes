@@ -167,4 +167,4 @@ Shaping erzeugt Dokumente auf drei Ebenen:
 
 ---
 *Begleit-Skills: `blueprint-spec`, `citypaul-planning`, `mp-codebase-design`, `breadboarding`.*
-*Toolkit-Version: v1.5.1 · Stand: 2026-06-21*
+*Toolkit-Version: v1.6.0 · Stand: 2026-06-21*

@@ -15,8 +15,9 @@
 | **`gemeinsam/Skills.md`** | **Geteilte Skills** — von **beiden** Abteilungen genutzt (Fundament) |
 | **`abteilung-backend-entwickler/Skills.md`** | Skills der **Backend-Entwickler:innen** |
 | **`abteilung-reviewer-tester/Skills.md`** | Skills der **Reviewerinnen/Testerinnen** |
+| **`abteilung-orga-management/Skills.md`** | Skills des **Orga-Managements** inkl. Doku-Gruppe |
 
-Die drei `Skills.md` sind eigenständig lesbare Arbeitsdokumente der jeweiligen Gruppe. Diese Datei
+Die vier `Skills.md` sind eigenständig lesbare Arbeitsdokumente der jeweiligen Gruppe. Diese Datei
 fasst alles zu **einem Plan** zusammen und begründet die Auswahl.
 
 ## 1. Nutzen-Schwerpunkt — Taxonomie (Legende)
@@ -144,6 +145,24 @@ Konkrete Pflicht-Hooks (Details `gemeinsam/Skills.md §3`): **RB-01-Guard** (blo
 > **Ausnahme — nur durch Lucas:** `code-review ultra` (tiefes, **kostenpflichtiges** Cloud-Review) ist
 > dem kritischsten PR (P2.4/RB-01) vorbehalten — kein Standard-Skill. Im Alltag genügt `santa-loop`.
 
+### 3.5 ORGA-MANAGEMENT → `abteilung-orga-management/Skills.md`
+
+| Skill | Usecase (projektbezogen) | Schwerpunkt | WP / Auslöser |
+|---|---|---|---|
+| `uni:standup-moderator` | Tägliches Standup moderieren + Protokoll ins Journal | OP/WG | Täglich / WP0 |
+| `uni:fortschritts-board` | Projektstatus sichtbar machen (Tasks, PRs, Review-Backlog, Blocker) | OP/WG | Täglich / vor Standup |
+| `uni:dev-reviewer-koordinator` | Übergabe Backend-Dev → Reviewer/Test steuern | OP/WG | PR erstellt / Review hängt |
+| `uni:onboarding-orchestrator` | Neues Mitglied in Stack, Rollen und ersten Task einführen | VO/OP | Neuzugang |
+| `uni:roster-tracker` | Team-Roster pflegen (Abteilung, Verfügbarkeit, Buddy) | CR/WG | Personalwechsel / wöchentlich |
+| `uni:doku-qualitaets-review` | Nicht-Code-Doku auf Vollständigkeit/Aktualität prüfen (Doku-Gruppe) | SR/OP | Vor Release / viertelwöchentlich |
+| `uni:konventions-healthcheck` | Team-OS-Conventions lebendig prüfen | CR/SR | Wöchentlich / vor Meilenstein |
+| `uni:blocker-escalation` | Blocker/Risiken erfassen und Eskalationspfad auslösen | WG/OP | Blocker > 24h / kritischer Pfad |
+| `uni:meilenstein-tracker` | 3-Wochen-Plan und Meilensteine tracken (Ampel + Aktionen) | OP/WG | Wochenstart / nach Standup |
+| `uni:release-merge-koordinator` | Koordiniertes Mergen auf `main` planen | OP/WG | Mehrere PRs bereit / Release |
+
+> **Einstiegs-Set (Pflicht, Tag 1):** `uni:start` · `uni:standup-moderator` · `uni:fortschritts-board` ·
+> `uni:dev-reviewer-koordinator` · `save-session`. Alles Weitere situativ.
+
 ## 4. Auswahl-Begründung (warum diese Skills, passend zum Workflow)
 
 1. **Contract-first (P1):** `api-design` + `plan` sitzen bewusst auf **WP2**, weil die API/Datenmodell-Naht
@@ -160,6 +179,10 @@ Konkrete Pflicht-Hooks (Details `gemeinsam/Skills.md §3`): **RB-01-Guard** (blo
    (format/lint), PreToolUse (blocks), Stop (test/build-gate) — erzwingen statt erhoffen.
 7. **Kontinuität (3 Wochen, Ausfallrisiko):** `uni:start` + `save-session` sichern Kontext über
    Personen-/Tageswechsel — passt zu „Non-Performer entkoppeln, Naht schützen".
+8. **Orga-Management als eigene Abteilung:** Die Skills `standup-moderator`, `fortschritts-board`,
+   `dev-reviewer-koordinator` etc. schließen die Lücke zwischen technischen WP-Skills und menschlicher
+   Koordination. Sie sind bewusst **nicht** Teil der Dev-/Reviewer-Abteilung, damit Orga-Sichtbarkeit und
+   Eskalation unabhängig von der aktuellen Code-Arbeit gepflegt werden.
 
 ## 5. Bewusst NICHT gewählt (Ausschlüsse — für Nachvollziehbarkeit)
 
@@ -217,4 +240,4 @@ SR/OP-Schwerpunkt) · 40-%-Human-in-the-loop-Regel · Frontend-/Fremdstack-Aussc
 > nicht nur Reviews) und reale Nutzer (~2. Sem.: schlanker Pflicht-Kanon, Rest situativ) ausgerichtet.
 
 ---
-*Toolkit-Version: v1.5.1 · Stand: 2026-06-21 (urspr. 2026-06-17) · Pflege: Lucas (Systemarchitekt) · Use-Case-Fakten stets aus `Alarmsystem-Dev` lesen.*
+*Toolkit-Version: v1.6.0 · Stand: 2026-06-21 (urspr. 2026-06-17) · Pflege: Lucas (Systemarchitekt) · Use-Case-Fakten stets aus `Alarmsystem-Dev` lesen.*

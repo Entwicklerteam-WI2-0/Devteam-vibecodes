@@ -110,7 +110,7 @@ Devteam-vibecodes/
 ├── USERMANUAL.md                   # Vollständiges Benutzerhandbuch (alle Komponenten, für Nicht-Techies)
 ├── ONBOARDING.md                   # 3-Schritte-Ersteinrichtung (alle CLIs, Kurzversion)
 ├── setup.ps1 / setup.sh            # Setup Claude Code: team-os-g2.md + @import-Block + Fact-Forcing-Gate
-├── setup-kimi.ps1 / setup-kimi.sh  # Setup Kimi Code: Skills + Anweisung → ~/.kimi-code/
+├── setup-kimi.ps1 / setup-kimi.sh  # Setup Kimi Code: Skills + Anweisung + Fact-Forcing-Gate → ~/.kimi-code/
 ├── setup-codex.ps1 / setup-codex.sh# Setup Codex CLI: AGENTS.md + Skills + Commands → ~/.codex/
 ├── update.ps1 / update.sh          # Update: git pull + Setup erneut (Version alt → neu); auch via /update
 ├── install-cli.ps1 / install-cli.sh# Installiert globalen Terminal-Befehl `uniplugin`
@@ -193,12 +193,14 @@ Devteam-vibecodes/
   `setup` installiert sie **global** — Claude als `uni`-Plugin nach `~/.claude/skills/uni/` (Aufruf `uni:<name>`),
   Kimi nach `~/.kimi-code/skills/` (`/skill:<name>`), Codex nach `~/.codex/skills/` (`/prompts:<name>`) —
   damit sie in **jedem** Repo greifen, nicht nur im Tooling-Repo.
-- **Fact-Forcing-Gate (Claude Code, aktiv):** `setup` verdrahtet `fact-forcing-gate.js` als PreToolUse-Hook.
-  Es blockiert (a) das **erste Bash-Kommando je Session** und (b) die **erste Berührung jeder Datei**, bis
-  konkrete Fakten genannt werden. Bei destruktiven Befehlen (`rm -rf`, `git push --force`) verlangt das Gate
+- **Fact-Forcing-Gate (Claude Code + Kimi Code, aktiv):** `setup` verdrahtet `fact-forcing-gate.js` als
+  PreToolUse-Hook — auf Claude in `~/.claude/settings.json`, auf Kimi in `~/.kimi-code/config.toml` (seit
+  v1.6.0; Kimi-Hooks sind Claude-kompatibel: `PreToolUse` blockbar, deny via stdout-JSON). Es blockiert
+  (a) das **erste Bash-Kommando je Session** und (b) die **erste Berührung jeder Datei**, bis konkrete
+  Fakten genannt werden. Bei destruktiven Befehlen (`rm -rf`, `git push --force`) verlangt das Gate
   **Betroffene Dateien, Rollback-Plan und wörtliches Zitat der Anweisung** — kein Escape außer erneutem
   Tippen desselben Befehls. Eigener Namespace `UNI_GATE_*`, State in `~/.uni-gate/`, kollisionsfrei neben ECC.
-  Notbremse: `UNI_GATE_OFF=off`. Bei **Kimi/Codex** gilt dieselbe Regel als Text-Anweisung — ohne
+  Notbremse: `UNI_GATE_OFF=off`. Bei **Codex CLI** gilt dieselbe Regel als Text-Anweisung — ohne
   technische Blockade.
 - **Kopplungs-Karte:** `Abhaengigkeiten.md` listet pro Fakt, welche Dateien synchron gehalten werden müssen.
   Wer einen zentralen Fakt ändert (Skill-Name, Workflow-Punkt, Version), ruft `uni:coupling-map` auf —
@@ -259,4 +261,4 @@ Entscheidungslogbuch. Bei Use-Case-Fragen **immer zuerst dort** nachsehen.
 
 ---
 
-*Gepflegt von Lucas Vöhringer (Systemarchitekt G2) · Toolkit-Version: v1.5.1 · Stand: 2026-06-21.*
+*Gepflegt von Lucas Vöhringer (Systemarchitekt G2) · Toolkit-Version: v1.6.0 · Stand: 2026-06-21.*
