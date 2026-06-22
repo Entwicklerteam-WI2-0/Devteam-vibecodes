@@ -141,4 +141,4 @@ Merge selbst **erst nach Freigabe durch Lucas**.
 
 ---
 *Verstehen: `code-tour`. Qualität: `python-review`/`fastapi-review`. Kritischer Pfad: `verification-loop`/`santa-loop`.*
-*Toolkit-Version: v1.5.1 · Stand: 2026-06-21*
+*Toolkit-Version: v1.6.0 · Stand: 2026-06-21*

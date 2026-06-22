@@ -6,6 +6,9 @@
 #   2) .claude/commands/*.md     -> $KIMI_CODE_HOME\skills\<name>\SKILL.md   (Kimi hat KEIN
 #                                   Command-Verzeichnis -> Commands werden Skills: /skill:start)
 #   3) claude-sync.md            -> $KIMI_CODE_HOME\AGENTS.md  (fehlt -> WIRD AGENTS.md; sonst additiv)
+#   4) .claude/hooks/fact-forcing-gate.js -> $KIMI_CODE_HOME\hooks\ + config.toml verdrahten
+#                                   (Kimi-Hooks sind Claude-kompatibel: PreToolUse blockable,
+#                                    deny via stdout-JSON; das Gate-Skript ist harness-agnostisch.)
 #   Kimi liest ~/.kimi-code/ nativ (gleiches SKILL.md-Format).
 # -------------------------------------------------------------
 $ErrorActionPreference = "Stop"
@@ -67,7 +70,7 @@ Get-ChildItem -Path $src -Directory | ForEach-Object {
         $count++
     }
 }
-Write-Host "[1/3] $count Skills installiert -> $kskills  (Aufruf: /skill:<name>)"
+Write-Host "[1/4] $count Skills installiert -> $kskills  (Aufruf: /skill:<name>)"
 
 # 2) Commands als Skills (Kimi hat kein Command-Verzeichnis)
 $ccount = 0
@@ -94,7 +97,7 @@ if (Test-Path $cmdSrc) {
     }
 }
 [System.IO.File]::WriteAllText($kmanifest, (($teamSet | Sort-Object -Unique) -join "`n") + "`n", $utf8NoBom)
-Write-Host "[2/3] $ccount Commands als Skills installiert  (Aufruf: /skill:start, /skill:setup)"
+Write-Host "[2/4] $ccount Commands als Skills installiert  (Aufruf: /skill:start, /skill:setup)"
 
 # 3) Globale Anweisung -> AGENTS.md, 4 Faelle (idempotent, Kimi inline; kein @import):
 #    Fall 1  fehlt           -> claude-sync.md WIRD die AGENTS.md (voll, inline)
@@ -110,7 +113,7 @@ $teamBlock = $kb + "`n" + $syncText.TrimEnd("`r", "`n") + "`n" + $ke + "`n"
 if (-not (Test-Path $kagents)) {
     # Fall 1: keine AGENTS.md -> claude-sync.md wird sie (voll, inline)
     Copy-Item $sync $kagents -Force
-    Write-Host "[3/3] Keine AGENTS.md gefunden -> claude-sync.md als AGENTS.md gesetzt: $kagents"
+    Write-Host "[3/4] Keine AGENTS.md gefunden -> claude-sync.md als AGENTS.md gesetzt: $kagents"
 } else {
     $existing = [System.IO.File]::ReadAllText($kagents, [System.Text.Encoding]::UTF8)
     if ($existing -like "*$kb*") {
@@ -119,22 +122,80 @@ if (-not (Test-Path $kagents)) {
         $rest = ([regex]::Replace($existing, $pattern, "")).TrimEnd("`r", "`n")
         if ($rest.Length -gt 0) { $rest = $rest + "`n`n" }
         [System.IO.File]::WriteAllText($kagents, $rest + $teamBlock, $utf8NoBom)
-        Write-Host "[3/3] Team-Block in AGENTS.md aufgefrischt: $kagents"
+        Write-Host "[3/4] Team-Block in AGENTS.md aufgefrischt: $kagents"
     } elseif ($existing -like "*$heading*") {
         # Fall 3: AGENTS.md IST eine Team-OS-Vollkopie -> in-place aktualisieren
         Copy-Item $kagents "$kagents.bak" -Force
         Copy-Item $sync $kagents -Force
-        Write-Host "[3/3] Team-OS-Vollkopie erkannt -> AGENTS.md in-place aktualisiert (Backup: $kagents.bak)."
+        Write-Host "[3/4] Team-OS-Vollkopie erkannt -> AGENTS.md in-place aktualisiert (Backup: $kagents.bak)."
     } else {
         # Fall 4: persoenliche AGENTS.md -> behalten, Team-Block anhaengen
         Copy-Item $kagents "$kagents.bak" -Force
         $rest = $existing.TrimEnd("`r", "`n") + "`n`n"
         [System.IO.File]::WriteAllText($kagents, $rest + $teamBlock, $utf8NoBom)
-        Write-Host "[3/3] Persoenliche AGENTS.md beibehalten; Team-Block angehaengt (Backup: $kagents.bak)."
+        Write-Host "[3/4] Persoenliche AGENTS.md beibehalten; Team-Block angehaengt (Backup: $kagents.bak)."
     }
+}
+
+# 4) Fact-Forcing-Gate deployen (Kimi config.toml verdrahten, idempotent).
+#    Kimis Hook-System ist Claude-kompatibel (PreToolUse blockbar, deny via stdout-JSON);
+#    das bestehende, harness-agnostische Gate-Skript wird unverändert weitergenutzt.
+#    Quelle der Hook-Semantik: offizielle Kimi-Code-Doku (customization/hooks).
+$gateSrc = Join-Path $scriptDir ".claude/hooks/fact-forcing-gate.js"
+if (Test-Path $gateSrc) {
+    $khooks  = Join-Path $kimiHome "hooks"
+    $kconfig = Join-Path $kimiHome "config.toml"
+    New-Item -ItemType Directory -Force -Path $khooks | Out-Null
+    Copy-Item $gateSrc (Join-Path $khooks "fact-forcing-gate.js") -Force
+    # Forward-Slashes fuer TOML (Node akzeptiert sie auf allen Plattformen; Backslashes
+    # wuerden in basic-TOML-strings als Escape gelten -> literal string mit "..." drum ist sicher).
+    $kimiHomeFw = $kimiHome -replace '\\','/'
+    $gateCmd    = "node `"$kimiHomeFw/hooks/fact-forcing-gate.js`""
+    $hb = "# TEAM-OS-G2 HOOKS BEGIN - verwaltet von setup-kimi, nicht editieren"
+    $he = "# TEAM-OS-G2 HOOKS END"
+    $hookBlock = @"
+$hb
+[[hooks]]
+event = "PreToolUse"
+matcher = "Bash"
+command = '$gateCmd'
+timeout = 5
+
+[[hooks]]
+event = "PreToolUse"
+matcher = "Edit|Write|MultiEdit"
+command = '$gateCmd'
+timeout = 5
+$he
+"@
+    if (-not (Test-Path $kconfig)) {
+        [System.IO.File]::WriteAllText($kconfig, $hookBlock + "`n", $utf8NoBom)
+        Write-Host "[4/4] config.toml angelegt + Fact-Forcing-Gate verdrahtet: $kconfig"
+    } else {
+        $existing = [System.IO.File]::ReadAllText($kconfig, [System.Text.Encoding]::UTF8)
+        if ($existing -like "*$hb*") {
+            # Block bereits vorhanden -> zwischen Markern ersetzen (idempotent)
+            $pattern = [regex]::Escape($hb) + "[\s\S]*?" + [regex]::Escape($he)
+            $rest = ([regex]::Replace($existing, $pattern, "")).TrimEnd("`r", "`n")
+            if ($rest.Length -gt 0) { $rest = $rest + "`n`n" }
+            [System.IO.File]::WriteAllText($kconfig, $rest + $hookBlock + "`n", $utf8NoBom)
+            Write-Host "[4/4] Fact-Forcing-Gate in bestehender config.toml aufgefrischt: $kconfig"
+        } else {
+            # Persoenliche config.toml -> behalten, Block anhaengen (Backup)
+            Copy-Item $kconfig "$kconfig.bak" -Force
+            $rest = $existing.TrimEnd("`r", "`n") + "`n`n"
+            [System.IO.File]::WriteAllText($kconfig, $rest + $hookBlock + "`n", $utf8NoBom)
+            Write-Host "[4/4] Persoenliche config.toml beibehalten; Fact-Forcing-Gate angehaengt (Backup: $kconfig.bak)."
+        }
+    }
+} else {
+    Write-Host "[4/4] WARNUNG: .claude/hooks/fact-forcing-gate.js nicht gefunden - kein Kimi-Gate deployt."
 }
 
 Write-Host ""
 Write-Host "Fertig. Kimi findet Skills + Anweisung automatisch (KIMI_CODE_HOME)."
 Write-Host "Aufruf z.B.:  /skill:tdd-workflow   -   Session-Start:  /skill:start"
-Write-Host "HINWEIS: Das Fact-Forcing-Gate (Tool-Block) ist Claude-Code-only. Kimis Hooks-System ist Beta und hier nicht als Enforcement verdrahtet; auf Kimi gilt nur die Text-Guidance aus AGENTS.md."
+Write-Host "Fact-Forcing-Gate: als PreToolUse-Hook in config.toml verdrahtet (Bash + Edit/Write/MultiEdit)."
+Write-Host "Verifikation: in Kimi '/hooks' zeigt die geladenen Hooks. Steuerung via User-Env"
+Write-Host "  UNI_GATE_OFF=off oder UNI_DISABLED_HOOKS=uni:pre:bash:fact-force,uni:pre:edit-write:fact-force."
+Write-Host "Hinweis: Kimi fuehrt Hooks fail-open aus (Doku) - das Gate ist Coaching, keine alleinige Safety-Barriere."

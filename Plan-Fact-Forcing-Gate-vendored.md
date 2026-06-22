@@ -3,6 +3,13 @@
 > **Ziel (3 Sätze):** Wir portieren ECCs Fact-Forcing-Gate als **ein einziges, selbst-enthaltenes Node-Skript** in dieses Repo und rollen es über die Setup-Skripte an alle Team-Mitglieder aus — **ohne jede Abhängigkeit vom fragilen `ecc@ecc`-Plugin**. Das Gate blockiert auf Claude Code (a) das **erste Bash-Kommando pro Session** und (b) den **ersten Edit/Write pro Datei**, bis konkrete Fakten genannt wurden (exit-2 + stderr-Block-Semantik bzw. JSON-`permissionDecision: deny`), und läuft unter **eigenem, ecc-unabhängigem Namespace** (`UNI_GATE_*`), sodass es nicht mit dem installierten ECC-Plugin kollidiert. Kimi/Codex erhalten — gemäß verifizierter Harness-Realität — die **ehrlich benannte, degradierte Variante**, nicht die volle Tool-Blockade.
 >
 > **Toolkit-Version-Stempel:** v1.4.0
+>
+> **UPDATE (2026-06-22):** Die hier als **UNVERIFIED** markierte Kimi-Hook-Semantik (Abschnitt E) ist
+> inzwischen **belegt** — offizielle Kimi-Code-Doku (`customization/hooks`): `PreToolUse` blockbar, deny via
+> stdout-JSON, Claude-kompatible stdin-Payload. Damit ist die Voraussetzung für Kimi-Enforcement erfüllt; das
+> Fact-Forcing-Gate wird seit **v1.6.0** per `~/.kimi-code/config.toml` deployt (`setup-kimi.*`). Dieser Plan
+> dokumentiert den Stand von 2026-06-17 (Codex weiter ohne Tool-Hook). Aktueller Stand:
+> `Entscheidungslog-Lucas/Entscheidungslog-Toolkit.md`.
 
 ---
 
@@ -371,7 +378,7 @@ NEUE Datei, Node built-in test runner (`node --test`). Jeder Test ruft das Skrip
 | 58 | env `UNI_GATE_BASH_ROUTINE_DISABLED=1`, `rm -rf /x` | deny `Destructive` (Destruktiv bleibt) |
 | 60 | env `UNI_GATE_BASH_EXTRA_DESTRUCTIVE='supabase\s+db\s+reset'`, `supabase db reset --linked` | deny `Destructive` |
 
-**Lauf:** `node --test tests/` → alle grün. **Begründung:** Diese Tests decken die load-bearing Invarianten ab (Deny-Allow-Zyklus, State, Tokenizer, Env-Flags im UNI-Namespace, Subagent, Sanitisierung, fail-open).
+**Lauf:** `node --test tests/*.test.js` → alle grün. **Begründung:** Diese Tests decken die load-bearing Invarianten ab (Deny-Allow-Zyklus, State, Tokenizer, Env-Flags im UNI-Namespace, Subagent, Sanitisierung, fail-open).
 
 ### D2 — Manueller Verifikationslauf (in einer echten Claude-Code-Session, nach Setup)
 1. `bash setup.sh` (bzw. `setup.ps1`) ausführen → prüfen: `~/.claude/hooks/fact-forcing-gate.js` existiert; `~/.claude/settings.json` enthält die zwei PreToolUse-Einträge; `.bak` angelegt; **fremde Hooks (ECC/SessionStart) noch da**.
@@ -403,7 +410,7 @@ NEUE Datei, Node built-in test runner (`node --test`). Jeder Test ruft das Skrip
 
 **DoD:**
 - [ ] `.claude/hooks/fact-forcing-gate.js` existiert, selbst-enthalten (nur `crypto/fs/path`), **keine** `require('../lib/...')`, **kein** `CLAUDE_PLUGIN_ROOT`, **UNI_GATE_***-Namespace, State in `~/.uni-gate/`.
-- [ ] `tests/fact-forcing-gate.test.js` vorhanden; `node --test tests/` **alle grün** (mind. die Tabelle in D1).
+- [ ] `tests/fact-forcing-gate.test.js` vorhanden; `node --test tests/*.test.js` **alle grün** (mind. die Tabelle in D1).
 - [ ] `.claude/settings.json` (Repo) hat SessionStart **plus** zwei PreToolUse-Einträge mit `__UNI_HOOKS_DIR__`-Platzhalter.
 - [ ] `setup.sh` + `setup.ps1`: Schritt 6 deployt Skript + merged `settings.json` **additiv, idempotent, mit Backup**; manueller Lauf (D2 Schritt 1) bestätigt: fremde Hooks bleiben erhalten.
 - [ ] `setup-kimi.*` + `setup-codex.*`: Degradations-Hinweis ergänzt (kein Tool-Hook).

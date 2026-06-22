@@ -7,6 +7,9 @@
 #   2) .claude/commands/*.md     -> $KIMI_CODE_HOME/skills/<name>/SKILL.md   (Kimi hat KEIN
 #                                   Command-Verzeichnis -> Commands werden Skills: /skill:start)
 #   3) claude-sync.md            -> $KIMI_CODE_HOME/AGENTS.md  (fehlt -> WIRD AGENTS.md; sonst additiv)
+#   4) .claude/hooks/fact-forcing-gate.js -> $KIMI_CODE_HOME/hooks/ + config.toml verdrahten
+#                                   (Kimi-Hooks sind Claude-kompatibel: PreToolUse blockable,
+#                                    deny via stdout-JSON; das Gate-Skript ist harness-agnostisch.)
 #   Kimi liest ~/.kimi-code/ nativ (gleiches SKILL.md-Format; KIMI_CODE_HOME wird respektiert).
 # -------------------------------------------------------------
 set -euo pipefail
@@ -52,7 +55,7 @@ for d in "$SRC"/*/; do
   cp "${d}SKILL.md" "$KSKILLS/$name/SKILL.md"
   count=$((count + 1))
 done
-echo "[1/3] $count Skills installiert -> $KSKILLS  (Aufruf: /skill:<name>)"
+echo "[1/4] $count Skills installiert -> $KSKILLS  (Aufruf: /skill:<name>)"
 
 # 2) Commands als Skills (Kimi hat kein Command-Verzeichnis)
 get_desc() { awk '/^description:/{sub(/^description:[[:space:]]*/,""); gsub(/"/,"'"'"'"); print; exit}' "$1"; }
@@ -69,7 +72,7 @@ if [ -d "$CMD_SRC" ]; then
   done
 fi
 printf '%s\n' "$TEAM_SET" > "$KMANIFEST"
-echo "[2/3] $ccount Commands als Skills installiert  (Aufruf: /skill:start, /skill:setup)"
+echo "[2/4] $ccount Commands als Skills installiert  (Aufruf: /skill:start, /skill:setup)"
 
 # 3) Globale Anweisung -> AGENTS.md, 4 Faelle (idempotent, Kimi inline; kein @import):
 #    Fall 1  fehlt         -> claude-sync.md WIRD die AGENTS.md (voll, inline)
@@ -82,27 +85,81 @@ HEADING="Globale Agenten-Anweisung (Team-OS G2)"
 if [ ! -f "$KAGENTS" ]; then
   # Fall 1: keine AGENTS.md -> claude-sync.md wird sie (voll, inline)
   cp "$SYNC" "$KAGENTS"
-  echo "[3/3] Keine AGENTS.md gefunden -> claude-sync.md als AGENTS.md gesetzt: $KAGENTS"
+  echo "[3/4] Keine AGENTS.md gefunden -> claude-sync.md als AGENTS.md gesetzt: $KAGENTS"
 elif grep -qF "$KB" "$KAGENTS"; then
   # Fall 2: bereits erweitert -> Team-Block auffrischen
   awk -v b="$KB" -v e="$KE" '$0==b{i=1;next} $0==e{i=0;next} !i{print}' "$KAGENTS" > "$KAGENTS.tmp"
   { cat "$KAGENTS.tmp"; printf '%s\n' "$KB"; cat "$SYNC"; printf '\n%s\n' "$KE"; } > "$KAGENTS"
   rm -f "$KAGENTS.tmp"
-  echo "[3/3] Team-Block in AGENTS.md aufgefrischt: $KAGENTS"
+  echo "[3/4] Team-Block in AGENTS.md aufgefrischt: $KAGENTS"
 elif grep -qF "$HEADING" "$KAGENTS"; then
   # Fall 3: AGENTS.md IST eine Team-OS-Vollkopie -> in-place aktualisieren
   cp "$KAGENTS" "$KAGENTS.bak"
   cp "$SYNC" "$KAGENTS"
-  echo "[3/3] Team-OS-Vollkopie erkannt -> AGENTS.md in-place aktualisiert (Backup: $KAGENTS.bak)."
+  echo "[3/4] Team-OS-Vollkopie erkannt -> AGENTS.md in-place aktualisiert (Backup: $KAGENTS.bak)."
 else
   # Fall 4: persoenliche AGENTS.md -> behalten, Team-Block anhaengen
   cp "$KAGENTS" "$KAGENTS.bak"
   { cat "$KAGENTS"; printf '\n'; printf '%s\n' "$KB"; cat "$SYNC"; printf '\n%s\n' "$KE"; } > "$KAGENTS.tmp"
   mv "$KAGENTS.tmp" "$KAGENTS"
-  echo "[3/3] Persoenliche AGENTS.md beibehalten; Team-Block angehaengt (Backup: $KAGENTS.bak)."
+  echo "[3/4] Persoenliche AGENTS.md beibehalten; Team-Block angehaengt (Backup: $KAGENTS.bak)."
+fi
+
+# 4) Fact-Forcing-Gate deployen (Kimi config.toml verdrahten, idempotent).
+#    Kimis Hook-System ist Claude-kompatibel (PreToolUse blockbar, deny via stdout-JSON);
+#    das bestehende, harness-agnostische Gate-Skript wird unverändert weitergenutzt.
+#    Quelle der Hook-Semantik: offizielle Kimi-Code-Doku (customization/hooks).
+GATE_SRC="$SCRIPT_DIR/.claude/hooks/fact-forcing-gate.js"
+if [ -f "$GATE_SRC" ]; then
+  KHOOKS="$KIMI_HOME/hooks"
+  KCONFIG="$KIMI_HOME/config.toml"
+  mkdir -p "$KHOOKS"
+  cp "$GATE_SRC" "$KHOOKS/fact-forcing-gate.js"
+  # Forward-Slashes (Node akzeptiert sie plattformuebergreifend; TOML-basic-strings escapen Backslashes).
+  KIMI_HOME_FW="${KIMI_HOME//\\//}"
+  GATE_CMD="node \"$KIMI_HOME_FW/hooks/fact-forcing-gate.js\""
+  HB="# TEAM-OS-G2 HOOKS BEGIN - verwaltet von setup-kimi, nicht editieren"
+  HE="# TEAM-OS-G2 HOOKS END"
+  HOOK_BLOCK="$(cat <<EOF
+$HB
+[[hooks]]
+event = "PreToolUse"
+matcher = "Bash"
+command = '$GATE_CMD'
+timeout = 5
+
+[[hooks]]
+event = "PreToolUse"
+matcher = "Edit|Write|MultiEdit"
+command = '$GATE_CMD'
+timeout = 5
+$HE
+EOF
+)"
+  if [ ! -f "$KCONFIG" ]; then
+    printf '%s\n' "$HOOK_BLOCK" > "$KCONFIG"
+    echo "[4/4] config.toml angelegt + Fact-Forcing-Gate verdrahtet: $KCONFIG"
+  elif grep -qF "$HB" "$KCONFIG"; then
+    # Block bereits vorhanden -> zwischen Markern ersetzen (idempotent)
+    awk -v b="$HB" -v e="$HE" '$0==b{i=1;next} $0==e{i=0;next} !i{print}' "$KCONFIG" > "$KCONFIG.tmp"
+    { cat "$KCONFIG.tmp"; printf '\n%s\n' "$HOOK_BLOCK"; } > "$KCONFIG"
+    rm -f "$KCONFIG.tmp"
+    echo "[4/4] Fact-Forcing-Gate in bestehender config.toml aufgefrischt: $KCONFIG"
+  else
+    # Persoenliche config.toml -> behalten, Block anhaengen (Backup)
+    cp "$KCONFIG" "$KCONFIG.bak"
+    { cat "$KCONFIG"; printf '\n\n%s\n' "$HOOK_BLOCK"; } > "$KCONFIG.tmp"
+    mv "$KCONFIG.tmp" "$KCONFIG"
+    echo "[4/4] Persoenliche config.toml beibehalten; Fact-Forcing-Gate angehaengt (Backup: $KCONFIG.bak)."
+  fi
+else
+  echo "[4/4] WARNUNG: .claude/hooks/fact-forcing-gate.js nicht gefunden - kein Kimi-Gate deployt."
 fi
 
 echo ""
 echo "Fertig. Kimi findet Skills + Anweisung automatisch (KIMI_CODE_HOME)."
 echo "Aufruf z.B.:  /skill:tdd-workflow   -   Session-Start:  /skill:start"
-echo "HINWEIS: Das Fact-Forcing-Gate (Tool-Block) ist Claude-Code-only. Kimis Hooks-System ist Beta und hier nicht als Enforcement verdrahtet; auf Kimi gilt nur die Text-Guidance aus AGENTS.md."
+echo "Fact-Forcing-Gate: als PreToolUse-Hook in config.toml verdrahtet (Bash + Edit/Write/MultiEdit)."
+echo "Verifikation: in Kimi '/hooks' zeigt die geladenen Hooks. Steuerung via User-Env"
+echo "  UNI_GATE_OFF=off oder UNI_DISABLED_HOOKS=uni:pre:bash:fact-force,uni:pre:edit-write:fact-force."
+echo "Hinweis: Kimi fuehrt Hooks fail-open aus (Doku) - das Gate ist Coaching, keine alleinige Safety-Barriere."

@@ -50,4 +50,4 @@ versteht die Naht.
 - **Push/PR/Merge/destruktive Git-Aktionen** nur nach **expliziter Genehmigung** durch Lucas.
 
 ---
-*Toolkit-Version: v1.5.1 · Pflege: Lucas (Systemarchitekt) · Übergeordnet: `../Skill-Plan.md`.*
+*Toolkit-Version: v1.6.0 · Pflege: Lucas (Systemarchitekt) · Übergeordnet: `../Skill-Plan.md`.*

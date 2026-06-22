@@ -2,7 +2,7 @@
 name: ecc-guide
 description: Navigationshilfe für den ECC-Skill-Stack im G2-Backend — „Welcher Skill wann?". Nutze diesen Skill, wenn du/der User unsicher ist, welchen Skill der nächste Schritt braucht.
 origin: ECC (ecc-guide), neu geschrieben für G2 — Use-Case
-version: v1.5.1
+version: v1.6.0
 ---
 
 # ecc-guide — Welcher Skill wann? (G2-Backend)
