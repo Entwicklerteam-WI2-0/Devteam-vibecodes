@@ -1,7 +1,7 @@
 # Persönliches Entscheidungslog — Lucas Vöhringer (G2)
 ## Aufbau Team-OS · Organisationsstruktur · Workflows der Abteilungen
 
-> **Zeitraum der Erstellung:** dokumentierter Aufbau **2026-06-17 bis 2026-06-21** · **Erstellt am:** 2026-06-20 · **Letzte Bearbeitung:** 2026-06-21
+> **Zeitraum der Erstellung:** dokumentierter Aufbau **2026-06-17 bis 2026-06-22** · **Erstellt am:** 2026-06-20 · **Letzte Bearbeitung:** 2026-06-22
 > **Autor:** Vöhringer, Lucas (Systemarchitekt G2) · **Status:** laufend gepflegt
 > Eigene technische/organisatorische Entscheidungen + Begründung. **Bewertungsrelevant** (Nachvollziehbarkeit, 40 % Einzelleistung).
 
@@ -102,6 +102,20 @@
 - **Begründung:** 3-Wochen-Projekt mit Personen-/Tageswechsel; append-only = konfliktarm ohne Review.
 - **Alternativen:** kein gemeinsames Gedächtnis (verworfen — Kontextverlust); review-pflichtig (verworfen — unnötige Last auf Nicht-Code).
 - **Ergebnis/Status:** umgesetzt.
+
+### 2026-06-22 — Neue Abteilung „Orga-Management" (LucasL) mit Doku-Gruppe und 10 Skills
+- **Kontext/Task:** Team bekommt Zuwachs; die bisherigen drei Abteilungen (Architekten, Backend-Dev, Reviewer/Test) deckten technische Arbeit ab, aber **reine Orga-/Koordinationsaufgaben** (Standup, Status-Tracking, Dev⇄Reviewer-Übergabe, Onboarding, Roster, Doku-Review, Conventions-Healthcheck, Blocker-Eskalation, Meilensteine, Merge-Planung) waren nicht als Skills modelliert. Die Doku-Gruppe (Reisi, Ilchyshyn) existierte in `CLAUDE.md` §5, hatte aber keinen eigenen Skill-Kanon.
+- **Entscheidung:**
+  1. Vierte Abteilung **`abteilung-orga-management/`** einführen, geführt von **LucasL**; die Doku-Gruppe wird dieser Abteilung zugeordnet.
+  2. **10 neue `uni:`-Skills** anlegen: `standup-moderator`, `fortschritts-board`, `dev-reviewer-koordinator`, `onboarding-orchestrator`, `roster-tracker`, `doku-qualitaets-review`, `konventions-healthcheck`, `blocker-escalation`, `meilenstein-tracker`, `release-merge-koordinator`.
+  3. Skill-Plan, Abhängigkeiten-Karte, CLAUDE.md-Organigramm, `claude-sync.md` (Bootstrap, Kanon, Workflow) und alle zentralen Spiegel (`README.md`, `USERMANUAL.md`, `ONBOARDING.md`, `erinnerung/README.md`, `ecc-guide`) synchronisieren.
+  4. Skill-Anzahl im Toolkit von **42 auf 52** erhöhen.
+- **Begründung:** Lücke zwischen **technischen WP-Skills** und **menschlicher Koordination** schließen; Orga-Aufgaben sollen nicht bei Devs oder Reviewern liegenbleiben. Für ~2.-Sem.-Teams ist Sichtbarkeit, Continuity und Eskalationsmanagement kritisch. Die Doku-Gruppe bekommt damit ein operatives Werkzeug (`doku-qualitaets-review`) und eine klare Rollenzuordnung.
+- **Alternativen:**
+  - Orga-Aufgaben den Backend-Devs/Reviewern zuordnen (verworfen — würde deren Fokus zerstreuen und Qualitäts-/Review-Arbeit verdrängen).
+  - Nur 2–3 Orga-Skills als MVP einführen (verworfen — die Orga-Rolle wäre unvollständig geblieben; das vollständige Toolkit schafft sofort einen klaren Verantwortungsbereich).
+  - Orga-Management als reine Text-Rolle ohne Skills führen (verworfen — würde nicht operationalisierbar sein).
+- **Ergebnis/Status:** umgesetzt und per **PR #10** in `master` gemergt (`2d2e19b`).
 
 ---
 
