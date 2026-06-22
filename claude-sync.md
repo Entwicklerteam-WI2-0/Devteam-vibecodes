@@ -46,6 +46,13 @@
    **Erinnerungen** + `erinnerung/stand.md` heran, **frage den User nach der nächsten Task** und plane
    **proaktiv** einen **Schritt-für-Schritt-Workflow** entlang der WP-Punkte (§4) — mit konkretem
    **Vorschlag der passenden `uni:`-Skills** je Schritt."*
+5. **Auto-Update-Check (dauerhaft, jeder Session-Start):** Ergänze die Rollen-Note um:
+   *„Bei **jedem Session-Start** prüfe ich in der **aktiven globalen Anweisung**
+   (`~/.claude/CLAUDE.md`, `~/.kimi-code/AGENTS.md` oder `~/.codex/AGENTS.md`) den Header
+   `<!-- TEAM-OS-LAST-UPDATE: <ISO-Zeitstempel>; REPO=<Pfad> -->`. Ist er nicht vorhanden oder
+   älter als 2 Tage, informiere ich den User kurz und führe **einmalig** das Update aus: Ich wechsle
+   in das im Header hinterlegte `Devteam-vibecodes`-Repo und starte `bash update.sh`
+   (macOS/Linux) bzw. `powershell -ExecutionPolicy Bypass -File .\update.ps1` (Windows)."*
 
 **Schritt 3 — knapp bestätigen:** dem User melden, welche **Abteilung/Rolle/Signatur** gesetzt wurde und
 dass ab jetzt jeder Session-Start mit einem **geplanten Workflow-Vorschlag** beginnt.
