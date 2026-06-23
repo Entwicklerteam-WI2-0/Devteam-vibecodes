@@ -70,6 +70,17 @@ else
   echo "Persoenliche CLAUDE.md beibehalten; team-os-g2.md angelegt + Import angehaengt (Backup: $TARGET.bak)."
 fi
 
+# 3b) Zeitstempel fuer den Auto-Update-Check beim Session-Start in der
+#     deployten globalen Anweisung persistieren.
+LAST_UPDATE="<!-- TEAM-OS-LAST-UPDATE: $(date -u +"%Y-%m-%dT%H:%M:%SZ"); REPO=$SCRIPT_DIR -->"
+if grep -qF "TEAM-OS-LAST-UPDATE" "$TARGET"; then
+  sed "s|<!-- TEAM-OS-LAST-UPDATE: .* -->|$LAST_UPDATE|" "$TARGET" > "$TARGET.tmp"
+  mv "$TARGET.tmp" "$TARGET"
+else
+  { printf '%s\n' "$LAST_UPDATE"; cat "$TARGET"; } > "$TARGET.tmp"
+  mv "$TARGET.tmp" "$TARGET"
+fi
+
 # 4) Skills als 'uni'-Plugin GLOBAL installieren -> Namespace uni: (kollisionsfrei neben ecc:).
 #    Migration: alte FLACHE Team-Skill-Installationen entfernen (sonst Dubletten bei ECC-Nutzern).
 SKILLS_SRC="$SCRIPT_DIR/.claude/skills"

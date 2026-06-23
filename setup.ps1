@@ -87,6 +87,19 @@ if (-not (Test-Path $target)) {
     }
 }
 
+# 3b) Zeitstempel fuer den Auto-Update-Check beim Session-Start in der
+#     deployten globalen Anweisung persistieren.
+$lastUpdate = "<!-- TEAM-OS-LAST-UPDATE: $([System.DateTime]::UtcNow.ToString('yyyy-MM-ddTHH:mm:ssZ')); REPO=$scriptDir -->"
+if (Test-Path $target) {
+    $content = [System.IO.File]::ReadAllText($target, [System.Text.Encoding]::UTF8)
+    if ($content -match '<!-- TEAM-OS-LAST-UPDATE: .* -->') {
+        $content = $content -replace '<!-- TEAM-OS-LAST-UPDATE: .* -->', $lastUpdate
+    } else {
+        $content = $lastUpdate + "`n" + $content
+    }
+    [System.IO.File]::WriteAllText($target, $content, $utf8NoBom)
+}
+
 # 4) Skills als 'uni'-Plugin GLOBAL installieren -> Namespace uni: (kollisionsfrei neben ecc:).
 #    Migration: alte FLACHE Team-Skill-Installationen entfernen (sonst Dubletten bei ECC-Nutzern).
 $skillsSrc = Join-Path $scriptDir ".claude/skills"
