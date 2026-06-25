@@ -106,8 +106,12 @@ Ton: direkt, freundlich, knapp. Keine Floskeln. Eine kurze Begründung pro Eingr
 Vereisungsbedingungen** am fiktiven Regionalflughafen **ANR**. **G2 baut:** Daten-Ingest · Validierung
 (Stale/Defekt) · Persistenz · **Vereisungsbewertung (4 Stufen)** · Alarme · 30-min-Prognose · API ·
 Logging/Audit · Config. **G2 baut NICHT:** Sensor-Hardware (**G1**), UI/Frontend (**G3**). Die **einzige
-früh einzufrierende Naht = API + Datenmodell — sie gehört G2.** Empfohlener Start-Stack (T0, **begründungs-
-pflichtig, nicht gesetzt**): **Python · FastAPI · SQLite · HTTP-POST**.
+früh einzufrierende Naht = API + Datenmodell — sie gehört G2** (Wire-Form **eingefroren**, siehe **§2a**).
+**Stack (final/gesetzt — Quelle: `Alarmsystem-Dev/Stack-Entscheidung-P0.1.md`, ADR E-08/E-29/E-31/E-35):**
+**Python ≥ 3.12 · FastAPI · Pydantic · Uvicorn · rohes PyMySQL** (kein ORM, **parametrisierte Queries** Pflicht)
+hinter Repository-Pattern · **MySQL/MariaDB** (GL-Vorgabe E-29) · handgeschriebenes `schema.sql` (kein Alembic) ·
+**pytest · ruff** · **HTTP-Pull** (G2 pollt G1 `GET /current`+`/health`) für G1→G2, **HTTP REST + SSE** für G2→G3.
+**`SQLite` und Push (`POST /readings`) sind verworfen** (E-29/E-31) — nicht mehr verwenden.
 
 **Verbindlich — vor jeder fachlichen Arbeit:**
 1. **Use-Case-Fakten NIE aus dem Gedächtnis.** Schwellenwerte, Bewertungslogik, Anforderungs-IDs,
@@ -125,6 +129,89 @@ pflichtig, nicht gesetzt**): **Python · FastAPI · SQLite · HTTP-POST**.
    und Zielkonflikte (K1–K9) **kennzeichnest du als offen und legst sie dem Team vor** — du „optimierst" sie
    nicht weg.
 4. Bei jedem Widerspruch zwischen deiner Erinnerung und der Quelle gilt **die Quelle**.
+
+---
+
+## §2a Der eingefrorene Contract — API-Naht G1 ↔ G2 ↔ G3 (verbindlich gegen Drift)
+
+> **Status:** ✅ **EINGEFROREN v1.0 (2026-06-24, P1.4)** — G1- und G3-Lead haben beidseitig bestätigt
+> (`seam-sync-confirmed`, DTB-26). **Source of Truth (gewinnt bei JEDEM Konflikt — auch gegen dieses Kapitel):**
+> `Alarmsystem-Dev/04-Source-code/docs/API_FROZEN_v1.md` + `docs/api/v1/openapi.yaml` (von G2 bereitgestellte API)
+> + `docs/api/v1/g1-consumed.openapi.yaml` (von G2 konsumierte G1-API) + `src/model/schemas.py`/`enums.py`.
+> Begründung: Entscheidungslog **E-31** (Pull), **E-36** (Contract), **E-37** (Alarme = Push).
+> **Pfade/Felder/Typen nie aus dem Gedächtnis bauen — gegen diese Quellen prüfen.** Wire-Form ist stabil;
+> Breaking Changes laufen ausschließlich über `/v2/`, nie durch ein Brechen von `/v1/`.
+
+**Warum hier:** Die API + das Datenmodell sind die **einzige früh einzufrierende Naht** (G2-Hoheit, §2). Jeder
+Agent — in JEDEM Repo, Dev wie Reviewer — baut/prüft **strikt gegen diese Naht**. Eine Abweichung ist ein Bug,
+keine Kreativität. Verlangt jemand ein Feld/Endpoint/Format, das hier nicht steht → **stopp, gegen die Quelle
+prüfen, Abweichung melden.** Contract-Änderung nur über Seam-Sync (DTB-26) + `/v2/`.
+
+### A) Konsumiert: G1 → G2 (Pull — G2 ist *Client*)
+G1 ist Server (`g1-sensorik.local`, Adresse final per Seam-Sync). G2 **pollt** und rechnet die Vereisung selbst.
+- **`GET /current`** → alle Messwerte als **ein** Snapshot mit **einem** gemeinsamen `measured_at`.
+  **`GET /health`** → `200` ok / `503` fault.
+- **Snapshot-Felder (`G1Current` = G1-Teil von `Reading`):**
+
+  | Feld | Typ | Pflicht | Bedeutung |
+  |---|---|:--:|---|
+  | `sensor_id` | string | ja | Sensor-Kennung (z. B. `anr-rwy-01`) |
+  | `measured_at` | string ISO-8601/UTC | ja | gemeinsamer Mess-Zeitstempel — **nicht verhandelbar** |
+  | `surface_temp_c` | number °C | ja | Oberflächentemp. `T_s` (Pflicht-Trias) |
+  | `air_temp_c` | number °C | ja | Lufttemp. `T_a` (Pflicht-Trias) |
+  | `humidity_pct` | number % | ja | Luftfeuchte (Pflicht-Trias) |
+  | `pressure_hpa` | number hPa | nein | Luftdruck (Kontext) |
+  | `status` | enum `ok` \| `fault` | ja | Sensor-/Lieferstatus |
+
+- **G1 liefert NICHT:** keinen `ice_indicator`, keinen Taupunkt, kein `ΔT`. **G2 berechnet selbst:**
+  `dew_point_c` (Magnus aus `air_temp_c` + `humidity_pct`), `delta_t = surface_temp_c − dew_point_c`.
+  Die Vereisungsbewertung bleibt vollständig **G2-Hoheit** (RB-01, kritischer Pfad).
+- **Poll-Intervall 30 s · Stale-Timeout 120 s** (`measured_at` älter → `risk_level=unknown`, **nie GRÜN**).
+  Erreichbarkeit (`/health`/Timeout) **getrennt** von Datenaktualität prüfen; jede Nicht-`200`-Antwort → Fail-safe.
+
+### B) Bereitgestellt: G2 → G3 (REST + SSE — G2 ist *Server*)
+Alle Endpoints unter **`/v1/`** (AE-03, genau eine API). G3 ist Client (GET/SSE) und hostet nichts.
+- **`GET /v1/assessment/current`** → flacher Response (kein Envelope, E-36): **Ampel + Roh-Messwerte**
+  (`AssessmentCurrent`):
+
+  | Feld | Typ | Pflicht | Bedeutung |
+  |---|---|:--:|---|
+  | `risk_level` | enum `green`\|`yellow`\|`orange`\|`red`\|`unknown` | ja | Risiko-Ampel; `unknown` = Fail-safe |
+  | `driving_factor` | string \| null (≤ 64) | nein | Hauptfaktor (z. B. `dew_point`) |
+  | `explanation` | string \| null (≤ 512) | nein | Klartext-Begründung |
+  | `surface_temp_c` | number \| null | nein | `T_s` (°C) |
+  | `dew_point_c` | number \| null | nein | Taupunkt (°C, von G2 berechnet) |
+  | `delta_t` | number \| null | nein | `T_s − T_d` (°C) |
+  | `humidity_pct` | number \| null | nein | Luftfeuchte (%) |
+  | `measured_at` | string date-time (UTC) | ja | G1-Messzeit; auf `200` **immer** gesetzt |
+  | `assessed_at` | string date-time (UTC) | ja | G2-Bewertungszeit |
+  | `is_stale` | boolean | ja | `true` + `unknown` = Fail-safe griff |
+  | `sensor_status` | enum `ok` \| `fault` | ja | aus G1-`status` |
+
+  **Fail-safe-Invarianten (NF-01, vom `assessment/`-Kern garantiert):** `green` nur bei `is_stale=false` **und**
+  `sensor_status=ok`; bei Stale **oder** `fault` → `unknown` (nie GRÜN); genullte Messwerte treten **nur** bei
+  `risk_level=unknown` auf. Der Fall „gar keine Daten" wird mit **`503`** signalisiert, nicht mit `null`.
+- **`GET /v1/health`** → `Health {status:"ok"}` / `503`.
+- **Alarme = Push (E-37):** **`GET /v1/alarms/stream`** (SSE, `text/event-stream`; je `data:` ein `Alarm`-JSON;
+  Heartbeat `:keep-alive` ~15 s; Reconnect via `Last-Event-ID`, danach **zwingend** `GET /v1/alarms` als Resync).
+  **`GET /v1/alarms`** = Zustands-Abfrage/Resync-Backstop (**kein** Entdeckungs-Poll).
+  **`POST /v1/alarms/{id}/ack`** = reine UI-/Audit-Quittierung (RB-01, **kein** Aktor);
+  Body `AckRequest {operator (Pflicht, 1–128 Z.), note? (≤ 512 Z.)}`; `409` bei Double-Ack (NF-09, nicht idempotent).
+- **`GET /v1/readings`** = Messwert-Historie (Ausbaustufe **T1**; `from`/`to`/`sensor_id`/`limit`/`order`).
+
+### C) Wertelisten (Enums — Spiegel `src/model/enums.py`, DB als `VARCHAR` + `CHECK`)
+`RiskLevel` `green|yellow|orange|red|unknown` · `SensorStatus` `ok|fault` · `AlarmState` `active|acknowledged|cleared`
+· `Source` `real|sim` · `AuditEventType` `reading_ingested|assessment_made|alarm_raised|alarm_acknowledged|threshold_changed|sensor_fault`.
+`AlarmSeverity` `warning|critical` — die Ableitung aus `RiskLevel` (`orange→warning`, `red→critical`;
+`green`/`yellow`/`unknown` lösen **keinen** Alarm aus) ist **G2-intern, NICHT Teil des Wire-Contracts**.
+
+### D) Status-/Fehler-Konventionen (verbindlich)
+- **Fehlerformat:** `{ "code": "...", "message": "..." }` — maschinenlesbar, **keine** internen Details/Secrets.
+- **Code-Konvention:** `400` = Request-/Pfad-/Geschäftsregel-Fehler · `422` = Body-Schema-Validierung ·
+  `404` = nicht gefunden · `409` = Double-Ack abgelehnt (NF-09) · `503` = G2 (noch) nicht lieferfähig.
+  **`503` ist NICHT für Stale** — Stale ist `200` + `is_stale=true` + `risk_level=unknown` (Fail-safe, kein Fehler).
+- **Zeit:** alle Zeitstempel **UTC / ISO-8601**; Pydantic erzwingt zeitzonenbewusste `datetime` und `extra="forbid"`
+  (keine unbekannten Felder). Feldnamen sind `snake_case`, Endpoints unter `/v1/`.
 
 ---
 
