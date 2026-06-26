@@ -27,6 +27,7 @@ Rufe die folgenden Skills in dieser Reihenfolge auf. Keinen Schritt überspringe
 7. **`doku-qualitaets-review`** — Nicht-Code-Doku auf Vollständigkeit, Aktualität und Verständlichkeit prüfen.
 8. **`quality-gate`** — Formatter, Linter, keine Secrets, Build grün vor dem Commit.
 9. **`konventions-healthcheck`** — Team-OS-Conventions: WP-Gates, Naming, Branch-Schutz, No-Main-Push.
+10. **`git-workflow` / Branch-Main-Abgleich** — Feature-Branch vor Review-Abschluss zwingend mit `origin/main` abgleichen, sodass nur die eigentlichen Feature-Änderungen reviewt/iteriert werden.
 
 ## Shortcut für PRs
 Für einen reinen PR-Review darf mit **`review-pr`** statt der Schritte 1–6 begonnen werden. Danach müssen trotzdem noch ausgeführt werden:
@@ -35,6 +36,38 @@ Für einen reinen PR-Review darf mit **`review-pr`** statt der Schritte 1–6 be
 - `quality-gate`
 - `doku-qualitaets-review`
 - `konventions-healthcheck`
+- **Branch-Main-Abgleich** (Schritt 10)
+
+## 10. Branch-Main-Abgleich (mandatorisch vor Review-Abschluss)
+
+Bevor der Review abgeschlossen wird, muss der Feature-Branch auf dem neuesten Stand von `origin/main` sein. Ziel: Der Review betrachtet ausschließlich die Feature-Änderungen gegenüber einem aktuellen Main — keine veralteten Baselines oder bereits gelösten Konflikte.
+
+### Ablauf
+1. **Fetch:**
+   ```bash
+   git fetch origin
+   ```
+2. **Prüfen, ob Main ahead ist:**
+   ```bash
+   git log --oneline HEAD..origin/main
+   ```
+3. **Falls Main ahead:** Merge von `origin/main` in den Feature-Branch (kein Rebase, um Force-Push zu vermeiden):
+   ```bash
+   git merge origin/main
+   ```
+4. **Konflikte lösen** falls nötig — User informieren und gemeinsam auflösen.
+5. **Tests erneut laufen lassen:**
+   ```bash
+   uv run pytest -q
+   ```
+6. **Quality-Gate erneut prüfen:**
+   ```bash
+   uv run ruff check .
+   uv run ruff format . --check
+   ```
+7. **Branch pushen** — nur nach expliziter Freigabe durch Lucas.
+
+> **Warum Merge statt Rebase:** Rebase ändert Commit-Hashes und erfordert einen Force-Push, der die Review-Historie und eventuell laufende CI-Checks durcheinanderbringt. Ein Merge-Commit ist im Feature-Branch erlaubt und sicherer.
 
 ## Outputs
 - Strukturierter Befundereport pro Skill.
