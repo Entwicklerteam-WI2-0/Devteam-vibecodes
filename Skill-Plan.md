@@ -236,9 +236,15 @@ IDs (RB-01, NF-01, P-Phasen) deckungsgleich mit `Alarmsystem-Dev` · alles auf D
 SR/OP-Schwerpunkt) · 40-%-Human-in-the-loop-Regel · Frontend-/Fremdstack-Ausschlüsse · `error-handling`→Fail-safe
 (NF-01) · alle referenzierten Skills existieren im Stack.
 
+**Nachtrag nach Deployment von `uni:review-orchestrator` (2026-06-26):**
+- Skill als `.claude/skills/uni-review-orchestrator/SKILL.md` deployed und in `gemeinsam/Skills.md` sowie
+  `abteilung-reviewer-tester/Skills.md` verankert.
+- Kette in §3.1 sowie WP-Tabelle (WP5/WP6) bestätigt.
+- Skill-Anzahl in Spiegeln (`README.md`, `Abhaengigkeiten.md`) auf **54** korrigiert.
+
 > **Fazit Review-Loop:** Beide Durchgänge abgeschlossen; alle P1/P2 und beide P3 eingearbeitet. Der Plan ist
 > jetzt stringent auf Stack (Python/FastAPI/SQLite), Sicherheitskritik (RB-01/Fail-safe als **Hooks+Gates**,
 > nicht nur Reviews) und reale Nutzer (~2. Sem.: schlanker Pflicht-Kanon, Rest situativ) ausgerichtet.
 
 ---
-*Toolkit-Version: v1.6.0 · Stand: 2026-06-21 (urspr. 2026-06-17) · Pflege: Lucas (Systemarchitekt) · Use-Case-Fakten stets aus `Alarmsystem-Dev` lesen.*
+*Toolkit-Version: v1.6.0 · Stand: 2026-06-26 (urspr. 2026-06-17) · Pflege: Lucas (Systemarchitekt) · Use-Case-Fakten stets aus `Alarmsystem-Dev` lesen.*

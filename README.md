@@ -131,7 +131,7 @@ Devteam-vibecodes/
 │   │   ├── fact-forcing-gate.js    # PreToolUse-Hook: erzwingt Faktennennung vor Bash/Edit/Write/MultiEdit
 │   │   ├── merge-settings.js       # Hilfsskript: additiver Merge von settings.json (von setup.* genutzt)
 │   │   └── pretooluse.template.json# Deploy-Template für PreToolUse-Einträge (Platzhalter __UNI_HOOKS_DIR__)
-│   └── skills/                     # 53 SKILLS (je eine SKILL.md — via setup als uni-Plugin installiert)
+│   └── skills/                     # 54 SKILLS (je eine SKILL.md — via setup als uni-Plugin installiert)
 ├── erinnerung/                     # Geteiltes Projektgedächtnis (von uni:start geladen)
 │   ├── README.md                   # erklärt das Erinnerungs-System
 │   ├── stand.md                    # Aktueller Stand (Session-Resumé)
@@ -151,7 +151,7 @@ Devteam-vibecodes/
 └── README.md                       # diese Datei
 ```
 
-**Skills im `.claude/skills/`** (53, aus dem ECC-Stack auf Python/FastAPI/pytest + Use-Case angepasst) — `setup` installiert sie als **`uni`-Plugin**, Aufruf **`uni:<name>`** (kollisionsfrei neben ECC):
+**Skills im `.claude/skills/`** (54, aus dem ECC-Stack auf Python/FastAPI/pytest + Use-Case angepasst) — `setup` installiert sie als **`uni`-Plugin**, Aufruf **`uni:<name>`** (kollisionsfrei neben ECC):
 
 > **Skills in Aktion** — wann welcher Skill feuert, an einem echten Ticket durchgespielt:
 > [`Skillanleitung.md`](Skillanleitung.md). Übersicht & Begründung: [`Skill-Plan.md`](Skill-Plan.md).
@@ -271,4 +271,4 @@ Entscheidungslogbuch. Bei Use-Case-Fragen **immer zuerst dort** nachsehen.
 
 ---
 
-*Gepflegt von Lucas Vöhringer (Systemarchitekt G2) · Toolkit-Version: v1.6.0 · Stand: 2026-06-21.*
+*Gepflegt von Lucas Vöhringer (Systemarchitekt G2) · Toolkit-Version: v1.6.0 · Stand: 2026-06-26.*
