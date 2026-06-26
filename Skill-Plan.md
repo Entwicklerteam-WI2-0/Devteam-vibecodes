@@ -49,7 +49,7 @@ Aus `Tasks+Projektplan.md` (P0–P6, DoD) und `Team-Organisation+Regeln.md` (Kop
 | **WP3** | Implementierung | `fastapi-patterns`, `python-patterns`, `tdd-workflow`, `error-handling` |
 | **WP4** | **Vor Commit** | `quality-gate`, `build-fix` (bei rotem Build); bei Tooling-Änderungen zusätzlich `coupling-map` (Spiegel-Check gegen `Abhaengigkeiten.md`) |
 | **WP5** | **Vor PR** (Dev: Selbst-Review) | `code-review`/`python-review`/`fastapi-review`/`security-review` (SR), `test-coverage`, `pr`; bei Tooling-Änderungen `coupling-map` vor `pr` |
-| **WP6** | **PR-Review** (Reviewer-Abteilung) | `code-review`/`review-pr` (OP), `code-tour`, `santa-loop` |
+| **WP6** | **PR-Review** (Reviewer-Abteilung) | `code-review`/`review-pr`/`review-orchestrator` (OP), `code-tour`, `santa-loop` |
 | **WP7** | Integration / **Live-Test** (P3.6, P5) | `verify`, `run`, `e2e-testing`, `browser-qa` |
 | **WP8** | **Session-Ende / Doku** | `save-session`, `checkpoint`, `entscheidungslog`, Entscheidungslogbuch |
 
@@ -78,6 +78,7 @@ Aus `Tasks+Projektplan.md` (P0–P6, DoD) und `Team-Organisation+Regeln.md` (Kop
 | `uni:python-review` | dito, Python-spezifisch (PEP 8, Typing, Idiome) | SR/OP | WP5 / WP6 |
 | `uni:fastapi-review` | dito, FastAPI (Async, DI, Pydantic, OpenAPI) | SR/OP | WP5 / WP6 |
 | `uni:security-review` | Ingest-Validierung, Audit, **RB-01** (kein Aktor-Endpoint), keine Secrets | SR/OP | WP5 / WP6 |
+| `uni:review-orchestrator` | **Ganzheitlicher UNI-Review:** alle Review-/QS-/Convention-Skills in einer durchlaufenden Kette aufrufen; einzelne Skills bleiben manuell nutzbar | SR/OP | WP5 / WP6 |
 | `verify` | Laufende App/API starten + Verhalten beobachten | OP | WP5 / WP7 |
 | `uni:coupling-map` | Bei Änderung eines zentralen Fakts (neuer Skill, WP, §-Nummer, Hook-Status, `VERSION`) alle abhängigen **Spiegel** in `Abhaengigkeiten.md` identifizieren und aktualisieren | **CR/WG** | bei jedem Fakt-Edit in `Abhaengigkeiten.md`; optional vor Commit/PR |
 

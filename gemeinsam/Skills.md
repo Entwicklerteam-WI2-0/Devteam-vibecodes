@@ -31,6 +31,7 @@ doppelt gepflegt.
 | `uni:python-review` | dito, Python-spezifisch (PEP 8, Type-Hints, Idiome, Sicherheit) | **SR/OP** | WP5 / WP6 |
 | `uni:fastapi-review` | dito, FastAPI (Async-Korrektheit, Dependency-Injection, Pydantic-Schemas, OpenAPI-Qualität) | **SR/OP** | WP5 / WP6 |
 | `uni:security-review` | Sicherheitskritisch: Ingest-Validierung, Audit-Log, **RB-01** (kein Freigabe-/Aktor-Endpoint), keine Secrets | **SR/OP** | WP5 / WP6 |
+| `uni:review-orchestrator` | **Ganzheitlicher UNI-Review:** ruft alle Review-/QS-/Convention-Skills in einer sinnvollen Kette auf; einzelne Skills bleiben manuell aufrufbar | **SR/OP** | WP5 / WP6 |
 | `verify` | Laufende App/API starten und **Verhalten beobachten** — Dev verifiziert den Slice, Reviewerin macht den Live-Test | **OP** | WP5 / WP7 |
 
 > **Pflicht-bei-jedem-Start/Ende (standardmäßig, nicht optional):** `uni:start` zu

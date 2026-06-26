@@ -44,7 +44,7 @@ kurz und praxisnah.
 | WP3 | Implementieren | `tdd-workflow`, `python-testing`, `fastapi-patterns`, `python-patterns`, `error-handling` |
 | WP4 | Vor Commit / Build rot | `quality-gate`, `build-fix` |
 | WP5 | Vor PR (Dev) | `code-review`, `python-review`, `fastapi-review`, `security-review`, `test-coverage`, `pr` |
-| WP6 | PR-Review (Reviewer) | `code-tour`, `code-review`, `review-pr`, `python-review`, `fastapi-review`, `security-review` |
+| WP6 | PR-Review (Reviewer) | `code-tour`, `code-review`, `review-pr`, `review-orchestrator`, `python-review`, `fastapi-review`, `security-review` |
 | WP7 | Live-Test / Integration | `run`, `verify`, `e2e-testing`, `browser-qa`, `verification-loop` |
 | WP8 | Ende / Doku | `save-session`, `entscheidungslog` |
 | *(kontinuierlich)* | Orga / Koordination | `uni:standup-moderator`, `uni:fortschritts-board`, `uni:dev-reviewer-koordinator`, `uni:blocker-escalation`, `uni:meilenstein-tracker`, `uni:release-merge-koordinator` |
@@ -55,7 +55,7 @@ kurz und praxisnah.
 ## Wichtige Spezialskills
 - **Kritischer Pfad:** `verification-loop` + `santa-loop` (adversariales Dual-Review).
 - **Sicherheit:** `security-review` (Rahmen) + `security-scan` (fokussierter Quick-Scan).
-- **Review-Tiefe:** `code-review` (inhaltlicher Prüf-Baustein / Dev-Selbst-Review) vs. `review-pr` (vollständiges PR-Review mit DoD-Gate & Freigabe).
+- **Review-Tiefe:** `code-review` (inhaltlicher Prüf-Baustein / Dev-Selbst-Review) vs. `review-pr` (vollständiges PR-Review mit DoD-Gate & Freigabe) vs. `review-orchestrator` (ganzheitliche Kette aller Review-/QS-/Convention-Skills).
 - **Tooling-Wartung / Spiegel-Check:** `coupling-map` — bei Änderungen an Skills, Commands, WP-/§-Nummern
   oder anderen zentralen Fakten die abhängigen Spiegel laut `Abhaengigkeiten.md` aktualisieren.
 - **Orga-Management / Doku-Gruppe:** `standup-moderator`, `fortschritts-board`, `dev-reviewer-koordinator`, `onboarding-orchestrator`, `roster-tracker`, `doku-qualitaets-review`, `konventions-healthcheck`, `blocker-escalation`, `meilenstein-tracker`, `release-merge-koordinator`.

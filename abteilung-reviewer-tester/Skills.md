@@ -23,6 +23,7 @@ P5.3 (Testprotokoll).
 |---|---|---|---|
 | `uni:code-review` *(geteilt, hier **OP**)* | **Hauptwerkzeug:** lokalen Diff oder GitHub-PR strukturiert reviewen; Befunde nach Schweregrad | **OP** | WP6 bei jedem PR |
 | `uni:review-pr` | Umfassendes PR-Review mit mehreren spezialisierten Agents (Mehr-Perspektiven) | **OP** | WP6 |
+| `uni:review-orchestrator` | **Ganzheitlicher UNI-Review:** alle Review-/QS-/Convention-Skills in einer durchlaufenden Kette aufrufen; einzelne Skills bleiben manuell nutzbar | **OP** | WP6 / vor Meilenstein |
 | `uni:python-review` / `uni:fastapi-review` *(geteilt, OP)* | Fachliche Detail-Reviews (Python-Idiome / Async-DI-Pydantic-OpenAPI) | **OP** | WP6 |
 | `uni:security-review` / `uni:security-scan` *(geteilt, OP)* | Ingest-Validierung, Audit-Log, **RB-01** (kein Aktor-Endpoint), keine Secrets | **OP** | WP6 |
 | `uni:test-coverage` | Coverage analysieren + **fehlende Tests generieren** (Testsuite-Pflege, DoD ≥ 80 %) | **OP** | WP6/WP7 |
