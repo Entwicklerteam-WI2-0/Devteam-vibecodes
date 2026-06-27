@@ -1,6 +1,6 @@
 ---
 name: save-session
-description: Arbeitsstand am Session-Ende sichern (G2) — geteilten Repo-Fortschritt ins Journal schreiben (append-only), Stand aktualisieren, Entscheidungen ins Logbuch, offene Punkte festhalten. Das EINZIGE Skill, das die geteilte Team-Erinnerung (erinnerung/) updatet. Nutze diesen Skill am Ende jeder Arbeitssitzung.
+description: Arbeitsstand am Session-Ende sichern (G2) — geteilten Repo-Fortschritt ins Journal schreiben (append-only), Stand aktualisieren, Entscheidungen ins Logbuch, offene Punkte festhalten. Übernimmt erledigte/offene Todos aus einer aktiven TodoList in den Journal-Block. Das EINZIGE Skill, das die geteilte Team-Erinnerung (erinnerung/) updatet. Nutze diesen Skill am Ende jeder Arbeitssitzung.
 origin: ECC (save-session), neu geschrieben für G2 — Use-Case
 ---
 
@@ -25,14 +25,28 @@ niemals bestehende Blöcke/Zeilen anderer ändern oder löschen, nur **unten anh
    - **Branch:** `git rev-parse --abbrev-ref HEAD`.
 2. **Rolle bestimmen** — `tester` · `architekt` · `backend-db` · `backend-dev` (aus Session-Kontext /
    `claude-sync.md` §3; im Zweifel kurz nachfragen statt raten).
-3. **Datei `erinnerung/journal/<heute>.md`:** existiert nicht → neu anlegen mit Kopfzeile
+3. **Aktive TodoList übernehmen (falls vorhanden):**
+   - Falls im Laufe der Session mit `TodoList` gearbeitet wurde, rufe das Tool einmal ohne Argumente
+     auf, um den aktuellen Stand zu lesen.
+   - Füge dem Journal-Block zwei Untersektionen hinzu:
+     - **Erledigt in dieser Session:** Titel aller Todos mit Status `done` (zeigt, was tatsächlich
+       gemacht wurde).
+     - **Offen / Blockiert:** Titel aller Todos mit Status `pending` oder `in_progress` (fließen in
+       „Nächster Schritt" / „Offene Punkte" ein).
+   - Nur Todos der aktuellen Session übernehmen — veraltete/stale Listen ignorieren.
+4. **Datei `erinnerung/journal/<heute>.md`:** existiert nicht → neu anlegen mit Kopfzeile
    `# Journal <YYYY-MM-DD>`; existiert → lesen und den Block **unten anhängen** (bestehende Zeilen unberührt).
-4. **Block anhängen:**
+5. **Block anhängen:**
    ```markdown
    ## [HH:MM] <Rolle> · <Name oder Branch>
    - Was/Wo: <kurz: welches Modul/Feature, was passiert ist>
    - Commit/Push: <hash> "<message>"
-   - Nächster Schritt: <kurz>
+   - Erledigt in dieser Session:
+     - [x] <Todo-Titel 1>
+     - [x] <Todo-Titel 2>
+   - Nächster Schritt / Offen:
+     - [ ] <Todo-Titel 3>
+     - [ ] <Todo-Titel 4>
    ```
 
 ### 2. Stand aktualisieren — `erinnerung/stand.md`
