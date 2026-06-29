@@ -137,6 +137,7 @@ Konkrete Pflicht-Hooks (Details `gemeinsam/Skills.md §3`): **RB-01-Guard** (blo
 | `uni:mp-codebase-design` | Deep modules designen — kleine Interfaces, saubere Seams | VO/OP | WP2 / WP3 |
 | `uni:blueprint-build` | Gegen `SPEC.md` implementieren; bei Fail → `blueprint-backprop` | OP | WP3 |
 | `uni:blueprint-backprop` | Bug/Test-Fail → `SPEC.md` protokollieren (`§B` + Invariante) | SR/WG | bei Bug / Fail |
+| `uni:entscheidungslog2-architekt` | Persönliches Architekten-Session-Log: Entscheidungen + Session-Verlauf + Gesamtfortschritt + PR-Stand (lokal, ohne 40%-Fokus) | WG | WP8 / nach Architekturarbeit |
 
 **Verbindliche Regel (bewertungsrelevant, 40 % Einzelleistung) — `CR`:**
 > **Agent erstellt Review-/Test-Entwurf → Reviewerin liest, versteht, hinterfragt, gibt frei → erst dann
@@ -240,7 +241,7 @@ SR/OP-Schwerpunkt) · 40-%-Human-in-the-loop-Regel · Frontend-/Fremdstack-Aussc
 - Skill als `.claude/skills/uni-review-orchestrator/SKILL.md` deployed und in `gemeinsam/Skills.md` sowie
   `abteilung-reviewer-tester/Skills.md` verankert.
 - Kette in §3.1 sowie WP-Tabelle (WP5/WP6) bestätigt.
-- Skill-Anzahl in Spiegeln (`README.md`, `Abhaengigkeiten.md`) auf **54** korrigiert.
+- Skill-Anzahl in Spiegeln (`README.md`, `Abhaengigkeiten.md`) auf **55** korrigiert.
 
 > **Fazit Review-Loop:** Beide Durchgänge abgeschlossen; alle P1/P2 und beide P3 eingearbeitet. Der Plan ist
 > jetzt stringent auf Stack (Python/FastAPI/SQLite), Sicherheitskritik (RB-01/Fail-safe als **Hooks+Gates**,

@@ -25,6 +25,7 @@ versteht die Naht.
 | `uni:mp-codebase-design` | Deep modules designen — kleine Interfaces, versteckte Komplexheit, saubere Seams | **VO/OP** | WP2/WP3 |
 | `uni:blueprint-build` | Gegen `SPEC.md` implementieren (plan → execute); bei Fail automatisch `blueprint-backprop` | **OP** | WP3 |
 | `uni:blueprint-backprop` | Bug/Test-Fail → `SPEC.md` protokollieren (`§B` + ggf. neue `§V`-Invariante) | **SR/WG** | bei Bug / Test-Fail |
+| `uni:entscheidungslog2-architekt` | Persönliches Architekten-Session-Log: Entscheidungen + Session-Verlauf + Gesamtfortschritt + PR-Stand (lokal, ohne 40%-Fokus) | **WG** | WP8 / nach Architekturarbeit |
 
 > **Einstiegs-Set (Pflicht, Tag 1) — bewusst schlank:**
 > `uni:start` (Start) · `uni:spec-driven-dev` / `uni:blueprint-spec` (Spezifikation) ·
